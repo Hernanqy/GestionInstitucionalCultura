@@ -1,10 +1,5 @@
 ﻿@import "tailwindcss";
 
-/* =========================================================
-   GESTIÓN INSTITUCIONAL
-   BASE VISUAL GLOBAL
-   ========================================================= */
-
 :root {
   --background: #cbd5e1;
   --foreground: #0f172a;
@@ -26,10 +21,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ---------------------------------------------------------
-   FORMULARIOS
-   Siempre deben poder leerse sobre fondos claros
-   --------------------------------------------------------- */
+/* FORMULARIOS */
 
 input,
 textarea,
@@ -43,16 +35,11 @@ textarea::placeholder {
   opacity: 1;
 }
 
-/* Chrome / Edge autofill */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-text-fill-color: #000000;
 }
-
-/* ---------------------------------------------------------
-   ELEMENTOS BÁSICOS
-   --------------------------------------------------------- */
 
 button,
 input,
@@ -65,9 +52,7 @@ a {
   text-decoration: none;
 }
 
-/* ---------------------------------------------------------
-   ACCESIBILIDAD DE FOCO
-   --------------------------------------------------------- */
+/* FOCO */
 
 input:focus-visible,
 textarea:focus-visible,
