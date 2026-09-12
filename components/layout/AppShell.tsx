@@ -61,7 +61,7 @@ export default function AppShell({
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
                   seleccionado
                     ? "bg-cyan-600 text-white"
-                    : "text-slate-200 hover:bg-white/10"
+                    : "text-black hover:bg-white/10"
                 }`}
               >
                 <Icon size={18} />
@@ -147,6 +147,7 @@ export default function AppShell({
     </div>
   );
 }
+
 
 
 

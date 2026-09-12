@@ -327,7 +327,7 @@ export default function DependenciaDetallePage() {
 
                     <div className="min-w-0 flex-1">
 
-                      <h3 className="font-bold text-slate-950">
+                      <h3 className="text-black font-bold">
                         {persona.nombre}
                         {persona.apellido ? ` ${persona.apellido}` : ""}
                       </h3>
@@ -433,4 +433,5 @@ function Seccion({
     </section>
   );
 }
+
 

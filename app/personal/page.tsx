@@ -190,7 +190,7 @@ export default function PersonalPage() {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
-                      <h2 className="font-semibold text-slate-950">
+                      <h2 className="text-black font-bold">
                         {persona.nombre}
                         {persona.apellido ? ` ${persona.apellido}` : ""}
                       </h2>
@@ -237,4 +237,5 @@ export default function PersonalPage() {
     </AppShell>
   );
 }
+
 
