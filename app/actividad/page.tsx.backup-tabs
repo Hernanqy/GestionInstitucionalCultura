@@ -298,7 +298,7 @@ export default function ActividadPage() {
                 onClick={() => setFiltro(valor)}
                 className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm ${
                   filtro === valor
-                    ? "border-[#0f2b46] bg-sky-200 text-black border-sky-600 font-bold"
+                    ? "border-[#0f2b46] bg-slate-900 text-white"
                     : "border-slate-400 bg-white text-black"
                 }`}
               >
@@ -393,7 +393,6 @@ export default function ActividadPage() {
     </AppShell>
   );
 }
-
 
 
 
