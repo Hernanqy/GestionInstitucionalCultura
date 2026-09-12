@@ -1,0 +1,14 @@
+﻿"Tipo","Archivo","Detalle"
+"RUTA DINAMICA SOSPECHOSA","app\dependencias\[slug]\editar\page.tsx","/dependencias/${slug}"
+"RUTA DINAMICA SOSPECHOSA","app\dependencias\[slug]\page.backup-personal.tsx","/dependencias/${slug}/editar"
+"RUTA DINAMICA SOSPECHOSA","app\dependencias\[slug]\page.tsx","/personal/${persona.id}"
+"RUTA DINAMICA SOSPECHOSA","app\dependencias\page.tsx","/dependencias/${crearSlug(item.nombre)}"
+"RUTA DINAMICA SOSPECHOSA","app\personal\page.tsx","/personal/${persona.id}"
+"RUTA DINAMICA SOSPECHOSA","app\registros\page.tsx","/dependencias/${registro.dependencia.nombre
+                            .toLowerCase()
+                            .normalize(""NFD"")
+                            .replace(/[\u0300-\u036f]/g, """")
+                            .replace(/[^a-z0-9]+/g, ""-"")
+                            .replace(/^-|-$/g, """")}"
+"RUTA DINAMICA SOSPECHOSA","app\revision\page.tsx","/bandeja/${accion.ingreso_id}"
+"RUTA INEXISTENTE","components\layout\AppShell.tsx","/configuracion"

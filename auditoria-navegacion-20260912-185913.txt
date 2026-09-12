@@ -1,0 +1,40 @@
+﻿AUDITORIA DE NAVEGACION
+Fecha: 09/12/2026 18:59:13
+Proyecto: C:\Users\Usuario\gestion-institucional
+
+RUTAS DETECTADAS
+================
+/
+/actividad
+/agenda
+/bandeja
+/bandeja/[id]
+/buscar
+/dependencias
+/dependencias/[slug]
+/dependencias/[slug]/editar
+/documentos
+/login
+/pendientes
+/personal
+/personal/[id]
+/registrar
+/registros
+/revision
+
+PROBLEMAS
+=========
+
+Tipo                     Archivo                                          Detalle                                                                                        
+----                     -------                                          -------                                                                                        
+RUTA DINAMICA SOSPECHOSA app\dependencias\[slug]\editar\page.tsx          /dependencias/${slug}                                                                          
+RUTA DINAMICA SOSPECHOSA app\dependencias\[slug]\page.backup-personal.tsx /dependencias/${slug}/editar                                                                   
+RUTA DINAMICA SOSPECHOSA app\dependencias\[slug]\page.tsx                 /personal/${persona.id}                                                                        
+RUTA DINAMICA SOSPECHOSA app\dependencias\page.tsx                        /dependencias/${crearSlug(item.nombre)}                                                        
+RUTA DINAMICA SOSPECHOSA app\personal\page.tsx                            /personal/${persona.id}                                                                        
+RUTA DINAMICA SOSPECHOSA app\registros\page.tsx                           /dependencias/${registro.dependencia.nombre...                                                 
+RUTA DINAMICA SOSPECHOSA app\revision\page.tsx                            /bandeja/${accion.ingreso_id}                                                                  
+RUTA INEXISTENTE         components\layout\AppShell.tsx                   /configuracion                                                                                 
+
+
+
