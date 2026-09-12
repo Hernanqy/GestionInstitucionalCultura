@@ -228,12 +228,12 @@ export default function DocumentosPanel({
           Documentos
         </h2>
 
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-600">
           {documentos.length} archivos asociados
         </p>
       </div>
 
-      <div className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-5">
+      <div className="mt-5 rounded-xl border border-slate-400 bg-slate-100 p-5">
 
         <div className="grid gap-3 lg:grid-cols-[1fr_1fr_auto]">
 
@@ -243,7 +243,7 @@ export default function DocumentosPanel({
             onChange={(e) =>
               setArchivo(e.target.files?.[0] || null)
             }
-            className="rounded-xl border border-slate-300 bg-white p-3 text-sm"
+            className="rounded-xl border border-slate-400 bg-white p-3 text-sm"
           />
 
           <input
@@ -252,13 +252,13 @@ export default function DocumentosPanel({
               setDescripcion(e.target.value)
             }
             placeholder="Descripción opcional"
-            className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none"
+            className="rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm outline-none"
           />
 
           <button
             onClick={subirDocumento}
             disabled={!archivo || subiendo}
-            className="flex items-center justify-center gap-2 rounded-xl bg-[#0f2b46] px-5 py-3 text-sm font-semibold text-white disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white disabled:opacity-50"
           >
             {subiendo ? (
               <>
@@ -284,7 +284,7 @@ export default function DocumentosPanel({
         <div className="flex min-h-40 items-center justify-center">
           <Loader2
             size={22}
-            className="animate-spin text-slate-500"
+            className="animate-spin text-slate-600"
           />
         </div>
       ) : documentos.length > 0 ? (
@@ -296,12 +296,12 @@ export default function DocumentosPanel({
             return (
               <div
                 key={documento.id}
-                className="flex flex-col gap-4 rounded-xl border border-slate-300 bg-slate-50 p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-4 rounded-xl border border-slate-400 bg-slate-100 p-4 sm:flex-row sm:items-center sm:justify-between"
               >
 
                 <div className="flex items-start gap-3">
 
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-cyan-700">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-400 bg-white text-sky-700">
                     <Icon size={21} />
                   </div>
 
@@ -316,7 +316,7 @@ export default function DocumentosPanel({
                       </p>
                     )}
 
-                    <p className="mt-1 text-xs text-slate-400">
+                    <p className="mt-1 text-xs text-slate-600">
                       {formatearTamano(
                         documento.tamano_bytes
                       )}
@@ -331,7 +331,7 @@ export default function DocumentosPanel({
                     onClick={() =>
                       abrirDocumento(documento)
                     }
-                    className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-100"
+                    className="flex items-center gap-2 rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm text-slate-900 hover:bg-slate-100"
                   >
                     <Download size={16} />
                     Abrir
@@ -354,8 +354,8 @@ export default function DocumentosPanel({
 
         </div>
       ) : (
-        <div className="mt-5 flex min-h-40 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50">
-          <p className="text-sm text-slate-400">
+        <div className="mt-5 flex min-h-40 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
+          <p className="text-sm text-slate-600">
             Todavía no hay documentos asociados.
           </p>
         </div>
@@ -364,3 +364,4 @@ export default function DocumentosPanel({
     </section>
   );
 }
+

@@ -101,7 +101,7 @@ export default function PendientesPage() {
   return (
     <AppShell activo="Pendientes">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Pendientes
@@ -114,7 +114,7 @@ export default function PendientesPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Pendientes activos
             </p>
 
@@ -124,7 +124,7 @@ export default function PendientesPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Total histórico
             </p>
 
@@ -138,7 +138,7 @@ export default function PendientesPage() {
         <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
           <div className="flex items-center gap-3">
-            <ClipboardList className="text-cyan-700" />
+            <ClipboardList className="text-sky-700" />
 
             <h2 className="font-semibold">
               Todos los pendientes
@@ -160,8 +160,8 @@ export default function PendientesPage() {
                   key={item.id}
                   className={`rounded-xl border p-4 ${
                     item.completado
-                      ? "border-slate-200 bg-slate-100"
-                      : "border-slate-300 bg-slate-50"
+                      ? "border-slate-400 bg-slate-100"
+                      : "border-slate-400 bg-slate-100"
                   }`}
                 >
 
@@ -186,7 +186,7 @@ export default function PendientesPage() {
                       <h3
                         className={`font-semibold ${
                           item.completado
-                            ? "text-slate-400 line-through"
+                            ? "text-slate-600 line-through"
                             : ""
                         }`}
                       >
@@ -199,7 +199,7 @@ export default function PendientesPage() {
                         </p>
                       )}
 
-                      <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-500">
+                      <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
 
                         {item.dependencia?.nombre && (
                           <span className="flex items-center gap-1">
@@ -237,4 +237,5 @@ export default function PendientesPage() {
     </AppShell>
   );
 }
+
 

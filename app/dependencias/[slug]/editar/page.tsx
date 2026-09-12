@@ -195,7 +195,7 @@ export default function EditarDependenciaPage() {
   return (
     <AppShell activo="Dependencias">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
 
         <div className="flex items-center justify-between px-5 py-4 md:px-8">
 
@@ -210,7 +210,7 @@ export default function EditarDependenciaPage() {
           <button
             onClick={guardar}
             disabled={guardando}
-            className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           >
             {guardando ? (
               <Loader2
@@ -231,7 +231,7 @@ export default function EditarDependenciaPage() {
       <div className="mx-auto max-w-5xl px-5 py-6 md:px-8">
 
         {mensaje && (
-          <div className="mb-5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm">
+          <div className="mb-5 rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm">
             {mensaje}
           </div>
         )}
@@ -240,7 +240,7 @@ export default function EditarDependenciaPage() {
 
           <div className="flex items-center gap-3">
 
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
               <Building2 size={23} />
             </div>
 
@@ -249,7 +249,7 @@ export default function EditarDependenciaPage() {
                 Editar dependencia
               </h1>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 Información institucional
               </p>
             </div>
@@ -349,7 +349,7 @@ export default function EditarDependenciaPage() {
 
           </div>
 
-          <label className="mt-5 flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 p-4">
+          <label className="mt-5 flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
             <input
               type="checkbox"
@@ -368,7 +368,7 @@ export default function EditarDependenciaPage() {
                 Dependencia activa
               </p>
 
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-600">
                 Si se desactiva, dejará de aparecer en los listados principales.
               </p>
             </div>
@@ -410,7 +410,7 @@ function Campo({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-700">
+      <label className="mb-1 block text-sm font-medium text-slate-900">
         {titulo}
       </label>
 
@@ -419,3 +419,4 @@ function Campo({
     </div>
   );
 }
+

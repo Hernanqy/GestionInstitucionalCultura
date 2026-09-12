@@ -133,7 +133,7 @@ export default function BuscarPage() {
   return (
     <AppShell activo="Buscar">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Buscar
@@ -145,7 +145,7 @@ export default function BuscarPage() {
 
         <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
-          <div className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
             <Search size={20} />
 
@@ -163,7 +163,7 @@ export default function BuscarPage() {
 
             <button
               onClick={buscar}
-              className="rounded-lg bg-[#0f2b46] px-4 py-2 text-sm font-semibold text-white"
+              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
             >
               Buscar
             </button>
@@ -186,14 +186,14 @@ export default function BuscarPage() {
               const Icon = icono(item.tipo);
 
               const contenido = (
-                <div className="flex gap-3 rounded-xl border border-slate-300 bg-white p-4 shadow-sm">
+                <div className="flex gap-3 rounded-xl border border-slate-400 bg-white p-4 shadow-sm">
 
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                     <Icon size={19} />
                   </div>
 
                   <div>
-                    <p className="text-xs font-semibold uppercase text-cyan-700">
+                    <p className="text-xs font-semibold uppercase text-sky-700">
                       {item.tipo}
                     </p>
 
@@ -202,7 +202,7 @@ export default function BuscarPage() {
                     </h2>
 
                     {item.subtitulo && (
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="mt-1 text-sm text-slate-600">
                         {item.subtitulo}
                       </p>
                     )}
@@ -237,3 +237,4 @@ export default function BuscarPage() {
     </AppShell>
   );
 }
+

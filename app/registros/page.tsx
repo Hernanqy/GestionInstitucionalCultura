@@ -122,7 +122,7 @@ export default function RegistrosPage() {
   return (
     <AppShell activo="Registros">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Registros
@@ -135,7 +135,7 @@ export default function RegistrosPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Total de registros
             </p>
 
@@ -145,7 +145,7 @@ export default function RegistrosPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Resultados visibles
             </p>
 
@@ -160,11 +160,11 @@ export default function RegistrosPage() {
 
           <div className="grid gap-3 md:grid-cols-[1fr_auto]">
 
-            <div className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+            <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
               <Search
                 size={18}
-                className="text-slate-400"
+                className="text-slate-600"
               />
 
               <input
@@ -183,7 +183,7 @@ export default function RegistrosPage() {
               onChange={(e) =>
                 setTipo(e.target.value)
               }
-              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm"
+              className="rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm"
             >
               {tipos.map((item) => (
                 <option
@@ -219,7 +219,7 @@ export default function RegistrosPage() {
 
                   <div className="flex items-start gap-3">
 
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                       <NotebookPen size={20} />
                     </div>
 
@@ -229,7 +229,7 @@ export default function RegistrosPage() {
 
                         <div>
 
-                          <p className="text-xs font-semibold uppercase text-cyan-700">
+                          <p className="text-xs font-semibold uppercase text-sky-700">
                             {registro.tipo ||
                               "Registro"}
                           </p>
@@ -241,7 +241,7 @@ export default function RegistrosPage() {
 
                         </div>
 
-                        <div className="flex items-center gap-1 text-xs text-slate-400">
+                        <div className="flex items-center gap-1 text-xs text-slate-600">
                           <Clock3 size={13} />
                           {fecha(
                             registro.created_at
@@ -251,7 +251,7 @@ export default function RegistrosPage() {
                       </div>
 
                       {registro.contenido && (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-900">
                           {registro.contenido}
                         </p>
                       )}
@@ -264,7 +264,7 @@ export default function RegistrosPage() {
                             .replace(/[\u0300-\u036f]/g, "")
                             .replace(/[^a-z0-9]+/g, "-")
                             .replace(/^-|-$/g, "")}`}
-                          className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-cyan-700"
+                          className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-600 hover:text-sky-700"
                         >
                           <Building2 size={14} />
                           {
@@ -285,10 +285,10 @@ export default function RegistrosPage() {
           ) : (
             <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center">
               <FileText
-                className="mx-auto text-slate-400"
+                className="mx-auto text-slate-600"
               />
 
-              <p className="mt-3 text-sm text-slate-500">
+              <p className="mt-3 text-sm text-slate-600">
                 No se encontraron registros.
               </p>
             </div>
@@ -301,4 +301,5 @@ export default function RegistrosPage() {
     </AppShell>
   );
 }
+
 

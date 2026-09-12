@@ -182,7 +182,7 @@ export default function IngresoDetallePage() {
   return (
     <AppShell activo="Bandeja">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
 
         <div className="px-5 py-4 md:px-8">
 
@@ -204,7 +204,7 @@ export default function IngresoDetallePage() {
 
           <div className="flex items-start gap-4">
 
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
 
               <Icon size={26} />
 
@@ -212,7 +212,7 @@ export default function IngresoDetallePage() {
 
             <div className="min-w-0 flex-1">
 
-              <p className="text-xs font-semibold uppercase text-cyan-700">
+              <p className="text-xs font-semibold uppercase text-sky-700">
                 {ingreso.tipo_fuente}
               </p>
 
@@ -221,7 +221,7 @@ export default function IngresoDetallePage() {
                   "Ingreso sin título"}
               </h1>
 
-              <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
+              <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-600">
 
                 <span className="flex items-center gap-1">
                   <Clock3 size={13} />
@@ -242,13 +242,13 @@ export default function IngresoDetallePage() {
           </div>
 
           {ingreso.resumen && (
-            <div className="mt-5 rounded-xl border border-cyan-200 bg-cyan-50 p-4">
+            <div className="mt-5 rounded-xl border border-sky-200 bg-sky-100 p-4">
 
-              <p className="text-xs font-semibold uppercase text-cyan-700">
+              <p className="text-xs font-semibold uppercase text-sky-700">
                 Resumen
               </p>
 
-              <p className="mt-2 text-sm leading-6 text-slate-700">
+              <p className="mt-2 text-sm leading-6 text-slate-900">
                 {ingreso.resumen}
               </p>
 
@@ -256,13 +256,13 @@ export default function IngresoDetallePage() {
           )}
 
           {ingreso.contenido_original && (
-            <div className="mt-4 rounded-xl border border-slate-300 bg-slate-50 p-4">
+            <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
-              <p className="text-xs font-semibold uppercase text-slate-500">
+              <p className="text-xs font-semibold uppercase text-slate-600">
                 Contenido original
               </p>
 
-              <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+              <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-900">
                 {ingreso.contenido_original}
               </p>
 
@@ -277,7 +277,7 @@ export default function IngresoDetallePage() {
 
             <GitBranch
               size={20}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
             <div>
@@ -286,7 +286,7 @@ export default function IngresoDetallePage() {
                 Acciones generadas
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 {acciones.length} acciones derivadas
               </p>
 
@@ -300,14 +300,14 @@ export default function IngresoDetallePage() {
               {acciones.map((accion) => (
                 <div
                   key={accion.id}
-                  className="rounded-xl border border-slate-300 bg-slate-50 p-4"
+                  className="rounded-xl border border-slate-400 bg-slate-100 p-4"
                 >
 
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 
                     <div>
 
-                      <p className="text-xs font-semibold uppercase text-cyan-700">
+                      <p className="text-xs font-semibold uppercase text-sky-700">
                         {etiquetaAccion(
                           accion.tipo_accion
                         )}
@@ -346,7 +346,7 @@ export default function IngresoDetallePage() {
                     </p>
                   )}
 
-                  <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-400">
+                  <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-600">
 
                     <span>
                       Destino: {accion.entidad}
@@ -375,13 +375,13 @@ export default function IngresoDetallePage() {
 
             </div>
           ) : (
-            <div className="mt-5 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
+            <div className="mt-5 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center">
 
               <Inbox
-                className="mx-auto text-slate-400"
+                className="mx-auto text-slate-600"
               />
 
-              <p className="mt-3 text-sm text-slate-400">
+              <p className="mt-3 text-sm text-slate-600">
                 Este ingreso todavía no generó acciones.
               </p>
 
@@ -395,3 +395,4 @@ export default function IngresoDetallePage() {
     </AppShell>
   );
 }
+

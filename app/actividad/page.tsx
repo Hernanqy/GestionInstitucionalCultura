@@ -256,7 +256,7 @@ export default function ActividadPage() {
   return (
     <AppShell activo="Actividad">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
 
         <div className="px-5 py-4 md:px-8">
 
@@ -274,7 +274,7 @@ export default function ActividadPage() {
 
           <div className="flex items-center gap-3">
 
-            <Activity className="text-cyan-700" />
+            <Activity className="text-sky-700" />
 
             <div>
 
@@ -282,7 +282,7 @@ export default function ActividadPage() {
                 Movimiento general
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 Últimos cambios y nuevas incorporaciones
               </p>
 
@@ -298,8 +298,8 @@ export default function ActividadPage() {
                 onClick={() => setFiltro(valor)}
                 className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm ${
                   filtro === valor
-                    ? "border-[#0f2b46] bg-[#0f2b46] text-white"
-                    : "border-slate-300 bg-white text-slate-700"
+                    ? "border-[#0f2b46] bg-slate-900 text-white"
+                    : "border-slate-400 bg-white text-slate-900"
                 }`}
               >
                 {texto}
@@ -333,7 +333,7 @@ export default function ActividadPage() {
 
                   <div className="flex items-start gap-3">
 
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
 
                       <Icon size={20} />
 
@@ -345,7 +345,7 @@ export default function ActividadPage() {
 
                         <div>
 
-                          <p className="text-xs font-semibold uppercase text-cyan-700">
+                          <p className="text-xs font-semibold uppercase text-sky-700">
                             {item.tipo}
                           </p>
 
@@ -355,7 +355,7 @@ export default function ActividadPage() {
 
                         </div>
 
-                        <div className="flex items-center gap-1 text-xs text-slate-400">
+                        <div className="flex items-center gap-1 text-xs text-slate-600">
 
                           <Clock3 size={13} />
 
@@ -380,7 +380,7 @@ export default function ActividadPage() {
             })}
 
             {visibles.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center text-sm text-slate-400">
+              <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center text-sm text-slate-600">
                 No hay actividad para mostrar.
               </div>
             )}
@@ -393,3 +393,4 @@ export default function ActividadPage() {
     </AppShell>
   );
 }
+

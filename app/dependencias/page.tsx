@@ -199,7 +199,7 @@ export default function DependenciasPage() {
           <div className="flex items-center gap-2 rounded-xl border border-slate-400 bg-white px-4 py-3 shadow-sm">
             <Search
               size={18}
-              className="text-slate-500"
+              className="text-slate-600"
             />
 
             <input
@@ -260,8 +260,8 @@ export default function DependenciasPage() {
               onClick={() => setFiltroArea(area)}
               className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium transition ${
                 filtroArea === area
-                  ? "border-[#0f2b46] bg-[#0f2b46] text-white"
-                  : "border-slate-400 bg-white text-slate-700 hover:bg-slate-100"
+                  ? "border-[#0f2b46] bg-slate-900 text-white"
+                  : "border-slate-400 bg-white text-slate-900 hover:bg-slate-100"
               }`}
             >
               {area}
@@ -295,13 +295,13 @@ export default function DependenciasPage() {
               >
                 <div className="flex items-start justify-between">
 
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-cyan-200 bg-cyan-50 text-cyan-700">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-sky-200 bg-sky-100 text-sky-700">
                     <Icon size={22} />
                   </div>
 
                   <ChevronRight
                     size={20}
-                    className="text-slate-400 transition group-hover:text-slate-800"
+                    className="text-slate-600 transition group-hover:text-slate-900"
                   />
 
                 </div>
@@ -310,11 +310,11 @@ export default function DependenciasPage() {
                   {item.nombre}
                 </h2>
 
-                <p className="mt-2 min-h-5 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <p className="mt-2 min-h-5 text-xs font-semibold uppercase tracking-wide text-slate-600">
                   {item.area || "Sin área asignada"}
                 </p>
 
-                <div className="mt-5 flex items-center gap-2 border-t border-slate-300 pt-4 text-sm text-slate-700">
+                <div className="mt-5 flex items-center gap-2 border-t border-slate-400 pt-4 text-sm text-slate-900">
                   <Users size={17} />
 
                   <strong>
@@ -346,3 +346,4 @@ export default function DependenciasPage() {
     </main>
   );
 }
+

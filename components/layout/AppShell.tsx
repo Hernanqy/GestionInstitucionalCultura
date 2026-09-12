@@ -40,7 +40,7 @@ export default function AppShell({
   return (
     <div className="flex min-h-screen bg-slate-200/80">
 
-      <aside className="hidden w-64 shrink-0 flex-col bg-[#0f2b46] text-white lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col bg-slate-900 text-white lg:flex">
 
         <div className="border-b border-white/10 px-5 py-6">
           <h1 className="text-lg font-semibold">
@@ -85,7 +85,7 @@ export default function AppShell({
                 Hernán
               </p>
 
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-slate-600">
                 Gestión
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function AppShell({
 
           <a
             href="/configuracion"
-            className="flex items-center gap-2 text-sm text-slate-300 hover:text-white"
+            className="flex items-center gap-2 text-sm text-slate-600 hover:text-white"
           >
             <Settings size={17} />
             Configuración
@@ -108,7 +108,7 @@ export default function AppShell({
         {children}
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-slate-300 bg-white lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t border-slate-400 bg-white lg:hidden">
 
         <a
           href="/"
@@ -147,6 +147,7 @@ export default function AppShell({
     </div>
   );
 }
+
 
 
 

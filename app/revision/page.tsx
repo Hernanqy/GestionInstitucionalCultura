@@ -266,7 +266,7 @@ export default function RevisionPage() {
   return (
     <AppShell activo="Revisión">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
 
           <h1 className="text-xl font-semibold">
@@ -284,7 +284,7 @@ export default function RevisionPage() {
 
             <ClipboardCheck
               size={22}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
             <div>
@@ -293,7 +293,7 @@ export default function RevisionPage() {
                 Acciones que requieren confirmación
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 Solo aparecen interpretaciones que no conviene aplicar automáticamente.
               </p>
 
@@ -343,12 +343,12 @@ export default function RevisionPage() {
                     </h2>
 
                     {accion.resumen && (
-                      <p className="mt-2 text-sm leading-6 text-slate-700">
+                      <p className="mt-2 text-sm leading-6 text-slate-900">
                         {accion.resumen}
                       </p>
                     )}
 
-                    <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
+                    <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
 
                       <span>
                         Acción: {accion.tipo_accion}
@@ -373,14 +373,14 @@ export default function RevisionPage() {
                     {accion.ingreso && (
                       <a
                         href={`/bandeja/${accion.ingreso_id}`}
-                        className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-cyan-700"
+                        className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-sky-700"
                       >
                         <Inbox size={15} />
                         Ver ingreso original
                       </a>
                     )}
 
-                    <div className="mt-3 flex items-center gap-1 text-xs text-slate-400">
+                    <div className="mt-3 flex items-center gap-1 text-xs text-slate-600">
                       <Clock3 size={13} />
                       {fecha(accion.created_at)}
                     </div>
@@ -409,7 +409,7 @@ export default function RevisionPage() {
                       disabled={
                         procesando === accion.id
                       }
-                      className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+                      className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
                     >
                       {procesando === accion.id ? (
                         <Loader2
@@ -444,7 +444,7 @@ export default function RevisionPage() {
               No hay revisiones pendientes
             </h2>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-600">
               Todo está al día.
             </p>
 
@@ -456,3 +456,4 @@ export default function RevisionPage() {
     </AppShell>
   );
 }
+

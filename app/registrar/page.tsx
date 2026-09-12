@@ -143,7 +143,7 @@ export default function RegistrarPage() {
   return (
     <AppShell activo="Registrar">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Registrar información
@@ -165,7 +165,7 @@ export default function RegistrarPage() {
               <select
                 value={dependenciaId}
                 onChange={(e) => setDependenciaId(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3"
+                className="w-full rounded-xl border border-slate-400 bg-white px-4 py-3"
               >
                 <option value="">
                   Sin dependencia específica
@@ -190,7 +190,7 @@ export default function RegistrarPage() {
               <select
                 value={tipo}
                 onChange={(e) => setTipo(e.target.value)}
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3"
+                className="w-full rounded-xl border border-slate-400 bg-white px-4 py-3"
               >
                 <option>Nota</option>
                 <option>Reunión</option>
@@ -209,7 +209,7 @@ export default function RegistrarPage() {
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Título opcional"
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none"
+                className="w-full rounded-xl border border-slate-400 px-4 py-3 outline-none"
               />
             </div>
 
@@ -223,7 +223,7 @@ export default function RegistrarPage() {
                 onChange={(e) => setContenido(e.target.value)}
                 placeholder="Escribí una nota, novedad, reunión o información..."
                 rows={7}
-                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none"
+                className="w-full rounded-xl border border-slate-400 px-4 py-3 outline-none"
               />
             </div>
 
@@ -232,9 +232,9 @@ export default function RegistrarPage() {
                 Archivo, foto o audio
               </label>
 
-              <div className="rounded-xl border border-dashed border-slate-400 bg-slate-50 p-5">
+              <div className="rounded-xl border border-dashed border-slate-400 bg-slate-100 p-5">
 
-                <div className="mb-3 flex gap-3 text-slate-500">
+                <div className="mb-3 flex gap-3 text-slate-600">
                   <ImageIcon size={20} />
                   <Mic size={20} />
                   <FileText size={20} />
@@ -260,7 +260,7 @@ export default function RegistrarPage() {
             </div>
 
             {mensaje && (
-              <div className="rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm">
+              <div className="rounded-xl border border-slate-400 bg-slate-100 px-4 py-3 text-sm">
                 {mensaje}
               </div>
             )}
@@ -268,7 +268,7 @@ export default function RegistrarPage() {
             <button
               onClick={guardar}
               disabled={guardando}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[#0f2b46] px-5 py-3 font-semibold text-white disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white disabled:opacity-50"
             >
               {guardando ? (
                 <>
@@ -295,3 +295,4 @@ export default function RegistrarPage() {
     </AppShell>
   );
 }
+

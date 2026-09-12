@@ -109,7 +109,7 @@ export default function HistorialCambios({
 
         <History
           size={20}
-          className="text-cyan-700"
+          className="text-sky-700"
         />
 
         <div>
@@ -117,7 +117,7 @@ export default function HistorialCambios({
             Historial de cambios
           </h2>
 
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-600">
             Últimas modificaciones registradas
           </p>
         </div>
@@ -137,7 +137,7 @@ export default function HistorialCambios({
           {cambios.map((cambio) => (
             <div
               key={cambio.id}
-              className="rounded-xl border border-slate-300 bg-slate-50 p-4"
+              className="rounded-xl border border-slate-400 bg-slate-100 p-4"
             >
 
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -146,7 +146,7 @@ export default function HistorialCambios({
                   {nombres[cambio.campo] || cambio.campo}
                 </p>
 
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-600">
                   {fecha(cambio.created_at)}
                 </p>
 
@@ -154,7 +154,7 @@ export default function HistorialCambios({
 
               <div className="mt-3 flex flex-col gap-2 text-sm md:flex-row md:items-center">
 
-                <div className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-500">
+                <div className="rounded-lg border border-slate-400 bg-white px-3 py-2 text-slate-600">
                   {valorTexto(
                     cambio.valor_anterior
                   )}
@@ -162,10 +162,10 @@ export default function HistorialCambios({
 
                 <ArrowRight
                   size={16}
-                  className="shrink-0 text-slate-400"
+                  className="shrink-0 text-slate-600"
                 />
 
-                <div className="rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 text-slate-700">
+                <div className="rounded-lg border border-sky-200 bg-sky-100 px-3 py-2 text-slate-900">
                   {valorTexto(
                     cambio.valor_nuevo
                   )}
@@ -178,8 +178,8 @@ export default function HistorialCambios({
 
         </div>
       ) : (
-        <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-7 text-center">
-          <p className="text-sm text-slate-400">
+        <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-7 text-center">
+          <p className="text-sm text-slate-600">
             Todavía no hay modificaciones registradas.
           </p>
         </div>
@@ -188,3 +188,4 @@ export default function HistorialCambios({
     </section>
   );
 }
+

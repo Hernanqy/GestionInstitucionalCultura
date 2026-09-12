@@ -188,7 +188,7 @@ export default function DocumentosPage() {
   return (
     <AppShell activo="Documentos">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Documentos
@@ -201,7 +201,7 @@ export default function DocumentosPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Archivos
             </p>
 
@@ -211,7 +211,7 @@ export default function DocumentosPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Resultados
             </p>
 
@@ -224,11 +224,11 @@ export default function DocumentosPage() {
 
         <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-4 shadow-sm">
 
-          <div className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
             <Search
               size={18}
-              className="text-slate-400"
+              className="text-slate-600"
             />
 
             <input
@@ -266,7 +266,7 @@ export default function DocumentosPage() {
 
                   <div className="flex items-start gap-3">
 
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                       <Icon size={20} />
                     </div>
 
@@ -284,7 +284,7 @@ export default function DocumentosPage() {
                         </p>
                       )}
 
-                      <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-400">
+                      <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-600">
 
                         {documento.tamano_bytes && (
                           <span>
@@ -317,7 +317,7 @@ export default function DocumentosPage() {
                     onClick={() =>
                       abrir(documento)
                     }
-                    className="flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-medium hover:bg-slate-100"
+                    className="flex items-center justify-center gap-2 rounded-xl border border-slate-400 bg-slate-100 px-4 py-2 text-sm font-medium hover:bg-slate-100"
                   >
                     <Download size={16} />
                     Abrir
@@ -330,10 +330,10 @@ export default function DocumentosPage() {
             {visibles.length === 0 && (
               <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center">
                 <File
-                  className="mx-auto text-slate-400"
+                  className="mx-auto text-slate-600"
                 />
 
-                <p className="mt-3 text-sm text-slate-500">
+                <p className="mt-3 text-sm text-slate-600">
                   No hay documentos para mostrar.
                 </p>
               </div>
@@ -347,4 +347,5 @@ export default function DocumentosPage() {
     </AppShell>
   );
 }
+
 

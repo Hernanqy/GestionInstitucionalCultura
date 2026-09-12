@@ -232,7 +232,7 @@ export default function HomePage() {
   return (
     <AppShell activo="Inicio">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
 
         <div className="flex flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
 
@@ -244,7 +244,7 @@ export default function HomePage() {
 
           <a
             href="/registrar"
-            className="flex items-center justify-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-3 text-sm font-semibold text-white"
+            className="flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
           >
             <Plus size={18} />
             Registrar
@@ -260,21 +260,21 @@ export default function HomePage() {
 
           <a
             href="/buscar"
-            className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3"
+            className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3"
           >
 
             <Search
               size={19}
-              className="text-slate-500"
+              className="text-slate-600"
             />
 
-            <span className="flex-1 text-sm text-slate-500">
+            <span className="flex-1 text-sm text-slate-600">
               Buscar personas, dependencias, eventos o registros...
             </span>
 
             <ChevronRight
               size={18}
-              className="text-slate-400"
+              className="text-slate-600"
             />
 
           </a>
@@ -290,18 +290,18 @@ export default function HomePage() {
 
             <div className="flex items-center justify-between">
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                 <Users size={21} />
               </div>
 
               <ChevronRight
                 size={18}
-                className="text-slate-400"
+                className="text-slate-600"
               />
 
             </div>
 
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-slate-600">
               Personal
             </p>
 
@@ -318,18 +318,18 @@ export default function HomePage() {
 
             <div className="flex items-center justify-between">
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                 <Building2 size={21} />
               </div>
 
               <ChevronRight
                 size={18}
-                className="text-slate-400"
+                className="text-slate-600"
               />
 
             </div>
 
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-slate-600">
               Dependencias
             </p>
 
@@ -352,12 +352,12 @@ export default function HomePage() {
 
               <ChevronRight
                 size={18}
-                className="text-slate-400"
+                className="text-slate-600"
               />
 
             </div>
 
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-slate-600">
               Pendientes activos
             </p>
 
@@ -374,18 +374,18 @@ export default function HomePage() {
 
             <div className="flex items-center justify-between">
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50 text-cyan-700">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-100 text-sky-700">
                 <CalendarDays size={21} />
               </div>
 
               <ChevronRight
                 size={18}
-                className="text-slate-400"
+                className="text-slate-600"
               />
 
             </div>
 
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-slate-600">
               Eventos
             </p>
 
@@ -407,7 +407,7 @@ export default function HomePage() {
 
                 <CalendarDays
                   size={20}
-                  className="text-cyan-700"
+                  className="text-sky-700"
                 />
 
                 <h2 className="font-semibold">
@@ -418,7 +418,7 @@ export default function HomePage() {
 
               <a
                 href="/agenda"
-                className="text-sm text-cyan-700"
+                className="text-sm text-sky-700"
               >
                 Ver agenda
               </a>
@@ -426,7 +426,7 @@ export default function HomePage() {
             </div>
 
             {proximoEvento ? (
-              <div className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-4">
+              <div className="mt-5 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
                 <h3 className="font-semibold">
                   {proximoEvento.nombre}
@@ -445,7 +445,7 @@ export default function HomePage() {
                 </p>
 
                 {proximoEvento.lugar && (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
+                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
 
                     <MapPin size={15} />
 
@@ -456,9 +456,9 @@ export default function HomePage() {
 
               </div>
             ) : (
-              <div className="mt-5 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50">
+              <div className="mt-5 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
 
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-slate-600">
                   No hay eventos cargados.
                 </p>
 
@@ -475,7 +475,7 @@ export default function HomePage() {
 
                 <FileText
                   size={20}
-                  className="text-cyan-700"
+                  className="text-sky-700"
                 />
 
                 <h2 className="font-semibold">
@@ -486,7 +486,7 @@ export default function HomePage() {
 
               <a
                 href="/registros"
-                className="text-sm text-cyan-700"
+                className="text-sm text-sky-700"
               >
                 Ver todos
               </a>
@@ -499,14 +499,14 @@ export default function HomePage() {
                 registros.map((registro) => (
                   <div
                     key={registro.id}
-                    className="rounded-xl border border-slate-300 bg-slate-50 p-3"
+                    className="rounded-xl border border-slate-400 bg-slate-100 p-3"
                   >
 
                     <div className="flex items-start justify-between gap-3">
 
                       <div>
 
-                        <p className="text-xs font-semibold uppercase text-cyan-700">
+                        <p className="text-xs font-semibold uppercase text-sky-700">
                           {registro.tipo ||
                             "Registro"}
                         </p>
@@ -520,12 +520,12 @@ export default function HomePage() {
 
                       <Clock3
                         size={14}
-                        className="mt-1 shrink-0 text-slate-400"
+                        className="mt-1 shrink-0 text-slate-600"
                       />
 
                     </div>
 
-                    <p className="mt-2 text-xs text-slate-400">
+                    <p className="mt-2 text-xs text-slate-600">
                       {formatearFechaHora(
                         registro.created_at
                       )}
@@ -534,7 +534,7 @@ export default function HomePage() {
                   </div>
                 ))
               ) : (
-                <p className="py-8 text-center text-sm text-slate-400">
+                <p className="py-8 text-center text-sm text-slate-600">
                   Sin registros recientes.
                 </p>
               )}
@@ -551,7 +551,7 @@ export default function HomePage() {
 
                 <Inbox
                   size={20}
-                  className="text-cyan-700"
+                  className="text-sky-700"
                 />
 
                 <h2 className="font-semibold">
@@ -562,7 +562,7 @@ export default function HomePage() {
 
               <a
                 href="/bandeja"
-                className="text-sm text-cyan-700"
+                className="text-sm text-sky-700"
               >
                 Ver bandeja
               </a>
@@ -575,14 +575,14 @@ export default function HomePage() {
                 ingresos.map((ingreso) => (
                   <div
                     key={ingreso.id}
-                    className="rounded-xl border border-slate-300 bg-slate-50 p-3"
+                    className="rounded-xl border border-slate-400 bg-slate-100 p-3"
                   >
 
                     <div className="flex items-start justify-between gap-3">
 
                       <div>
 
-                        <p className="text-xs font-semibold uppercase text-cyan-700">
+                        <p className="text-xs font-semibold uppercase text-sky-700">
                           {ingreso.tipo_fuente}
                         </p>
 
@@ -601,7 +601,7 @@ export default function HomePage() {
                             : ingreso.estado ===
                               "requiere_revision"
                             ? "border-amber-200 bg-amber-50 text-amber-700"
-                            : "border-slate-300 bg-white text-slate-600"
+                            : "border-slate-400 bg-white text-slate-600"
                         }`}
                       >
                         {ingreso.estado}
@@ -609,7 +609,7 @@ export default function HomePage() {
 
                     </div>
 
-                    <p className="mt-2 text-xs text-slate-400">
+                    <p className="mt-2 text-xs text-slate-600">
                       {formatearFechaHora(
                         ingreso.created_at
                       )}
@@ -618,7 +618,7 @@ export default function HomePage() {
                   </div>
                 ))
               ) : (
-                <p className="py-8 text-center text-sm text-slate-400">
+                <p className="py-8 text-center text-sm text-slate-600">
                   Todavía no hay ingresos.
                 </p>
               )}
@@ -641,14 +641,14 @@ export default function HomePage() {
                 Registrar información
               </p>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-600">
                 Texto, archivo, foto o audio
               </p>
             </div>
 
             <Plus
               size={20}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
           </a>
@@ -663,14 +663,14 @@ export default function HomePage() {
                 Documentos
               </p>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-600">
                 Archivos institucionales
               </p>
             </div>
 
             <FileText
               size={20}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
           </a>
@@ -685,14 +685,14 @@ export default function HomePage() {
                 Bandeja
               </p>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-600">
                 Información recibida
               </p>
             </div>
 
             <Inbox
               size={20}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
           </a>
@@ -704,4 +704,5 @@ export default function HomePage() {
     </AppShell>
   );
 }
+
 

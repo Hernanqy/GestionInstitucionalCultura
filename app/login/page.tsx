@@ -44,9 +44,9 @@ export default function LoginPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-slate-200 p-4 text-slate-900">
-      <div className="w-full max-w-md rounded-2xl border border-slate-300 bg-white p-7 shadow-lg">
+      <div className="w-full max-w-md rounded-2xl border border-slate-400 bg-white p-7 shadow-lg">
 
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#0f2b46] text-white">
+        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-900 text-white">
           <LockKeyhole size={22} />
         </div>
 
@@ -60,7 +60,7 @@ export default function LoginPage() {
           autoComplete="off"
         >
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
+            <label className="mb-1 block text-sm font-medium text-slate-900">
               Usuario
             </label>
 
@@ -71,12 +71,12 @@ export default function LoginPage() {
               required
               autoComplete="off"
               placeholder="Peron"
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-cyan-600"
+              className="w-full rounded-xl border border-slate-400 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-600 focus:border-cyan-600"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">
+            <label className="mb-1 block text-sm font-medium text-slate-900">
               Contraseña
             </label>
 
@@ -86,7 +86,7 @@ export default function LoginPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="new-password"
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-600"
+              className="w-full rounded-xl border border-slate-400 bg-white px-4 py-3 text-slate-900 outline-none focus:border-cyan-600"
             />
           </div>
 
@@ -99,7 +99,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-[#0f2b46] px-4 py-3 font-semibold text-white hover:bg-[#173c5d] disabled:opacity-50"
+            className="w-full rounded-xl bg-slate-900 px-4 py-3 font-semibold text-white hover:bg-[#173c5d] disabled:opacity-50"
           >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>
@@ -109,3 +109,4 @@ export default function LoginPage() {
     </main>
   );
 }
+

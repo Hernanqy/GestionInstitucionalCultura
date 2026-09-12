@@ -109,7 +109,7 @@ export default function BandejaPage() {
   return (
     <AppShell activo="Bandeja">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
         <div className="px-5 py-4 md:px-8">
           <h1 className="text-xl font-semibold">
             Bandeja de ingresos
@@ -122,7 +122,7 @@ export default function BandejaPage() {
         <section className="grid gap-4 sm:grid-cols-3">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Total
             </p>
 
@@ -132,7 +132,7 @@ export default function BandejaPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Procesados
             </p>
 
@@ -146,7 +146,7 @@ export default function BandejaPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-slate-600">
               Requieren revisión
             </p>
 
@@ -176,7 +176,7 @@ export default function BandejaPage() {
               onClick={() => setFiltro(item)}
               className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm ${
                 filtro === item
-                  ? "border-[#0f2b46] bg-[#0f2b46] text-white"
+                  ? "border-[#0f2b46] bg-slate-900 text-white"
                   : "border-slate-400 bg-white"
               }`}
             >
@@ -195,14 +195,14 @@ export default function BandejaPage() {
         <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
           <div className="flex items-center gap-3">
-            <Inbox className="text-cyan-700" />
+            <Inbox className="text-sky-700" />
 
             <div>
               <h2 className="font-semibold">
                 Información recibida
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 Audios, fotos, archivos, textos y mensajes
               </p>
             </div>
@@ -226,12 +226,12 @@ export default function BandejaPage() {
                 return (
                   <div
                     key={item.id}
-                    className="rounded-xl border border-slate-300 bg-slate-50 p-4"
+                    className="rounded-xl border border-slate-400 bg-slate-100 p-4"
                   >
 
                     <div className="flex items-start gap-3">
 
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-cyan-700">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-sky-700">
                         <Icon size={20} />
                       </div>
 
@@ -240,7 +240,7 @@ export default function BandejaPage() {
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
 
                           <div>
-                            <p className="text-xs font-semibold uppercase text-cyan-700">
+                            <p className="text-xs font-semibold uppercase text-sky-700">
                               {item.tipo_fuente}
                             </p>
 
@@ -257,7 +257,7 @@ export default function BandejaPage() {
                         </div>
 
                         {item.resumen && (
-                          <p className="mt-3 text-sm leading-6 text-slate-700">
+                          <p className="mt-3 text-sm leading-6 text-slate-900">
                             {item.resumen}
                           </p>
                         )}
@@ -271,7 +271,7 @@ export default function BandejaPage() {
                             </p>
                           )}
 
-                        <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-500">
+                        <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
 
                           <span className="flex items-center gap-1">
                             <Clock3 size={13} />
@@ -302,8 +302,8 @@ export default function BandejaPage() {
 
             </div>
           ) : (
-            <div className="mt-5 flex min-h-48 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50">
-              <p className="text-sm text-slate-400">
+            <div className="mt-5 flex min-h-48 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
+              <p className="text-sm text-slate-600">
                 Todavía no hay ingresos.
               </p>
             </div>
@@ -341,10 +341,11 @@ function Estado({
   }
 
   return (
-    <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-xs text-slate-600">
+    <span className="rounded-full border border-slate-400 bg-white px-3 py-1 text-xs text-slate-600">
       Pendiente
     </span>
   );
 }
+
 
 

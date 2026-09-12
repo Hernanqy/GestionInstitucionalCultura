@@ -124,7 +124,7 @@ function clasePrioridad(prioridad: string | null) {
   }
 
   if (prioridad === "baja") {
-    return "border-slate-200 bg-slate-50 text-slate-600";
+    return "border-slate-400 bg-slate-100 text-slate-600";
   }
 
   return "border-amber-200 bg-amber-50 text-amber-700";
@@ -398,7 +398,7 @@ export default function DependenciaDetallePage() {
 
             <div className="flex gap-4">
 
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-sky-700">
                 <Building2 />
               </div>
 
@@ -409,7 +409,7 @@ export default function DependenciaDetallePage() {
 
 <a
   href={`/dependencias/${slug}/editar`}
-  className="mt-3 inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+  className="mt-3 inline-flex items-center rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm font-medium text-slate-900 hover:bg-slate-100"
 >
   Editar dependencia
 </a>
@@ -442,7 +442,7 @@ export default function DependenciaDetallePage() {
               onClick={() => setTab(item)}
               className={`rounded-xl border px-4 py-2 ${
                 tab === item
-                  ? "bg-[#0f2b46] text-white"
+                  ? "bg-slate-900 text-white"
                   : "bg-white"
               }`}
             >
@@ -469,7 +469,7 @@ export default function DependenciaDetallePage() {
               </h2>
 
               {proximoEvento ? (
-                <div className="mt-4 rounded-xl border bg-slate-50 p-4">
+                <div className="mt-4 rounded-xl border bg-slate-100 p-4">
 
                   <strong>
                     {proximoEvento.nombre}
@@ -480,14 +480,14 @@ export default function DependenciaDetallePage() {
                   </p>
 
                   {proximoEvento.lugar && (
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-slate-600">
                       {proximoEvento.lugar}
                     </p>
                   )}
 
                 </div>
               ) : (
-                <p className="mt-5 text-sm text-slate-400">
+                <p className="mt-5 text-sm text-slate-600">
                   Sin actividades.
                 </p>
               )}
@@ -521,7 +521,7 @@ export default function DependenciaDetallePage() {
                   Personal
                 </h2>
 
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-600">
                   {personal.length} personas
                 </p>
               </div>
@@ -544,7 +544,7 @@ export default function DependenciaDetallePage() {
               {personalFiltrado.map((persona) => (
                 <div
                   key={persona.id}
-                  className="rounded-xl border bg-slate-50 p-4"
+                  className="rounded-xl border bg-slate-100 p-4"
                 >
 
                   <div className="flex gap-3">
@@ -567,7 +567,7 @@ export default function DependenciaDetallePage() {
                       )}
 
                       {persona.horas && (
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-slate-600">
                           {persona.horas}
                         </p>
                       )}
@@ -596,7 +596,7 @@ export default function DependenciaDetallePage() {
               {eventos.map((evento) => (
                 <div
                   key={evento.id}
-                  className="rounded-xl border bg-slate-50 p-4"
+                  className="rounded-xl border bg-slate-100 p-4"
                 >
 
                   <strong>{evento.nombre}</strong>
@@ -606,7 +606,7 @@ export default function DependenciaDetallePage() {
                   </p>
 
                   {evento.lugar && (
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-slate-600">
                       {evento.lugar}
                     </p>
                   )}
@@ -629,14 +629,14 @@ export default function DependenciaDetallePage() {
                   Pendientes
                 </h2>
 
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-600">
                   {pendientesActivos.length} activos
                 </p>
               </div>
 
               <button
                 onClick={() => setMostrarNuevoPendiente(true)}
-                className="flex gap-2 rounded-xl bg-[#0f2b46] px-4 py-3 text-white"
+                className="flex gap-2 rounded-xl bg-slate-900 px-4 py-3 text-white"
               >
                 <Plus size={18} />
                 Nuevo pendiente
@@ -645,7 +645,7 @@ export default function DependenciaDetallePage() {
             </div>
 
             {mostrarNuevoPendiente && (
-              <div className="mt-5 rounded-xl border bg-slate-50 p-5">
+              <div className="mt-5 rounded-xl border bg-slate-100 p-5">
 
                 <div className="flex justify-between">
 
@@ -696,7 +696,7 @@ export default function DependenciaDetallePage() {
                   <button
                     onClick={crearPendiente}
                     disabled={guardandoPendiente}
-                    className="rounded-xl bg-[#0f2b46] p-3 text-white"
+                    className="rounded-xl bg-slate-900 p-3 text-white"
                   >
                     Guardar
                   </button>
@@ -711,7 +711,7 @@ export default function DependenciaDetallePage() {
               {pendientes.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-xl border bg-slate-50 p-4"
+                  className="rounded-xl border bg-slate-100 p-4"
                 >
 
                   <div className="flex gap-3">
@@ -770,14 +770,14 @@ export default function DependenciaDetallePage() {
                   Registros
                 </h2>
 
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-600">
                   {registros.length} registros
                 </p>
               </div>
 
               <button
                 onClick={() => setMostrarNuevoRegistro(true)}
-                className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-3 text-white"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-white"
               >
                 <Plus size={18} />
                 Nuevo registro
@@ -786,7 +786,7 @@ export default function DependenciaDetallePage() {
             </div>
 
             {mostrarNuevoRegistro && (
-              <div className="mt-5 rounded-xl border border-slate-300 bg-slate-50 p-5">
+              <div className="mt-5 rounded-xl border border-slate-400 bg-slate-100 p-5">
 
                 <div className="flex justify-between">
 
@@ -837,7 +837,7 @@ export default function DependenciaDetallePage() {
                       guardandoRegistro ||
                       !contenidoRegistro.trim()
                     }
-                    className="rounded-xl bg-[#0f2b46] p-3 font-semibold text-white disabled:opacity-50"
+                    className="rounded-xl bg-slate-900 p-3 font-semibold text-white disabled:opacity-50"
                   >
                     {guardandoRegistro
                       ? "Guardando..."
@@ -854,14 +854,14 @@ export default function DependenciaDetallePage() {
               {registros.map((registro) => (
                 <div
                   key={registro.id}
-                  className="rounded-xl border border-slate-300 bg-slate-50 p-4"
+                  className="rounded-xl border border-slate-400 bg-slate-100 p-4"
                 >
 
                   <div className="flex gap-3">
 
                     <NotebookPen
                       size={20}
-                      className="mt-1 text-cyan-700"
+                      className="mt-1 text-sky-700"
                     />
 
                     <div className="flex-1">
@@ -870,7 +870,7 @@ export default function DependenciaDetallePage() {
 
                         <div>
 
-                          <p className="text-xs font-semibold uppercase text-cyan-700">
+                          <p className="text-xs font-semibold uppercase text-sky-700">
                             {registro.tipo || "Registro"}
                           </p>
 
@@ -882,14 +882,14 @@ export default function DependenciaDetallePage() {
 
                         </div>
 
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-slate-600">
                           {formatearFechaHora(registro.created_at)}
                         </span>
 
                       </div>
 
                       {registro.contenido && (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-900">
                           {registro.contenido}
                         </p>
                       )}
@@ -902,7 +902,7 @@ export default function DependenciaDetallePage() {
               ))}
 
               {registros.length === 0 && (
-                <div className="rounded-xl border border-dashed p-10 text-center text-sm text-slate-400">
+                <div className="rounded-xl border border-dashed p-10 text-center text-sm text-slate-600">
                   Todavía no hay registros.
                 </div>
               )}
@@ -931,8 +931,8 @@ function Dato({
   valor: number;
 }) {
   return (
-    <div className="rounded-xl border bg-slate-50 px-5 py-3">
-      <p className="text-xs text-slate-500">
+    <div className="rounded-xl border bg-slate-100 px-5 py-3">
+      <p className="text-xs text-slate-600">
         {titulo}
       </p>
 
@@ -965,13 +965,13 @@ function Tarjeta({
         {valor}
       </p>
 
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-slate-600">
         {texto}
       </p>
 
       <button
         onClick={onClick}
-        className="mt-5 text-sm text-cyan-700"
+        className="mt-5 text-sm text-sky-700"
       >
         Ver {titulo.toLowerCase()} →
       </button>
@@ -979,6 +979,7 @@ function Tarjeta({
     </div>
   );
 }
+
 
 
 

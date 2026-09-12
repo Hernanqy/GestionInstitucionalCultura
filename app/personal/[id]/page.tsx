@@ -312,7 +312,7 @@ export default function PersonaDetallePage() {
   return (
     <AppShell activo="Personal">
 
-      <header className="border-b border-slate-300 bg-white">
+      <header className="border-b border-slate-400 bg-white">
 
         <div className="flex items-center justify-between px-5 py-4 md:px-8">
 
@@ -327,7 +327,7 @@ export default function PersonaDetallePage() {
           {!editando ? (
             <button
               onClick={() => setEditando(true)}
-              className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white"
             >
               <Pencil size={17} />
               Editar
@@ -337,7 +337,7 @@ export default function PersonaDetallePage() {
 
               <button
                 onClick={cancelarEdicion}
-                className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm"
+                className="flex items-center gap-2 rounded-xl border border-slate-400 bg-white px-4 py-2.5 text-sm"
               >
                 <X size={17} />
                 Cancelar
@@ -346,7 +346,7 @@ export default function PersonaDetallePage() {
               <button
                 onClick={guardarCambios}
                 disabled={guardando}
-                className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
               >
                 {guardando ? (
                   <Loader2
@@ -370,7 +370,7 @@ export default function PersonaDetallePage() {
       <div className="mx-auto max-w-6xl px-5 py-6 md:px-8">
 
         {mensaje && (
-          <div className="mb-5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm">
+          <div className="mb-5 rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm">
             {mensaje}
           </div>
         )}
@@ -381,7 +381,7 @@ export default function PersonaDetallePage() {
 
             <div className="flex gap-4">
 
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
                 <UserRound size={30} />
               </div>
 
@@ -396,7 +396,7 @@ export default function PersonaDetallePage() {
                 </p>
 
                 {persona.dependencia && (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
+                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
                     <Building2 size={15} />
                     {persona.dependencia.nombre}
                   </div>
@@ -406,9 +406,9 @@ export default function PersonaDetallePage() {
 
             </div>
 
-            <div className="rounded-xl border border-slate-300 bg-slate-50 px-5 py-3">
+            <div className="rounded-xl border border-slate-400 bg-slate-100 px-5 py-3">
 
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-600">
                 Legajo
               </p>
 
@@ -423,7 +423,7 @@ export default function PersonaDetallePage() {
         </section>
 
         {editando ? (
-          <section className="mt-5 rounded-2xl border border-cyan-300 bg-white p-6 shadow-sm">
+          <section className="mt-5 rounded-2xl border border-sky-300 bg-white p-6 shadow-sm">
 
             <h2 className="text-lg font-semibold">
               Editar información
@@ -722,7 +722,7 @@ export default function PersonaDetallePage() {
                   Observaciones
                 </h2>
 
-                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-900">
                   {persona.observaciones}
                 </p>
 
@@ -741,7 +741,7 @@ export default function PersonaDetallePage() {
 
             <NotebookPen
               size={20}
-              className="text-cyan-700"
+              className="text-sky-700"
             />
 
             <div>
@@ -749,7 +749,7 @@ export default function PersonaDetallePage() {
                 Registros relacionados
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-600">
                 {registros.length} registros
               </p>
             </div>
@@ -762,10 +762,10 @@ export default function PersonaDetallePage() {
               {registros.map((registro) => (
                 <div
                   key={registro.id}
-                  className="rounded-xl border border-slate-300 bg-slate-50 p-4"
+                  className="rounded-xl border border-slate-400 bg-slate-100 p-4"
                 >
 
-                  <p className="text-xs font-semibold uppercase text-cyan-700">
+                  <p className="text-xs font-semibold uppercase text-sky-700">
                     {registro.tipo || "Registro"}
                   </p>
 
@@ -775,12 +775,12 @@ export default function PersonaDetallePage() {
                   </h3>
 
                   {registro.contenido && (
-                    <p className="mt-2 text-sm text-slate-700">
+                    <p className="mt-2 text-sm text-slate-900">
                       {registro.contenido}
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-slate-400">
+                  <p className="mt-2 text-xs text-slate-600">
                     {fechaHora(registro.created_at)}
                   </p>
 
@@ -789,7 +789,7 @@ export default function PersonaDetallePage() {
 
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-sm text-slate-400">
+            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-slate-600">
               No hay registros relacionados.
             </div>
           )}
@@ -829,7 +829,7 @@ function CampoEdicion({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-700">
+      <label className="mb-1 block text-sm font-medium text-slate-900">
         {titulo}
       </label>
 
@@ -904,7 +904,7 @@ function Bloque({
 
         <Icon
           size={20}
-          className="text-cyan-700"
+          className="text-sky-700"
         />
 
         <h2 className="font-semibold">
@@ -933,11 +933,11 @@ function Dato({
   return (
     <div>
 
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
         {titulo}
       </p>
 
-      <p className="mt-1 text-sm text-slate-700">
+      <p className="mt-1 text-sm text-slate-900">
         {valor}
       </p>
 
@@ -961,16 +961,16 @@ function DatoIcono({
 
       <Icon
         size={16}
-        className="mt-0.5 text-slate-400"
+        className="mt-0.5 text-slate-600"
       />
 
       <div>
 
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
           {titulo}
         </p>
 
-        <p className="mt-1 text-sm text-slate-700">
+        <p className="mt-1 text-sm text-slate-900">
           {valor}
         </p>
 
@@ -979,5 +979,6 @@ function DatoIcono({
     </div>
   );
 }
+
 
 
