@@ -1,308 +1,326 @@
 ﻿"use client";
 
 import {
-  Home,
   Search,
   Plus,
-  CalendarDays,
-  MoreHorizontal,
   Users,
   Building2,
   ClipboardList,
-  FileText,
-  Bell,
+  CalendarDays,
   ChevronRight,
+  FileText,
   Inbox,
   FolderOpen,
+  MapPin,
+  Clock3,
 } from "lucide-react";
 
-const resumen = [
-  {
-    titulo: "Personal",
-    valor: "282",
-    icono: Users,
-    href: "/personal",
-  },
-  {
-    titulo: "Dependencias",
-    valor: "33",
-    icono: Building2,
-    href: "/dependencias",
-  },
-  {
-    titulo: "Pendientes",
-    valor: "1",
-    icono: ClipboardList,
-    href: "/pendientes",
-  },
-  {
-    titulo: "Eventos",
-    valor: "9",
-    icono: CalendarDays,
-    href: "/agenda",
-  },
-];
+import AppShell from "@/components/layout/AppShell";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-[#edf5f7] text-slate-900">
+    <AppShell activo="Inicio">
 
-      <div className="mx-auto max-w-3xl px-3 pb-24 pt-3 md:max-w-7xl md:px-8 md:pb-8 md:pt-6">
+      <header className="border-b border-slate-300 bg-white">
+        <div className="flex items-center justify-between px-6 py-4 md:px-8">
+          <h1 className="text-xl font-bold text-slate-950">
+            Inicio
+          </h1>
 
-        <header className="mb-3 flex items-center justify-between md:mb-6">
-          <div>
-            <p className="text-xs font-medium text-slate-500 md:hidden">
-              Gestión Institucional
-            </p>
-            <h1 className="text-xl font-bold md:text-2xl">
-              Inicio
-            </h1>
-          </div>
+          <a
+            href="/registrar"
+            className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+          >
+            <Plus size={18} />
+            Registrar
+          </a>
+        </div>
+      </header>
 
-          <button className="rounded-full bg-white p-2.5 shadow-sm ring-1 ring-slate-200">
-            <Bell size={19} className="text-slate-600" />
-          </button>
-        </header>
+      <main className="min-h-[calc(100vh-65px)] bg-slate-300 px-5 py-6 text-slate-950 md:px-8">
 
-        <section className="rounded-2xl bg-[#d8eef3] p-3 shadow-sm ring-1 ring-[#c7e3e9] md:p-5">
+        <div className="mx-auto max-w-[1500px]">
 
-          <div className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-200">
-            <Search size={18} className="text-slate-500" />
+          {/* BUSCADOR */}
+          <section className="rounded-2xl border border-slate-400 bg-white p-3 shadow-sm">
+            <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
-            <input
-              type="text"
-              placeholder="Buscar en toda la gestión..."
-              className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-500"
+              <Search size={19} className="text-slate-700" />
+
+              <input
+                type="text"
+                placeholder="Buscar personas, dependencias, eventos o registros..."
+                className="w-full bg-transparent text-sm font-medium text-slate-950 outline-none placeholder:text-slate-600"
+              />
+
+              <ChevronRight size={19} className="text-slate-700" />
+
+            </div>
+          </section>
+
+          {/* RESUMEN */}
+          <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+            <TarjetaResumen
+              titulo="Personal"
+              valor="282"
+              href="/personal"
+              icono={Users}
             />
 
-            <ChevronRight size={18} className="text-slate-400" />
-          </div>
+            <TarjetaResumen
+              titulo="Dependencias"
+              valor="33"
+              href="/dependencias"
+              icono={Building2}
+            />
 
-        </section>
+            <TarjetaResumen
+              titulo="Pendientes activos"
+              valor="1"
+              href="/pendientes"
+              icono={ClipboardList}
+              naranja
+            />
 
-        <section className="mt-3 grid grid-cols-2 gap-3 md:mt-6 md:grid-cols-4">
-          {resumen.map((item) => {
-            const Icon = item.icono;
+            <TarjetaResumen
+              titulo="Eventos"
+              valor="9"
+              href="/agenda"
+              icono={CalendarDays}
+            />
 
-            return (
-              <a
-                key={item.titulo}
-                href={item.href}
-                className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:shadow-md"
-              >
-                <div className="flex items-start justify-between">
+          </section>
 
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-cyan-700">
-                    <Icon size={20} />
-                  </div>
+          {/* SEGUNDA FILA */}
+          <section className="mt-5 grid gap-4 xl:grid-cols-3">
 
-                  <ChevronRight size={18} className="text-slate-400" />
+            {/* EVENTO */}
+            <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <CalendarDays size={19} className="text-sky-700" />
+
+                  <h2 className="font-bold text-slate-950">
+                    Próximo evento
+                  </h2>
                 </div>
 
-                <p className="mt-3 text-sm font-medium text-slate-700">
-                  {item.titulo}
+                <a
+                  href="/agenda"
+                  className="text-sm font-semibold text-sky-700"
+                >
+                  Ver agenda
+                </a>
+              </div>
+
+              <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
+
+                <h3 className="font-bold text-slate-950">
+                  Fiesta de Reyes
+                </h3>
+
+                <div className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-800">
+                  <CalendarDays size={15} />
+                  05/01/2026
+                </div>
+
+                <div className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-800">
+                  <MapPin size={15} />
+                  Predio
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* REGISTROS */}
+            <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex items-center gap-2">
+                  <FileText size={19} className="text-sky-700" />
+
+                  <h2 className="font-bold text-slate-950">
+                    Registros recientes
+                  </h2>
+                </div>
+
+                <a
+                  href="/registros"
+                  className="text-sm font-semibold text-sky-700"
+                >
+                  Ver todos
+                </a>
+
+              </div>
+
+              <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
+
+                <p className="text-xs font-bold uppercase text-sky-700">
+                  Reunión
                 </p>
 
-                <p className="mt-1 text-2xl font-bold text-slate-950">
-                  {item.valor}
+                <p className="mt-2 font-semibold text-slate-950">
+                  Reunión con equipo del Centro Cultural
                 </p>
-              </a>
-            );
-          })}
-        </section>
 
-        <section className="mt-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:mt-6 md:p-5">
-          <div className="flex items-center justify-between">
+                <div className="mt-2 flex items-center gap-2 text-xs font-medium text-slate-700">
+                  <Clock3 size={14} />
+                  12/09/2026 · 05:58 p. m.
+                </div>
 
-            <h2 className="font-semibold">
-              Próximo evento
-            </h2>
-
-            <a
-              href="/agenda"
-              className="text-sm font-medium text-cyan-700"
-            >
-              Ver agenda
-            </a>
-
-          </div>
-
-          <div className="mt-3 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
-
-            <p className="font-semibold text-slate-900">
-              Fiesta de Reyes
-            </p>
-
-            <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
-              <CalendarDays size={16} />
-              05/01/2026
-            </div>
-
-            <p className="mt-1 text-sm text-slate-600">
-              Predio
-            </p>
-
-          </div>
-        </section>
-
-        <section className="mt-3 grid gap-3 md:mt-6 md:grid-cols-2">
-
-          <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:p-5">
-            <div className="flex items-center justify-between">
-
-              <h2 className="font-semibold">
-                Registros recientes
-              </h2>
-
-              <a
-                href="/registros"
-                className="text-sm font-medium text-cyan-700"
-              >
-                Ver todos
-              </a>
-            </div>
-
-            <div className="mt-3 rounded-xl bg-slate-50 p-4 ring-1 ring-slate-200">
-              <p className="text-xs font-bold uppercase tracking-wide text-cyan-700">
-                Reunión
-              </p>
-
-              <p className="mt-1 text-sm font-medium text-slate-800">
-                Reunión con equipo del Centro Cultural
-              </p>
-
-              <p className="mt-1 text-xs text-slate-500">
-                12/09/2026 · 05:58 p. m.
-              </p>
-            </div>
-          </div>
-
-          <div className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:p-5">
-
-            <div className="flex items-center justify-between">
-
-              <h2 className="font-semibold">
-                Bandeja
-              </h2>
-
-              <Inbox size={19} className="text-cyan-700" />
+              </div>
 
             </div>
 
-            <div className="mt-6 flex min-h-24 items-center justify-center text-sm text-slate-500">
-              Todavía no hay ingresos.
+            {/* BANDEJA */}
+            <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex items-center gap-2">
+                  <Inbox size={19} className="text-sky-700" />
+
+                  <h2 className="font-bold text-slate-950">
+                    Bandeja
+                  </h2>
+                </div>
+
+                <a
+                  href="/bandeja"
+                  className="text-sm font-semibold text-sky-700"
+                >
+                  Ver bandeja
+                </a>
+
+              </div>
+
+              <div className="flex min-h-32 items-center justify-center">
+                <p className="text-sm font-medium text-slate-700">
+                  Todavía no hay ingresos.
+                </p>
+              </div>
+
             </div>
 
-          </div>
+          </section>
 
-        </section>
+          {/* ACCESOS */}
+          <section className="mt-5 grid gap-4 md:grid-cols-3">
 
-        <section className="mt-3 grid grid-cols-2 gap-3 md:mt-6 md:grid-cols-3">
+            <Acceso
+              titulo="Registrar información"
+              texto="Texto, archivo, foto o audio"
+              href="/registrar"
+              icono={Plus}
+            />
 
-          <a
-            href="/registrar"
-            className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200"
-          >
-            <div className="flex items-center justify-between">
-              <Plus size={20} className="text-cyan-700" />
-            </div>
+            <Acceso
+              titulo="Documentos"
+              texto="Archivos institucionales"
+              href="/documentos"
+              icono={FolderOpen}
+            />
 
-            <p className="mt-3 font-semibold">
-              Registrar información
-            </p>
+            <Acceso
+              titulo="Bandeja"
+              texto="Información recibida"
+              href="/bandeja"
+              icono={Inbox}
+            />
 
-            <p className="mt-1 text-sm text-slate-600">
-              Texto, archivo, foto o audio
-            </p>
-          </a>
-
-          <a
-            href="/documentos"
-            className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200"
-          >
-            <FolderOpen size={20} className="text-cyan-700" />
-
-            <p className="mt-3 font-semibold">
-              Documentos
-            </p>
-
-            <p className="mt-1 text-sm text-slate-600">
-              Archivos institucionales
-            </p>
-          </a>
-
-          <a
-            href="/bandeja"
-            className="col-span-2 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-200 md:col-span-1"
-          >
-            <Inbox size={20} className="text-cyan-700" />
-
-            <p className="mt-3 font-semibold">
-              Bandeja
-            </p>
-
-            <p className="mt-1 text-sm text-slate-600">
-              Información recibida
-            </p>
-          </a>
-
-        </section>
-
-      </div>
-
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden">
-
-        <div className="grid grid-cols-5">
-
-          <a
-            href="/"
-            className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-cyan-700"
-          >
-            <Home size={19} />
-            Inicio
-          </a>
-
-          <a
-            href="/buscar"
-            className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-slate-500"
-          >
-            <Search size={19} />
-            Buscar
-          </a>
-
-          <a
-            href="/registrar"
-            className="relative flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-slate-500"
-          >
-            <div className="absolute -top-5 flex h-11 w-11 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg">
-              <Plus size={23} />
-            </div>
-
-            <span className="mt-4">
-              Añadir
-            </span>
-          </a>
-
-          <a
-            href="/agenda"
-            className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-slate-500"
-          >
-            <CalendarDays size={19} />
-            Agenda
-          </a>
-
-          <a
-            href="/dependencias"
-            className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium text-slate-500"
-          >
-            <MoreHorizontal size={19} />
-            Más
-          </a>
+          </section>
 
         </div>
 
-      </nav>
+      </main>
 
-    </main>
+    </AppShell>
+  );
+}
+
+function TarjetaResumen({
+  titulo,
+  valor,
+  href,
+  icono: Icon,
+  naranja = false,
+}: {
+  titulo: string;
+  valor: string;
+  href: string;
+  icono: React.ElementType;
+  naranja?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className="group rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+    >
+      <div className="flex items-start justify-between">
+
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-xl ${
+            naranja
+              ? "bg-orange-100 text-orange-700"
+              : "bg-sky-100 text-sky-700"
+          }`}
+        >
+          <Icon size={21} />
+        </div>
+
+        <ChevronRight
+          size={19}
+          className="text-slate-600 transition group-hover:text-slate-950"
+        />
+
+      </div>
+
+      <p className="mt-4 text-sm font-semibold text-slate-800">
+        {titulo}
+      </p>
+
+      <p className="mt-1 text-3xl font-bold text-slate-950">
+        {valor}
+      </p>
+    </a>
+  );
+}
+
+function Acceso({
+  titulo,
+  texto,
+  href,
+  icono: Icon,
+}: {
+  titulo: string;
+  texto: string;
+  href: string;
+  icono: React.ElementType;
+}) {
+  return (
+    <a
+      href={href}
+      className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:shadow-md"
+    >
+      <div className="flex items-center justify-between">
+
+        <div>
+          <h3 className="font-bold text-slate-950">
+            {titulo}
+          </h3>
+
+          <p className="mt-1 text-sm font-medium text-slate-700">
+            {texto}
+          </p>
+        </div>
+
+        <Icon size={20} className="text-sky-700" />
+
+      </div>
+    </a>
   );
 }
