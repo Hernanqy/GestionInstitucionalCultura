@@ -61,7 +61,7 @@ export default function AppShell({
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition ${
                   seleccionado
                     ? "bg-cyan-600 text-white"
-                    : "text-white hover:bg-white/10"
+                    : "text-black hover:bg-white/10"
                 }`}
               >
                 <Icon size={18} />
@@ -85,7 +85,7 @@ export default function AppShell({
                 Hernán
               </p>
 
-              <p className="text-xs text-white">
+              <p className="text-xs text-slate-950">
                 Gestión
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function AppShell({
 
           <a
             href="/configuracion"
-            className="flex items-center gap-2 text-sm text-white hover:text-white"
+            className="flex items-center gap-2 text-sm text-slate-950 hover:text-white"
           >
             <Settings size={17} />
             Configuración
@@ -147,7 +147,6 @@ export default function AppShell({
     </div>
   );
 }
-
 
 
 
