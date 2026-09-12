@@ -318,7 +318,7 @@ export default function PersonaDetallePage() {
 
           <a
             href="/personal"
-            className="inline-flex items-center gap-2 text-sm text-slate-950"
+            className="inline-flex items-center gap-2 text-sm text-black"
           >
             <ArrowLeft size={17} />
             Personal
@@ -327,7 +327,7 @@ export default function PersonaDetallePage() {
           {!editando ? (
             <button
               onClick={() => setEditando(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-950"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-black"
             >
               <Pencil size={17} />
               Editar
@@ -346,7 +346,7 @@ export default function PersonaDetallePage() {
               <button
                 onClick={guardarCambios}
                 disabled={guardando}
-                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-950 disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-black disabled:opacity-50"
               >
                 {guardando ? (
                   <Loader2
@@ -377,50 +377,50 @@ export default function PersonaDetallePage() {
 
         <section className="rounded-2xl border border-slate-400 bg-white p-6 shadow-sm">
 
-  <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
 
-    <div className="flex items-center gap-4">
+            <div className="flex gap-4">
 
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-        <UserRound size={30} />
-      </div>
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
+                <UserRound size={30} />
+              </div>
 
-      <div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-black">
-          {persona.nombre}
-          {persona.apellido ? ` ${persona.apellido}` : ""}
-        </h1>
+              <div>
 
-        {persona.cargo && (
-          <p className="mt-2 text-lg font-semibold text-black">
-            {persona.cargo}
-          </p>
-        )}
+                <h1 className="text-2xl font-semibold">
+                  {nombreCompleto}
+                </h1>
 
-        {persona.dependencia?.nombre && (
-          <p className="mt-1 text-base font-medium text-black">
-            {persona.dependencia.nombre}
-          </p>
-        )}
-      </div>
+                <p className="mt-1 text-sm text-black">
+                  {persona.cargo || "Sin cargo"}
+                </p>
 
-    </div>
+                {persona.dependencia && (
+                  <div className="mt-2 flex items-center gap-2 text-sm text-black">
+                    <Building2 size={15} />
+                    {persona.dependencia.nombre}
+                  </div>
+                )}
 
-    <div className="rounded-2xl border-2 border-slate-900 bg-slate-100 px-6 py-4 text-center">
+              </div>
 
-      <p className="text-sm font-bold uppercase tracking-wide text-black">
-        Legajo
-      </p>
+            </div>
 
-      <p className="mt-1 text-4xl font-extrabold text-black">
-        {persona.legajo || "—"}
-      </p>
+            <div className="rounded-xl border border-slate-400 bg-slate-100 px-5 py-3">
 
-    </div>
+              <p className="text-xs text-black">
+                Legajo
+              </p>
 
-  </div>
+              <p className="text-4xl font-extrabold text-black">
+                {persona.legajo || "Sin dato"}
+              </p>
 
-</section>
+            </div>
+
+          </div>
+
+        </section>
 
         {editando ? (
           <section className="mt-5 rounded-2xl border border-sky-300 bg-white p-6 shadow-sm">
@@ -722,7 +722,7 @@ export default function PersonaDetallePage() {
                   Observaciones
                 </h2>
 
-                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-950">
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-black">
                   {persona.observaciones}
                 </p>
 
@@ -749,7 +749,7 @@ export default function PersonaDetallePage() {
                 Registros relacionados
               </h2>
 
-              <p className="text-sm text-slate-950">
+              <p className="text-sm text-black">
                 {registros.length} registros
               </p>
             </div>
@@ -775,12 +775,12 @@ export default function PersonaDetallePage() {
                   </h3>
 
                   {registro.contenido && (
-                    <p className="mt-2 text-sm text-slate-950">
+                    <p className="mt-2 text-sm text-black">
                       {registro.contenido}
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-slate-950">
+                  <p className="mt-2 text-xs text-black">
                     {fechaHora(registro.created_at)}
                   </p>
 
@@ -789,7 +789,7 @@ export default function PersonaDetallePage() {
 
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-slate-950">
+            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-black">
               No hay registros relacionados.
             </div>
           )}
@@ -829,7 +829,7 @@ function CampoEdicion({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-950">
+      <label className="mb-1 block text-sm font-medium text-black">
         {titulo}
       </label>
 
@@ -898,52 +898,26 @@ function Bloque({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-slate-400 bg-white p-6 shadow-sm">
+    <section className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
-  <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center gap-3">
 
-    <div className="flex items-center gap-4">
+        <Icon
+          size={20}
+          className="text-sky-700"
+        />
 
-      <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-        <UserRound size={30} />
+        <h2 className="font-semibold">
+          {titulo}
+        </h2>
+
       </div>
 
-      <div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-black">
-          {persona.nombre}
-          {persona.apellido ? ` ${persona.apellido}` : ""}
-        </h1>
-
-        {persona.cargo && (
-          <p className="mt-2 text-lg font-semibold text-black">
-            {persona.cargo}
-          </p>
-        )}
-
-        {persona.dependencia?.nombre && (
-          <p className="mt-1 text-base font-medium text-black">
-            {persona.dependencia.nombre}
-          </p>
-        )}
+      <div className="mt-5 space-y-4">
+        {children}
       </div>
 
-    </div>
-
-    <div className="rounded-2xl border-2 border-slate-900 bg-slate-100 px-6 py-4 text-center">
-
-      <p className="text-sm font-bold uppercase tracking-wide text-black">
-        Legajo
-      </p>
-
-      <p className="mt-1 text-4xl font-extrabold text-black">
-        {persona.legajo || "—"}
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
+    </section>
   );
 }
 
@@ -959,11 +933,11 @@ function Dato({
   return (
     <div>
 
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
+      <p className="text-xs font-medium uppercase tracking-wide text-black">
         {titulo}
       </p>
 
-      <p className="mt-1 text-sm text-slate-950">
+      <p className="mt-1 text-sm text-black">
         {valor}
       </p>
 
@@ -987,16 +961,16 @@ function DatoIcono({
 
       <Icon
         size={16}
-        className="mt-0.5 text-slate-950"
+        className="mt-0.5 text-black"
       />
 
       <div>
 
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
+        <p className="text-xs font-medium uppercase tracking-wide text-black">
           {titulo}
         </p>
 
-        <p className="mt-1 text-sm text-slate-950">
+        <p className="mt-1 text-sm text-black">
           {valor}
         </p>
 
