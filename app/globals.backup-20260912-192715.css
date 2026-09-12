@@ -265,6 +265,44 @@ a:focus-visible {
 }
 
 
+/* === BOTONES OSCUROS: CONTRASTE === */
 
+/*
+   Regla UX:
+   fondo oscuro = texto blanco.
+   Esto corrige pestañas activas como "Todos",
+   sin modificar tarjetas, formularios ni textos normales.
+*/
 
+button[class*="bg-slate-900"],
+a[class*="bg-slate-900"],
+button[class*="bg-[#0f2b46]"],
+a[class*="bg-[#0f2b46]"],
+button[class*="bg-cyan-700"],
+a[class*="bg-cyan-700"],
+button[class*="bg-cyan-600"],
+a[class*="bg-cyan-600"],
+button[class*="bg-sky-700"],
+a[class*="bg-sky-700"],
+button[class*="bg-sky-600"],
+a[class*="bg-sky-600"] {
+  color: #ffffff !important;
+}
+
+button[class*="bg-slate-900"] *,
+a[class*="bg-slate-900"] *,
+button[class*="bg-[#0f2b46]"] *,
+a[class*="bg-[#0f2b46]"] *,
+button[class*="bg-cyan-700"] *,
+a[class*="bg-cyan-700"] *,
+button[class*="bg-cyan-600"] *,
+a[class*="bg-cyan-600"] *,
+button[class*="bg-sky-700"] *,
+a[class*="bg-sky-700"] *,
+button[class*="bg-sky-600"] *,
+a[class*="bg-sky-600"] * {
+  color: #ffffff !important;
+}
+
+/* === FIN BOTONES OSCUROS === */
 
