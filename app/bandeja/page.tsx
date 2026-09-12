@@ -122,7 +122,7 @@ export default function BandejaPage() {
         <section className="grid gap-4 sm:grid-cols-3">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-950">
               Total
             </p>
 
@@ -132,7 +132,7 @@ export default function BandejaPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-950">
               Procesados
             </p>
 
@@ -146,7 +146,7 @@ export default function BandejaPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-950">
               Requieren revisión
             </p>
 
@@ -202,7 +202,7 @@ export default function BandejaPage() {
                 Información recibida
               </h2>
 
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 Audios, fotos, archivos, textos y mensajes
               </p>
             </div>
@@ -257,21 +257,21 @@ export default function BandejaPage() {
                         </div>
 
                         {item.resumen && (
-                          <p className="mt-3 text-sm leading-6 text-slate-900">
+                          <p className="mt-3 text-sm leading-6 text-slate-950">
                             {item.resumen}
                           </p>
                         )}
 
                         {!item.resumen &&
                           item.contenido_original && (
-                            <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">
+                            <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-950">
                               {
                                 item.contenido_original
                               }
                             </p>
                           )}
 
-                        <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
+                        <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-950">
 
                           <span className="flex items-center gap-1">
                             <Clock3 size={13} />
@@ -303,7 +303,7 @@ export default function BandejaPage() {
             </div>
           ) : (
             <div className="mt-5 flex min-h-48 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 Todavía no hay ingresos.
               </p>
             </div>
@@ -341,11 +341,12 @@ function Estado({
   }
 
   return (
-    <span className="rounded-full border border-slate-400 bg-white px-3 py-1 text-xs text-slate-600">
+    <span className="rounded-full border border-slate-400 bg-white px-3 py-1 text-xs text-slate-950">
       Pendiente
     </span>
   );
 }
+
 
 
 

@@ -98,7 +98,7 @@ export default function AgendaPage() {
                 Eventos
               </h2>
 
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 {eventos.length} cargados
               </p>
             </div>
@@ -128,7 +128,7 @@ export default function AgendaPage() {
                         {evento.nombre}
                       </h3>
 
-                      <p className="mt-2 text-sm text-slate-900">
+                      <p className="mt-2 text-sm text-slate-950">
                         {fecha(evento.fecha)}
                         {evento.hora
                           ? ` · ${evento.hora.slice(0, 5)}`
@@ -136,14 +136,14 @@ export default function AgendaPage() {
                       </p>
 
                       {evento.lugar && (
-                        <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                        <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
                           <MapPin size={15} />
                           {evento.lugar}
                         </div>
                       )}
 
                       {evento.dependencia?.nombre && (
-                        <div className="mt-1 flex items-center gap-2 text-sm text-slate-600">
+                        <div className="mt-1 flex items-center gap-2 text-sm text-slate-950">
                           <Building2 size={15} />
                           {evento.dependencia.nombre}
                         </div>
@@ -151,7 +151,7 @@ export default function AgendaPage() {
 
                     </div>
 
-                    <span className="w-fit rounded-full border border-slate-400 bg-white px-3 py-1 text-xs text-slate-600">
+                    <span className="w-fit rounded-full border border-slate-400 bg-white px-3 py-1 text-xs text-slate-950">
                       {evento.estado || "pendiente"}
                     </span>
 
@@ -170,5 +170,6 @@ export default function AgendaPage() {
     </AppShell>
   );
 }
+
 
 

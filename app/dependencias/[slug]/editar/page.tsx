@@ -201,7 +201,7 @@ export default function EditarDependenciaPage() {
 
           <a
             href={`/dependencias/${slug}`}
-            className="flex items-center gap-2 text-sm text-slate-600"
+            className="flex items-center gap-2 text-sm text-slate-950"
           >
             <ArrowLeft size={17} />
             Volver
@@ -249,7 +249,7 @@ export default function EditarDependenciaPage() {
                 Editar dependencia
               </h1>
 
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 Información institucional
               </p>
             </div>
@@ -368,7 +368,7 @@ export default function EditarDependenciaPage() {
                 Dependencia activa
               </p>
 
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-950">
                 Si se desactiva, dejará de aparecer en los listados principales.
               </p>
             </div>
@@ -410,7 +410,7 @@ function Campo({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-900">
+      <label className="mb-1 block text-sm font-medium text-slate-950">
         {titulo}
       </label>
 
@@ -419,4 +419,5 @@ function Campo({
     </div>
   );
 }
+
 

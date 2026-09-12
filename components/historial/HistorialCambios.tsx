@@ -117,7 +117,7 @@ export default function HistorialCambios({
             Historial de cambios
           </h2>
 
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-950">
             Últimas modificaciones registradas
           </p>
         </div>
@@ -146,7 +146,7 @@ export default function HistorialCambios({
                   {nombres[cambio.campo] || cambio.campo}
                 </p>
 
-                <p className="text-xs text-slate-600">
+                <p className="text-xs text-slate-950">
                   {fecha(cambio.created_at)}
                 </p>
 
@@ -154,7 +154,7 @@ export default function HistorialCambios({
 
               <div className="mt-3 flex flex-col gap-2 text-sm md:flex-row md:items-center">
 
-                <div className="rounded-lg border border-slate-400 bg-white px-3 py-2 text-slate-600">
+                <div className="rounded-lg border border-slate-400 bg-white px-3 py-2 text-slate-950">
                   {valorTexto(
                     cambio.valor_anterior
                   )}
@@ -162,10 +162,10 @@ export default function HistorialCambios({
 
                 <ArrowRight
                   size={16}
-                  className="shrink-0 text-slate-600"
+                  className="shrink-0 text-slate-950"
                 />
 
-                <div className="rounded-lg border border-sky-200 bg-sky-100 px-3 py-2 text-slate-900">
+                <div className="rounded-lg border border-sky-200 bg-sky-100 px-3 py-2 text-slate-950">
                   {valorTexto(
                     cambio.valor_nuevo
                   )}
@@ -179,7 +179,7 @@ export default function HistorialCambios({
         </div>
       ) : (
         <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-7 text-center">
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-950">
             Todavía no hay modificaciones registradas.
           </p>
         </div>
@@ -188,4 +188,5 @@ export default function HistorialCambios({
     </section>
   );
 }
+
 

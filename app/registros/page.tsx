@@ -135,7 +135,7 @@ export default function RegistrosPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-950">
               Total de registros
             </p>
 
@@ -145,7 +145,7 @@ export default function RegistrosPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-950">
               Resultados visibles
             </p>
 
@@ -164,7 +164,7 @@ export default function RegistrosPage() {
 
               <Search
                 size={18}
-                className="text-slate-600"
+                className="text-slate-950"
               />
 
               <input
@@ -241,7 +241,7 @@ export default function RegistrosPage() {
 
                         </div>
 
-                        <div className="flex items-center gap-1 text-xs text-slate-600">
+                        <div className="flex items-center gap-1 text-xs text-slate-950">
                           <Clock3 size={13} />
                           {fecha(
                             registro.created_at
@@ -251,7 +251,7 @@ export default function RegistrosPage() {
                       </div>
 
                       {registro.contenido && (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-900">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-950">
                           {registro.contenido}
                         </p>
                       )}
@@ -264,7 +264,7 @@ export default function RegistrosPage() {
                             .replace(/[\u0300-\u036f]/g, "")
                             .replace(/[^a-z0-9]+/g, "-")
                             .replace(/^-|-$/g, "")}`}
-                          className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-600 hover:text-sky-700"
+                          className="mt-4 inline-flex items-center gap-2 text-xs font-medium text-slate-950 hover:text-sky-700"
                         >
                           <Building2 size={14} />
                           {
@@ -285,10 +285,10 @@ export default function RegistrosPage() {
           ) : (
             <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center">
               <FileText
-                className="mx-auto text-slate-600"
+                className="mx-auto text-slate-950"
               />
 
-              <p className="mt-3 text-sm text-slate-600">
+              <p className="mt-3 text-sm text-slate-950">
                 No se encontraron registros.
               </p>
             </div>
@@ -301,5 +301,6 @@ export default function RegistrosPage() {
     </AppShell>
   );
 }
+
 
 

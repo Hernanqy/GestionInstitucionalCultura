@@ -293,7 +293,7 @@ export default function RevisionPage() {
                 Acciones que requieren confirmación
               </h2>
 
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 Solo aparecen interpretaciones que no conviene aplicar automáticamente.
               </p>
 
@@ -343,12 +343,12 @@ export default function RevisionPage() {
                     </h2>
 
                     {accion.resumen && (
-                      <p className="mt-2 text-sm leading-6 text-slate-900">
+                      <p className="mt-2 text-sm leading-6 text-slate-950">
                         {accion.resumen}
                       </p>
                     )}
 
-                    <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-600">
+                    <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-950">
 
                       <span>
                         Acción: {accion.tipo_accion}
@@ -380,7 +380,7 @@ export default function RevisionPage() {
                       </a>
                     )}
 
-                    <div className="mt-3 flex items-center gap-1 text-xs text-slate-600">
+                    <div className="mt-3 flex items-center gap-1 text-xs text-slate-950">
                       <Clock3 size={13} />
                       {fecha(accion.created_at)}
                     </div>
@@ -444,7 +444,7 @@ export default function RevisionPage() {
               No hay revisiones pendientes
             </h2>
 
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm text-slate-950">
               Todo está al día.
             </p>
 
@@ -456,4 +456,5 @@ export default function RevisionPage() {
     </AppShell>
   );
 }
+
 

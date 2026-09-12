@@ -85,7 +85,7 @@ export default function AppShell({
                 Hernán
               </p>
 
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-950">
                 Gestión
               </p>
             </div>
@@ -94,7 +94,7 @@ export default function AppShell({
 
           <a
             href="/configuracion"
-            className="flex items-center gap-2 text-sm text-slate-600 hover:text-white"
+            className="flex items-center gap-2 text-sm text-slate-950 hover:text-white"
           >
             <Settings size={17} />
             Configuración
@@ -112,7 +112,7 @@ export default function AppShell({
 
         <a
           href="/"
-          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-600"
+          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-950"
         >
           <Home size={19} />
           Inicio
@@ -120,7 +120,7 @@ export default function AppShell({
 
         <a
           href="/buscar"
-          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-600"
+          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-950"
         >
           <Search size={19} />
           Buscar
@@ -128,7 +128,7 @@ export default function AppShell({
 
         <a
           href="/agenda"
-          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-600"
+          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-950"
         >
           <CalendarDays size={19} />
           Agenda
@@ -136,7 +136,7 @@ export default function AppShell({
 
         <a
           href="/dependencias"
-          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-600"
+          className="flex flex-col items-center gap-1 py-3 text-xs text-slate-950"
         >
           <Building2 size={19} />
           Espacios
@@ -147,6 +147,7 @@ export default function AppShell({
     </div>
   );
 }
+
 
 
 

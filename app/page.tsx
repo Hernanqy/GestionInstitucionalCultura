@@ -12,17 +12,87 @@ import {
   Inbox,
   FolderOpen,
   MapPin,
-  Clock3,
 } from "lucide-react";
 
+import { useEffect, useState } from "react";
 import AppShell from "@/components/layout/AppShell";
+import { createClient } from "@/lib/supabase/client";
+
+type Evento = {
+  id: string;
+  nombre: string;
+  fecha: string | null;
+  lugar: string | null;
+};
 
 export default function HomePage() {
+  const supabase = createClient();
+
+  const [personal, setPersonal] = useState(0);
+  const [dependencias, setDependencias] = useState(0);
+  const [pendientes, setPendientes] = useState(0);
+  const [eventos, setEventos] = useState(0);
+  const [proximoEvento, setProximoEvento] = useState<Evento | null>(null);
+
+  useEffect(() => {
+    async function cargar() {
+      const hoy = new Date().toISOString().split("T")[0];
+
+      const [
+        personalResp,
+        dependenciasResp,
+        pendientesResp,
+        eventosResp,
+        proximoResp,
+      ] = await Promise.all([
+        supabase
+          .from("personas")
+          .select("*", { count: "exact", head: true })
+          .eq("activo", true),
+
+        supabase
+          .from("dependencias")
+          .select("*", { count: "exact", head: true })
+          .eq("activa", true),
+
+        supabase
+          .from("pendientes")
+          .select("*", { count: "exact", head: true })
+          .eq("completado", false),
+
+        supabase
+          .from("eventos")
+          .select("*", { count: "exact", head: true })
+          .gte("fecha", hoy),
+
+        supabase
+          .from("eventos")
+          .select("id,nombre,fecha,lugar")
+          .gte("fecha", hoy)
+          .order("fecha", { ascending: true })
+          .limit(1)
+          .maybeSingle(),
+      ]);
+
+      setPersonal(personalResp.count || 0);
+      setDependencias(dependenciasResp.count || 0);
+      setPendientes(pendientesResp.count || 0);
+      setEventos(eventosResp.count || 0);
+
+      if (proximoResp.data) {
+        setProximoEvento(proximoResp.data);
+      }
+    }
+
+    cargar();
+  }, []);
+
   return (
     <AppShell activo="Inicio">
 
       <header className="border-b border-slate-300 bg-white">
         <div className="flex items-center justify-between px-6 py-4 md:px-8">
+
           <h1 className="text-xl font-bold text-slate-950">
             Inicio
           </h1>
@@ -34,6 +104,7 @@ export default function HomePage() {
             <Plus size={18} />
             Registrar
           </a>
+
         </div>
       </header>
 
@@ -41,70 +112,68 @@ export default function HomePage() {
 
         <div className="mx-auto max-w-[1500px]">
 
-          {/* BUSCADOR */}
           <section className="rounded-2xl border border-slate-400 bg-white p-3 shadow-sm">
             <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
-              <Search size={19} className="text-slate-700" />
+              <Search size={19} className="text-slate-950" />
 
               <input
                 type="text"
                 placeholder="Buscar personas, dependencias, eventos o registros..."
-                className="w-full bg-transparent text-sm font-medium text-slate-950 outline-none placeholder:text-slate-600"
+                className="w-full bg-transparent text-sm font-medium text-slate-950 outline-none placeholder:text-slate-950"
               />
 
-              <ChevronRight size={19} className="text-slate-700" />
+              <ChevronRight size={19} className="text-slate-950" />
 
             </div>
           </section>
 
-          {/* RESUMEN */}
           <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
             <TarjetaResumen
               titulo="Personal"
-              valor="282"
+              valor={personal}
               href="/personal"
               icono={Users}
             />
 
             <TarjetaResumen
               titulo="Dependencias"
-              valor="33"
+              valor={dependencias}
               href="/dependencias"
               icono={Building2}
             />
 
             <TarjetaResumen
               titulo="Pendientes activos"
-              valor="1"
+              valor={pendientes}
               href="/pendientes"
               icono={ClipboardList}
               naranja
             />
 
             <TarjetaResumen
-              titulo="Eventos"
-              valor="9"
+              titulo="Eventos próximos"
+              valor={eventos}
               href="/agenda"
               icono={CalendarDays}
             />
 
           </section>
 
-          {/* SEGUNDA FILA */}
           <section className="mt-5 grid gap-4 xl:grid-cols-3">
 
-            {/* EVENTO */}
             <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
+
                   <CalendarDays size={19} className="text-sky-700" />
 
                   <h2 className="font-bold text-slate-950">
                     Próximo evento
                   </h2>
+
                 </div>
 
                 <a
@@ -115,37 +184,54 @@ export default function HomePage() {
                 </a>
               </div>
 
-              <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
+              {proximoEvento ? (
+                <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
-                <h3 className="font-bold text-slate-950">
-                  Fiesta de Reyes
-                </h3>
+                  <h3 className="font-bold text-slate-950">
+                    {proximoEvento.nombre}
+                  </h3>
 
-                <div className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-800">
-                  <CalendarDays size={15} />
-                  05/01/2026
+                  {proximoEvento.fecha && (
+                    <div className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-950">
+                      <CalendarDays size={15} />
+                      {new Date(
+                        `${proximoEvento.fecha}T12:00:00`
+                      ).toLocaleDateString("es-AR")}
+                    </div>
+                  )}
+
+                  {proximoEvento.lugar && (
+                    <div className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-950">
+                      <MapPin size={15} />
+                      {proximoEvento.lugar}
+                    </div>
+                  )}
+
                 </div>
+              ) : (
+                <div className="mt-4 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
 
-                <div className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-800">
-                  <MapPin size={15} />
-                  Predio
+                  <p className="text-sm font-medium text-slate-950">
+                    No hay eventos futuros cargados.
+                  </p>
+
                 </div>
-
-              </div>
+              )}
 
             </div>
 
-            {/* REGISTROS */}
             <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
               <div className="flex items-center justify-between">
 
                 <div className="flex items-center gap-2">
+
                   <FileText size={19} className="text-sky-700" />
 
                   <h2 className="font-bold text-slate-950">
                     Registros recientes
                   </h2>
+
                 </div>
 
                 <a
@@ -157,36 +243,28 @@ export default function HomePage() {
 
               </div>
 
-              <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
+              <div className="mt-4 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
 
-                <p className="text-xs font-bold uppercase text-sky-700">
-                  Reunión
+                <p className="text-sm font-medium text-slate-950">
+                  No hay registros cargados.
                 </p>
-
-                <p className="mt-2 font-semibold text-slate-950">
-                  Reunión con equipo del Centro Cultural
-                </p>
-
-                <div className="mt-2 flex items-center gap-2 text-xs font-medium text-slate-700">
-                  <Clock3 size={14} />
-                  12/09/2026 · 05:58 p. m.
-                </div>
 
               </div>
 
             </div>
 
-            {/* BANDEJA */}
             <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
 
               <div className="flex items-center justify-between">
 
                 <div className="flex items-center gap-2">
+
                   <Inbox size={19} className="text-sky-700" />
 
                   <h2 className="font-bold text-slate-950">
                     Bandeja
                   </h2>
+
                 </div>
 
                 <a
@@ -199,16 +277,17 @@ export default function HomePage() {
               </div>
 
               <div className="flex min-h-32 items-center justify-center">
-                <p className="text-sm font-medium text-slate-700">
+
+                <p className="text-sm font-medium text-slate-950">
                   Todavía no hay ingresos.
                 </p>
+
               </div>
 
             </div>
 
           </section>
 
-          {/* ACCESOS */}
           <section className="mt-5 grid gap-4 md:grid-cols-3">
 
             <Acceso
@@ -235,7 +314,6 @@ export default function HomePage() {
           </section>
 
         </div>
-
       </main>
 
     </AppShell>
@@ -250,7 +328,7 @@ function TarjetaResumen({
   naranja = false,
 }: {
   titulo: string;
-  valor: string;
+  valor: number;
   href: string;
   icono: React.ElementType;
   naranja?: boolean;
@@ -260,6 +338,7 @@ function TarjetaResumen({
       href={href}
       className="group rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
     >
+
       <div className="flex items-start justify-between">
 
         <div
@@ -274,18 +353,19 @@ function TarjetaResumen({
 
         <ChevronRight
           size={19}
-          className="text-slate-600 transition group-hover:text-slate-950"
+          className="text-slate-950 transition group-hover:text-slate-950"
         />
 
       </div>
 
-      <p className="mt-4 text-sm font-semibold text-slate-800">
+      <p className="mt-4 text-sm font-semibold text-slate-950">
         {titulo}
       </p>
 
       <p className="mt-1 text-3xl font-bold text-slate-950">
         {valor}
       </p>
+
     </a>
   );
 }
@@ -306,21 +386,26 @@ function Acceso({
       href={href}
       className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:shadow-md"
     >
+
       <div className="flex items-center justify-between">
 
         <div>
+
           <h3 className="font-bold text-slate-950">
             {titulo}
           </h3>
 
-          <p className="mt-1 text-sm font-medium text-slate-700">
+          <p className="mt-1 text-sm font-medium text-slate-950">
             {texto}
           </p>
+
         </div>
 
         <Icon size={20} className="text-sky-700" />
 
       </div>
+
     </a>
   );
 }
+

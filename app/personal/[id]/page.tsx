@@ -318,7 +318,7 @@ export default function PersonaDetallePage() {
 
           <a
             href="/personal"
-            className="inline-flex items-center gap-2 text-sm text-slate-600"
+            className="inline-flex items-center gap-2 text-sm text-slate-950"
           >
             <ArrowLeft size={17} />
             Personal
@@ -327,7 +327,7 @@ export default function PersonaDetallePage() {
           {!editando ? (
             <button
               onClick={() => setEditando(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-900"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-950"
             >
               <Pencil size={17} />
               Editar
@@ -346,7 +346,7 @@ export default function PersonaDetallePage() {
               <button
                 onClick={guardarCambios}
                 disabled={guardando}
-                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-900 disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-950 disabled:opacity-50"
               >
                 {guardando ? (
                   <Loader2
@@ -391,12 +391,12 @@ export default function PersonaDetallePage() {
                   {nombreCompleto}
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-600">
+                <p className="mt-1 text-sm text-slate-950">
                   {persona.cargo || "Sin cargo"}
                 </p>
 
                 {persona.dependencia && (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-600">
+                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
                     <Building2 size={15} />
                     {persona.dependencia.nombre}
                   </div>
@@ -408,7 +408,7 @@ export default function PersonaDetallePage() {
 
             <div className="rounded-xl border border-slate-400 bg-slate-100 px-5 py-3">
 
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-slate-950">
                 Legajo
               </p>
 
@@ -722,7 +722,7 @@ export default function PersonaDetallePage() {
                   Observaciones
                 </h2>
 
-                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-900">
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-950">
                   {persona.observaciones}
                 </p>
 
@@ -749,7 +749,7 @@ export default function PersonaDetallePage() {
                 Registros relacionados
               </h2>
 
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-slate-950">
                 {registros.length} registros
               </p>
             </div>
@@ -775,12 +775,12 @@ export default function PersonaDetallePage() {
                   </h3>
 
                   {registro.contenido && (
-                    <p className="mt-2 text-sm text-slate-900">
+                    <p className="mt-2 text-sm text-slate-950">
                       {registro.contenido}
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-slate-600">
+                  <p className="mt-2 text-xs text-slate-950">
                     {fechaHora(registro.created_at)}
                   </p>
 
@@ -789,7 +789,7 @@ export default function PersonaDetallePage() {
 
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-slate-600">
+            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-slate-950">
               No hay registros relacionados.
             </div>
           )}
@@ -829,7 +829,7 @@ function CampoEdicion({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-900">
+      <label className="mb-1 block text-sm font-medium text-slate-950">
         {titulo}
       </label>
 
@@ -933,11 +933,11 @@ function Dato({
   return (
     <div>
 
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
         {titulo}
       </p>
 
-      <p className="mt-1 text-sm text-slate-900">
+      <p className="mt-1 text-sm text-slate-950">
         {valor}
       </p>
 
@@ -961,16 +961,16 @@ function DatoIcono({
 
       <Icon
         size={16}
-        className="mt-0.5 text-slate-600"
+        className="mt-0.5 text-slate-950"
       />
 
       <div>
 
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-600">
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
           {titulo}
         </p>
 
-        <p className="mt-1 text-sm text-slate-900">
+        <p className="mt-1 text-sm text-slate-950">
           {valor}
         </p>
 
@@ -979,6 +979,7 @@ function DatoIcono({
     </div>
   );
 }
+
 
 
 
