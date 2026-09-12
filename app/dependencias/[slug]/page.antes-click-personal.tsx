@@ -316,40 +316,36 @@ export default function DependenciaDetallePage() {
                 <a
                   key={persona.id}
                   href={`/personal/${persona.id}`}
-                  className="relative z-10 block cursor-pointer rounded-xl border border-slate-900 bg-slate-100 p-4 text-slate-950 transition hover:-translate-y-0.5 hover:bg-sky-50 hover:shadow-md"
-                  title={`Abrir ficha de ${persona.nombre}`}
+                  className="block rounded-xl border border-slate-900 bg-slate-100 p-4 transition hover:bg-cyan-50 hover:shadow-md"
                 >
                   <div className="flex items-start gap-3">
 
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-slate-950">
-                      <UserRound size={20} />
-                    </div>
+                    <UserRound
+                      size={22}
+                      className="mt-1 shrink-0 text-slate-950"
+                    />
 
-                    <div className="min-w-0 flex-1">
+                    <div>
 
                       <h3 className="font-bold text-slate-950">
                         {persona.nombre}
-                        {persona.apellido ? ` ${persona.apellido}` : ""}
+                        {persona.apellido
+                          ? ` ${persona.apellido}`
+                          : ""}
                       </h3>
 
                       {persona.cargo && (
                         <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
                           <BriefcaseBusiness size={15} />
-                          <span>{persona.cargo}</span>
+                          {persona.cargo}
                         </div>
                       )}
 
                       {persona.horas && (
                         <div className="mt-1 flex items-center gap-2 text-sm text-slate-950">
                           <Clock3 size={15} />
-                          <span>{persona.horas}</span>
+                          {persona.horas}
                         </div>
-                      )}
-
-                      {persona.tipo_contratacion && (
-                        <p className="mt-2 text-xs font-semibold uppercase text-slate-950">
-                          {persona.tipo_contratacion}
-                        </p>
                       )}
 
                       {persona.legajo && (
@@ -358,10 +354,6 @@ export default function DependenciaDetallePage() {
                         </p>
                       )}
 
-                    </div>
-
-                    <div className="shrink-0 text-xl font-bold text-sky-700">
-                      ›
                     </div>
 
                   </div>
@@ -433,4 +425,3 @@ function Seccion({
     </section>
   );
 }
-
