@@ -20,6 +20,8 @@ const menu = [
   { nombre: "Buscar", href: "/buscar", icono: Search },
   { nombre: "Registrar", href: "/registrar", icono: Plus },
   { nombre: "Bandeja", href: "/bandeja", icono: FileText },
+  { nombre: "Actividad", href: "/actividad", icono: FileText },
+  { nombre: "Revisión", href: "/revision", icono: ClipboardList },
   { nombre: "Agenda", href: "/agenda", icono: CalendarDays },
   { nombre: "Pendientes", href: "/pendientes", icono: ClipboardList },
   { nombre: "Dependencias", href: "/dependencias", icono: Building2 },
@@ -145,4 +147,6 @@ export default function AppShell({
     </div>
   );
 }
+
+
 

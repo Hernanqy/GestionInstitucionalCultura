@@ -237,7 +237,7 @@ export default function HomePage() {
         <div className="flex flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
 
           <div>
-            <h1 className="text-xl font-semibold">
+            <h1 className="text-xl font-semibold text-slate-900">
               Inicio
             </h1>
           </div>
@@ -254,9 +254,9 @@ export default function HomePage() {
 
       </header>
 
-      <div className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
+      <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8 md:py-6">
 
-        <section className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm">
+        <section className="rounded-2xl border border-slate-400 bg-white p-3 shadow-sm">
 
           <a
             href="/buscar"
@@ -281,11 +281,11 @@ export default function HomePage() {
 
         </section>
 
-        <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section className="mt-5 grid grid-cols-2 gap-3 xl:grid-cols-4">
 
           <a
             href="/personal"
-            className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
 
             <div className="flex items-center justify-between">
@@ -305,7 +305,7 @@ export default function HomePage() {
               Personal
             </p>
 
-            <p className="mt-1 text-3xl font-semibold">
+            <p className="mt-1 text-2xl font-semibold sm:text-3xl">
               {totales.personal}
             </p>
 
@@ -313,7 +313,7 @@ export default function HomePage() {
 
           <a
             href="/dependencias"
-            className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
 
             <div className="flex items-center justify-between">
@@ -333,7 +333,7 @@ export default function HomePage() {
               Dependencias
             </p>
 
-            <p className="mt-1 text-3xl font-semibold">
+            <p className="mt-1 text-2xl font-semibold sm:text-3xl">
               {totales.dependencias}
             </p>
 
@@ -341,7 +341,7 @@ export default function HomePage() {
 
           <a
             href="/pendientes"
-            className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
 
             <div className="flex items-center justify-between">
@@ -361,7 +361,7 @@ export default function HomePage() {
               Pendientes activos
             </p>
 
-            <p className="mt-1 text-3xl font-semibold">
+            <p className="mt-1 text-2xl font-semibold sm:text-3xl">
               {totales.pendientes}
             </p>
 
@@ -369,7 +369,7 @@ export default function HomePage() {
 
           <a
             href="/agenda"
-            className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+            className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
 
             <div className="flex items-center justify-between">
@@ -389,7 +389,7 @@ export default function HomePage() {
               Eventos
             </p>
 
-            <p className="mt-1 text-3xl font-semibold">
+            <p className="mt-1 text-2xl font-semibold sm:text-3xl">
               {totales.eventos}
             </p>
 
@@ -704,3 +704,4 @@ export default function HomePage() {
     </AppShell>
   );
 }
+
