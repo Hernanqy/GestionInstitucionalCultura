@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -26,7 +26,7 @@ body {
 }
 
 /* =========================================================
-   GESTIÓN INSTITUCIONAL
+   GESTIÃ“N INSTITUCIONAL
    SISTEMA GLOBAL DE CONTRASTE Y LEGIBILIDAD
    ========================================================= */
 
@@ -162,7 +162,7 @@ main label {
 /* ---------------------------------------------------------
    LINKS
    Los enlaces mantienen el azul/celeste cuando existe.
-   Si no tienen color específico quedan oscuros.
+   Si no tienen color especÃ­fico quedan oscuros.
    --------------------------------------------------------- */
 
 main a:not([class*="text-sky"]):not([class*="text-cyan"]):not([class*="text-blue"]):not([class*="text-white"]) {
@@ -207,7 +207,7 @@ a.bg-slate-900 * {
 
 
 /* ---------------------------------------------------------
-   BOTONES / OPCIONES ACTIVAS DEL MENÚ
+   BOTONES / OPCIONES ACTIVAS DEL MENÃš
    --------------------------------------------------------- */
 
 aside .bg-cyan-600,
@@ -263,4 +263,46 @@ a:focus-visible {
   outline: 2px solid #0284c7;
   outline-offset: 2px;
 }
+
+
+/* === BOTONES OSCUROS: CONTRASTE === */
+
+/*
+   Regla UX:
+   fondo oscuro = texto blanco.
+   Esto corrige pestañas activas como "Todos",
+   sin modificar tarjetas, formularios ni textos normales.
+*/
+
+button[class*="bg-slate-900"],
+a[class*="bg-slate-900"],
+button[class*="bg-[#0f2b46]"],
+a[class*="bg-[#0f2b46]"],
+button[class*="bg-cyan-700"],
+a[class*="bg-cyan-700"],
+button[class*="bg-cyan-600"],
+a[class*="bg-cyan-600"],
+button[class*="bg-sky-700"],
+a[class*="bg-sky-700"],
+button[class*="bg-sky-600"],
+a[class*="bg-sky-600"] {
+  color: #ffffff !important;
+}
+
+button[class*="bg-slate-900"] *,
+a[class*="bg-slate-900"] *,
+button[class*="bg-[#0f2b46]"] *,
+a[class*="bg-[#0f2b46]"] *,
+button[class*="bg-cyan-700"] *,
+a[class*="bg-cyan-700"] *,
+button[class*="bg-cyan-600"] *,
+a[class*="bg-cyan-600"] *,
+button[class*="bg-sky-700"] *,
+a[class*="bg-sky-700"] *,
+button[class*="bg-sky-600"] *,
+a[class*="bg-sky-600"] * {
+  color: #ffffff !important;
+}
+
+/* === FIN BOTONES OSCUROS === */
 
