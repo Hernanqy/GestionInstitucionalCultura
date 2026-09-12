@@ -74,7 +74,7 @@ export default function RegistrosPage() {
         });
 
       if (!error) {
-        setRegistros((data || []) as Registro[]);
+        setRegistros((data || []) as unknown as Registro[]);
       }
 
       setCargando(false);
@@ -301,3 +301,4 @@ export default function RegistrosPage() {
     </AppShell>
   );
 }
+

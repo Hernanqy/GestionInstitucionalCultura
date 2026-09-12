@@ -24,6 +24,7 @@ import {
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import HistorialCambios from "@/components/historial/HistorialCambios";
 import DocumentosPanel from "@/components/dependencias/DocumentosPanel";
 
 type Persona = {
@@ -405,6 +406,13 @@ export default function DependenciaDetallePage() {
                 <h1 className="text-2xl font-semibold">
                   {dependencia.nombre}
                 </h1>
+
+<a
+  href={`/dependencias/${slug}/editar`}
+  className="mt-3 inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+>
+  Editar dependencia
+</a>
 
                 <p className="text-sm text-slate-600">
                   {dependencia.area}
@@ -971,5 +979,7 @@ function Tarjeta({
     </div>
   );
 }
+
+
 
 

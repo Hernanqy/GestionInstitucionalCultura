@@ -67,7 +67,7 @@ export default function AgendaPage() {
         });
 
       if (!error) {
-        setEventos((data || []) as Evento[]);
+        setEventos((data || []) as unknown as Evento[]);
       }
 
       setCargando(false);
@@ -170,3 +170,4 @@ export default function AgendaPage() {
     </AppShell>
   );
 }
+

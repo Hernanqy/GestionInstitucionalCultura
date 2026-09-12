@@ -59,7 +59,7 @@ export default function PendientesPage() {
       });
 
     if (!error) {
-      setPendientes((data || []) as Pendiente[]);
+      setPendientes((data || []) as unknown as Pendiente[]);
     }
 
     setCargando(false);
@@ -237,3 +237,4 @@ export default function PendientesPage() {
     </AppShell>
   );
 }
+

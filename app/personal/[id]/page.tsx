@@ -5,21 +5,22 @@ import {
   UserRound,
   Building2,
   BriefcaseBusiness,
-  Clock3,
   Phone,
   Mail,
   MapPin,
-  CalendarDays,
-  FileText,
   ShieldAlert,
   NotebookPen,
   Loader2,
+  Pencil,
+  Save,
+  X,
 } from "lucide-react";
 
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import AppShell from "@/components/layout/AppShell";
+import HistorialCambios from "@/components/historial/HistorialCambios";
 import { createClient } from "@/lib/supabase/client";
 
 type Persona = {
@@ -28,6 +29,7 @@ type Persona = {
   apellido: string | null;
   legajo: string | null;
   fecha_nacimiento: string | null;
+  dependencia_id: string | null;
   area: string | null;
   cargo: string | null;
   funcion: string | null;
@@ -51,6 +53,11 @@ type Persona = {
     id: string;
     nombre: string;
   } | null;
+};
+
+type Dependencia = {
+  id: string;
+  nombre: string;
 };
 
 type Registro = {
@@ -85,12 +92,60 @@ export default function PersonaDetallePage() {
   const supabase = createClient();
 
   const [persona, setPersona] = useState<Persona | null>(null);
+  const [form, setForm] = useState<Persona | null>(null);
+
+  const [dependencias, setDependencias] = useState<Dependencia[]>([]);
   const [registros, setRegistros] = useState<Registro[]>([]);
+
+  const [editando, setEditando] = useState(false);
+  const [guardando, setGuardando] = useState(false);
   const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  async function cargarPersona() {
+    const { data, error } = await supabase
+      .from("personas")
+      .select(`
+        id,
+        nombre,
+        apellido,
+        legajo,
+        fecha_nacimiento,
+        dependencia_id,
+        area,
+        cargo,
+        funcion,
+        tipo_contratacion,
+        categoria,
+        horas,
+        fecha_ingreso,
+        anio_ingreso,
+        telefono,
+        email,
+        direccion,
+        contacto_emergencia,
+        telefono_emergencia,
+        observaciones,
+        tareas_especificas,
+        descripcion_tareas,
+        vencimiento,
+        fuente,
+        dependencia:dependencias(
+          id,
+          nombre
+        )
+      `)
+      .eq("id", id)
+      .single();
+
+    if (!error && data) {
+      setPersona(data as unknown as Persona);
+      setForm(data as unknown as Persona);
+    }
+  }
 
   useEffect(() => {
-    async function cargar() {
+    async function iniciar() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -100,49 +155,17 @@ export default function PersonaDetallePage() {
         return;
       }
 
-      const { data, error } = await supabase
-        .from("personas")
-        .select(`
-          id,
-          nombre,
-          apellido,
-          legajo,
-          fecha_nacimiento,
-          area,
-          cargo,
-          funcion,
-          tipo_contratacion,
-          categoria,
-          horas,
-          fecha_ingreso,
-          anio_ingreso,
-          telefono,
-          email,
-          direccion,
-          contacto_emergencia,
-          telefono_emergencia,
-          observaciones,
-          tareas_especificas,
-          descripcion_tareas,
-          vencimiento,
-          fuente,
-          dependencia:dependencias(
-            id,
-            nombre
-          )
-        `)
-        .eq("id", id)
-        .single();
+      const { data: deps } = await supabase
+        .from("dependencias")
+        .select("id,nombre")
+        .eq("activa", true)
+        .order("nombre");
 
-      if (error || !data) {
-        setError("No se pudo cargar la persona.");
-        setCargando(false);
-        return;
-      }
+      setDependencias(deps || []);
 
-      setPersona(data as Persona);
+      await cargarPersona();
 
-      const { data: registrosData } = await supabase
+      const { data: regs } = await supabase
         .from("registros")
         .select(`
           id,
@@ -156,70 +179,209 @@ export default function PersonaDetallePage() {
           ascending: false,
         });
 
-      setRegistros(registrosData || []);
+      setRegistros(regs || []);
       setCargando(false);
     }
 
-    cargar();
+    iniciar();
   }, [id]);
+
+  function cambiar(
+    campo: keyof Persona,
+    valor: string | null
+  ) {
+    if (!form) return;
+
+    setForm({
+      ...form,
+      [campo]: valor,
+    });
+  }
+
+  async function guardarCambios() {
+    if (!form) return;
+
+    setGuardando(true);
+    setMensaje("");
+
+    const { error } = await supabase
+      .from("personas")
+      .update({
+        dependencia_id:
+          form.dependencia_id || null,
+
+        area:
+          form.area?.trim() || null,
+
+        cargo:
+          form.cargo?.trim() || null,
+
+        funcion:
+          form.funcion?.trim() || null,
+
+        tipo_contratacion:
+          form.tipo_contratacion?.trim() || null,
+
+        categoria:
+          form.categoria?.trim() || null,
+
+        horas:
+          form.horas?.trim() || null,
+
+        telefono:
+          form.telefono?.trim() || null,
+
+        email:
+          form.email?.trim() || null,
+
+        direccion:
+          form.direccion?.trim() || null,
+
+        tareas_especificas:
+          form.tareas_especificas?.trim() || null,
+
+        descripcion_tareas:
+          form.descripcion_tareas?.trim() || null,
+
+        observaciones:
+          form.observaciones?.trim() || null,
+
+        contacto_emergencia:
+          form.contacto_emergencia?.trim() || null,
+
+        telefono_emergencia:
+          form.telefono_emergencia?.trim() || null,
+
+        vencimiento:
+          form.vencimiento || null,
+
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+      setMensaje("No se pudieron guardar los cambios.");
+      setGuardando(false);
+      return;
+    }
+
+    await cargarPersona();
+
+    setEditando(false);
+    setGuardando(false);
+    setMensaje("Cambios guardados correctamente.");
+  }
+
+  function cancelarEdicion() {
+    setForm(persona);
+    setEditando(false);
+    setMensaje("");
+  }
 
   if (cargando) {
     return (
       <AppShell activo="Personal">
         <div className="flex min-h-screen items-center justify-center">
-          <div className="flex items-center gap-3 text-slate-600">
-            <Loader2
-              size={22}
-              className="animate-spin"
-            />
-            Cargando ficha...
-          </div>
+          <Loader2
+            size={24}
+            className="animate-spin"
+          />
         </div>
       </AppShell>
     );
   }
 
-  if (!persona) {
+  if (!persona || !form) {
     return (
       <AppShell activo="Personal">
         <div className="p-8">
-          <div className="rounded-2xl border border-red-300 bg-white p-6">
-            {error}
-          </div>
+          No se encontró la persona.
         </div>
       </AppShell>
     );
   }
 
   const nombreCompleto =
-    `${persona.nombre}${persona.apellido ? ` ${persona.apellido}` : ""}`;
+    `${persona.nombre}${
+      persona.apellido
+        ? ` ${persona.apellido}`
+        : ""
+    }`;
 
   return (
     <AppShell activo="Personal">
 
       <header className="border-b border-slate-300 bg-white">
-        <div className="px-5 py-4 md:px-8">
+
+        <div className="flex items-center justify-between px-5 py-4 md:px-8">
 
           <a
             href="/personal"
-            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+            className="inline-flex items-center gap-2 text-sm text-slate-600"
           >
             <ArrowLeft size={17} />
             Personal
           </a>
 
+          {!editando ? (
+            <button
+              onClick={() => setEditando(true)}
+              className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white"
+            >
+              <Pencil size={17} />
+              Editar
+            </button>
+          ) : (
+            <div className="flex gap-2">
+
+              <button
+                onClick={cancelarEdicion}
+                className="flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm"
+              >
+                <X size={17} />
+                Cancelar
+              </button>
+
+              <button
+                onClick={guardarCambios}
+                disabled={guardando}
+                className="flex items-center gap-2 rounded-xl bg-[#0f2b46] px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+              >
+                {guardando ? (
+                  <Loader2
+                    size={17}
+                    className="animate-spin"
+                  />
+                ) : (
+                  <Save size={17} />
+                )}
+
+                Guardar
+              </button>
+
+            </div>
+          )}
+
         </div>
+
       </header>
 
       <div className="mx-auto max-w-6xl px-5 py-6 md:px-8">
+
+        {mensaje && (
+          <div className="mb-5 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm">
+            {mensaje}
+          </div>
+        )}
 
         <section className="rounded-2xl border border-slate-400 bg-white p-6 shadow-sm">
 
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
 
-            <div className="flex items-start gap-4">
+            <div className="flex gap-4">
 
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700">
                 <UserRound size={30} />
               </div>
 
@@ -229,11 +391,9 @@ export default function PersonaDetallePage() {
                   {nombreCompleto}
                 </h1>
 
-                {persona.cargo && (
-                  <p className="mt-1 text-sm text-slate-600">
-                    {persona.cargo}
-                  </p>
-                )}
+                <p className="mt-1 text-sm text-slate-600">
+                  {persona.cargo || "Sin cargo"}
+                </p>
 
                 {persona.dependencia && (
                   <div className="mt-2 flex items-center gap-2 text-sm text-slate-500">
@@ -262,169 +422,336 @@ export default function PersonaDetallePage() {
 
         </section>
 
-        <section className="mt-5 grid gap-4 lg:grid-cols-2">
+        {editando ? (
+          <section className="mt-5 rounded-2xl border border-cyan-300 bg-white p-6 shadow-sm">
 
-          <Bloque
-            titulo="Información laboral"
-            icono={BriefcaseBusiness}
-          >
+            <h2 className="text-lg font-semibold">
+              Editar información
+            </h2>
 
-            <Campo
-              nombre="Área"
-              valor={persona.area}
-            />
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
 
-            <Campo
-              nombre="Cargo"
-              valor={persona.cargo}
-            />
+              <CampoEdicion
+                titulo="Dependencia"
+              >
+                <select
+                  value={form.dependencia_id || ""}
+                  onChange={(e) =>
+                    cambiar(
+                      "dependencia_id",
+                      e.target.value
+                    )
+                  }
+                  className="campo"
+                >
+                  <option value="">
+                    Sin dependencia
+                  </option>
 
-            <Campo
-              nombre="Función"
-              valor={persona.funcion}
-            />
+                  {dependencias.map((item) => (
+                    <option
+                      key={item.id}
+                      value={item.id}
+                    >
+                      {item.nombre}
+                    </option>
+                  ))}
+                </select>
+              </CampoEdicion>
 
-            <Campo
-              nombre="Contratación"
-              valor={persona.tipo_contratacion}
-            />
-
-            <Campo
-              nombre="Categoría"
-              valor={persona.categoria}
-            />
-
-            <Campo
-              nombre="Horas"
-              valor={persona.horas}
-            />
-
-            <Campo
-              nombre="Año de ingreso"
-              valor={
-                persona.anio_ingreso
-                  ? String(persona.anio_ingreso)
-                  : fecha(persona.fecha_ingreso)
-              }
-            />
-
-            <Campo
-              nombre="Vencimiento"
-              valor={fecha(persona.vencimiento)}
-            />
-
-          </Bloque>
-
-          <Bloque
-            titulo="Datos personales"
-            icono={UserRound}
-          >
-
-            <Campo
-              nombre="Fecha de nacimiento"
-              valor={fecha(persona.fecha_nacimiento)}
-            />
-
-            <CampoIcono
-              icono={Phone}
-              nombre="Teléfono"
-              valor={persona.telefono}
-            />
-
-            <CampoIcono
-              icono={Mail}
-              nombre="Email"
-              valor={persona.email}
-            />
-
-            <CampoIcono
-              icono={MapPin}
-              nombre="Dirección"
-              valor={persona.direccion}
-            />
-
-          </Bloque>
-
-          <Bloque
-            titulo="Tareas"
-            icono={Clock3}
-          >
-
-            <Campo
-              nombre="Tareas específicas"
-              valor={persona.tareas_especificas}
-            />
-
-            <Campo
-              nombre="Descripción"
-              valor={persona.descripcion_tareas}
-            />
-
-          </Bloque>
-
-          <Bloque
-            titulo="Emergencia"
-            icono={ShieldAlert}
-          >
-
-            <Campo
-              nombre="Contacto"
-              valor={persona.contacto_emergencia}
-            />
-
-            <Campo
-              nombre="Teléfono"
-              valor={persona.telefono_emergencia}
-            />
-
-          </Bloque>
-
-        </section>
-
-        {persona.observaciones && (
-          <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-
-            <div className="flex items-center gap-3">
-
-              <FileText
-                size={20}
-                className="text-cyan-700"
+              <Entrada
+                titulo="Área"
+                valor={form.area}
+                cambio={(v) => cambiar("area", v)}
               />
 
-              <h2 className="font-semibold">
-                Observaciones
-              </h2>
+              <Entrada
+                titulo="Cargo"
+                valor={form.cargo}
+                cambio={(v) => cambiar("cargo", v)}
+              />
+
+              <Entrada
+                titulo="Función"
+                valor={form.funcion}
+                cambio={(v) => cambiar("funcion", v)}
+              />
+
+              <Entrada
+                titulo="Contratación"
+                valor={form.tipo_contratacion}
+                cambio={(v) =>
+                  cambiar("tipo_contratacion", v)
+                }
+              />
+
+              <Entrada
+                titulo="Categoría"
+                valor={form.categoria}
+                cambio={(v) =>
+                  cambiar("categoria", v)
+                }
+              />
+
+              <Entrada
+                titulo="Horas"
+                valor={form.horas}
+                cambio={(v) => cambiar("horas", v)}
+              />
+
+              <Entrada
+                titulo="Teléfono"
+                valor={form.telefono}
+                cambio={(v) => cambiar("telefono", v)}
+              />
+
+              <Entrada
+                titulo="Email"
+                valor={form.email}
+                cambio={(v) => cambiar("email", v)}
+              />
+
+              <Entrada
+                titulo="Dirección"
+                valor={form.direccion}
+                cambio={(v) => cambiar("direccion", v)}
+              />
+
+              <CampoEdicion titulo="Vencimiento">
+                <input
+                  type="date"
+                  value={form.vencimiento || ""}
+                  onChange={(e) =>
+                    cambiar(
+                      "vencimiento",
+                      e.target.value
+                    )
+                  }
+                  className="campo"
+                />
+              </CampoEdicion>
+
+              <Entrada
+                titulo="Contacto de emergencia"
+                valor={form.contacto_emergencia}
+                cambio={(v) =>
+                  cambiar(
+                    "contacto_emergencia",
+                    v
+                  )
+                }
+              />
+
+              <Entrada
+                titulo="Teléfono emergencia"
+                valor={form.telefono_emergencia}
+                cambio={(v) =>
+                  cambiar(
+                    "telefono_emergencia",
+                    v
+                  )
+                }
+              />
 
             </div>
 
-            <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-slate-700">
-              {persona.observaciones}
-            </p>
+            <div className="mt-4 grid gap-4">
 
-          </section>
-        )}
-
-        <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-
-          <div className="flex items-center justify-between">
-
-            <div className="flex items-center gap-3">
-
-              <NotebookPen
-                size={20}
-                className="text-cyan-700"
+              <AreaTexto
+                titulo="Tareas específicas"
+                valor={form.tareas_especificas}
+                cambio={(v) =>
+                  cambiar(
+                    "tareas_especificas",
+                    v
+                  )
+                }
               />
 
-              <div>
+              <AreaTexto
+                titulo="Descripción de tareas"
+                valor={form.descripcion_tareas}
+                cambio={(v) =>
+                  cambiar(
+                    "descripcion_tareas",
+                    v
+                  )
+                }
+              />
+
+              <AreaTexto
+                titulo="Observaciones"
+                valor={form.observaciones}
+                cambio={(v) =>
+                  cambiar("observaciones", v)
+                }
+              />
+
+            </div>
+
+          </section>
+        ) : (
+          <>
+            <section className="mt-5 grid gap-4 lg:grid-cols-2">
+
+              <Bloque
+                titulo="Información laboral"
+                icono={BriefcaseBusiness}
+              >
+                <Dato
+                  titulo="Área"
+                  valor={persona.area}
+                />
+
+                <Dato
+                  titulo="Cargo"
+                  valor={persona.cargo}
+                />
+
+                <Dato
+                  titulo="Función"
+                  valor={persona.funcion}
+                />
+
+                <Dato
+                  titulo="Contratación"
+                  valor={persona.tipo_contratacion}
+                />
+
+                <Dato
+                  titulo="Categoría"
+                  valor={persona.categoria}
+                />
+
+                <Dato
+                  titulo="Horas"
+                  valor={persona.horas}
+                />
+
+                <Dato
+                  titulo="Ingreso"
+                  valor={
+                    persona.anio_ingreso
+                      ? String(persona.anio_ingreso)
+                      : fecha(persona.fecha_ingreso)
+                  }
+                />
+
+                <Dato
+                  titulo="Vencimiento"
+                  valor={fecha(persona.vencimiento)}
+                />
+              </Bloque>
+
+              <Bloque
+                titulo="Contacto"
+                icono={Phone}
+              >
+
+                <DatoIcono
+                  icono={Phone}
+                  titulo="Teléfono"
+                  valor={persona.telefono}
+                />
+
+                <DatoIcono
+                  icono={Mail}
+                  titulo="Email"
+                  valor={persona.email}
+                />
+
+                <DatoIcono
+                  icono={MapPin}
+                  titulo="Dirección"
+                  valor={persona.direccion}
+                />
+
+                <Dato
+                  titulo="Nacimiento"
+                  valor={fecha(
+                    persona.fecha_nacimiento
+                  )}
+                />
+
+              </Bloque>
+
+              <Bloque
+                titulo="Tareas"
+                icono={BriefcaseBusiness}
+              >
+
+                <Dato
+                  titulo="Tareas específicas"
+                  valor={persona.tareas_especificas}
+                />
+
+                <Dato
+                  titulo="Descripción"
+                  valor={persona.descripcion_tareas}
+                />
+
+              </Bloque>
+
+              <Bloque
+                titulo="Emergencia"
+                icono={ShieldAlert}
+              >
+
+                <Dato
+                  titulo="Contacto"
+                  valor={
+                    persona.contacto_emergencia
+                  }
+                />
+
+                <Dato
+                  titulo="Teléfono"
+                  valor={
+                    persona.telefono_emergencia
+                  }
+                />
+
+              </Bloque>
+
+            </section>
+
+            {persona.observaciones && (
+              <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
+
                 <h2 className="font-semibold">
-                  Registros relacionados
+                  Observaciones
                 </h2>
 
-                <p className="text-sm text-slate-500">
-                  {registros.length} registros
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-700">
+                  {persona.observaciones}
                 </p>
-              </div>
 
+              </section>
+            )}
+          </>
+        )}
+
+        <HistorialCambios
+          entidad="personas"
+          entidadId={persona.id}
+        />
+        <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
+
+          <div className="flex items-center gap-3">
+
+            <NotebookPen
+              size={20}
+              className="text-cyan-700"
+            />
+
+            <div>
+              <h2 className="font-semibold">
+                Registros relacionados
+              </h2>
+
+              <p className="text-sm text-slate-500">
+                {registros.length} registros
+              </p>
             </div>
 
           </div>
@@ -438,57 +765,126 @@ export default function PersonaDetallePage() {
                   className="rounded-xl border border-slate-300 bg-slate-50 p-4"
                 >
 
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <p className="text-xs font-semibold uppercase text-cyan-700">
+                    {registro.tipo || "Registro"}
+                  </p>
 
-                    <div>
-
-                      <p className="text-xs font-semibold uppercase text-cyan-700">
-                        {registro.tipo || "Registro"}
-                      </p>
-
-                      <h3 className="mt-1 font-semibold">
-                        {registro.titulo || "Sin título"}
-                      </h3>
-
-                    </div>
-
-                    <span className="text-xs text-slate-400">
-                      {fechaHora(registro.created_at)}
-                    </span>
-
-                  </div>
+                  <h3 className="mt-1 font-semibold">
+                    {registro.titulo ||
+                      "Sin título"}
+                  </h3>
 
                   {registro.contenido && (
-                    <p className="mt-3 text-sm leading-6 text-slate-700">
+                    <p className="mt-2 text-sm text-slate-700">
                       {registro.contenido}
                     </p>
                   )}
+
+                  <p className="mt-2 text-xs text-slate-400">
+                    {fechaHora(registro.created_at)}
+                  </p>
 
                 </div>
               ))}
 
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-
-              <p className="text-sm text-slate-400">
-                No hay registros asociados a esta persona.
-              </p>
-
+            <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-sm text-slate-400">
+              No hay registros relacionados.
             </div>
           )}
 
         </section>
 
-        {persona.fuente && (
-          <p className="mt-4 text-xs text-slate-400">
-            Fuente: {persona.fuente}
-          </p>
-        )}
-
       </div>
 
+      <style jsx global>{`
+        .campo {
+          width: 100%;
+          border: 1px solid rgb(203 213 225);
+          border-radius: 0.75rem;
+          background: white;
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+          color: rgb(15 23 42);
+          outline: none;
+        }
+
+        .campo:focus {
+          border-color: rgb(8 145 178);
+        }
+      `}</style>
+
     </AppShell>
+  );
+}
+
+function CampoEdicion({
+  titulo,
+  children,
+}: {
+  titulo: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+
+      <label className="mb-1 block text-sm font-medium text-slate-700">
+        {titulo}
+      </label>
+
+      {children}
+
+    </div>
+  );
+}
+
+function Entrada({
+  titulo,
+  valor,
+  cambio,
+}: {
+  titulo: string;
+  valor: string | null;
+  cambio: (valor: string) => void;
+}) {
+  return (
+    <CampoEdicion titulo={titulo}>
+
+      <input
+        value={valor || ""}
+        onChange={(e) =>
+          cambio(e.target.value)
+        }
+        className="campo"
+      />
+
+    </CampoEdicion>
+  );
+}
+
+function AreaTexto({
+  titulo,
+  valor,
+  cambio,
+}: {
+  titulo: string;
+  valor: string | null;
+  cambio: (valor: string) => void;
+}) {
+  return (
+    <CampoEdicion titulo={titulo}>
+
+      <textarea
+        value={valor || ""}
+        onChange={(e) =>
+          cambio(e.target.value)
+        }
+        rows={4}
+        className="campo"
+      />
+
+    </CampoEdicion>
   );
 }
 
@@ -525,11 +921,11 @@ function Bloque({
   );
 }
 
-function Campo({
-  nombre,
+function Dato({
+  titulo,
   valor,
 }: {
-  nombre: string;
+  titulo: string;
   valor: string | null | undefined;
 }) {
   if (!valor) return null;
@@ -538,7 +934,7 @@ function Campo({
     <div>
 
       <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-        {nombre}
+        {titulo}
       </p>
 
       <p className="mt-1 text-sm text-slate-700">
@@ -549,13 +945,13 @@ function Campo({
   );
 }
 
-function CampoIcono({
+function DatoIcono({
   icono: Icon,
-  nombre,
+  titulo,
   valor,
 }: {
   icono: React.ElementType;
-  nombre: string;
+  titulo: string;
   valor: string | null | undefined;
 }) {
   if (!valor) return null;
@@ -571,7 +967,7 @@ function CampoIcono({
       <div>
 
         <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-          {nombre}
+          {titulo}
         </p>
 
         <p className="mt-1 text-sm text-slate-700">
@@ -583,3 +979,5 @@ function CampoIcono({
     </div>
   );
 }
+
+

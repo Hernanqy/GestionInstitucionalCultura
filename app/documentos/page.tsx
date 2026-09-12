@@ -73,7 +73,7 @@ export default function DocumentosPage() {
 
       if (!error) {
         setDocumentos(
-          (data || []) as Documento[]
+          (data || []) as unknown as Documento[]
         );
       }
 
@@ -347,3 +347,4 @@ export default function DocumentosPage() {
     </AppShell>
   );
 }
+

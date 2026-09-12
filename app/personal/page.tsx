@@ -69,7 +69,7 @@ export default function PersonalPage() {
         .order("nombre");
 
       if (!error) {
-        setPersonas((data || []) as Persona[]);
+        setPersonas((data || []) as unknown as Persona[]);
       }
 
       setCargando(false);
@@ -275,4 +275,5 @@ export default function PersonalPage() {
     </AppShell>
   );
 }
+
 
