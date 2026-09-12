@@ -327,7 +327,7 @@ export default function PersonaDetallePage() {
           {!editando ? (
             <button
               onClick={() => setEditando(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-900"
+              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white"
             >
               <Pencil size={17} />
               Editar
@@ -346,7 +346,7 @@ export default function PersonaDetallePage() {
               <button
                 onClick={guardarCambios}
                 disabled={guardando}
-                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-slate-900 disabled:opacity-50"
+                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
               >
                 {guardando ? (
                   <Loader2
@@ -979,8 +979,6 @@ function DatoIcono({
     </div>
   );
 }
-
-
 
 
 
