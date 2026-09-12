@@ -87,7 +87,7 @@ export default function BandejaPage() {
         });
 
       if (!error) {
-        setIngresos((data || []) as Ingreso[]);
+        setIngresos((data || []) as unknown as Ingreso[]);
       }
 
       setCargando(false);
@@ -346,3 +346,4 @@ function Estado({
     </span>
   );
 }
+
