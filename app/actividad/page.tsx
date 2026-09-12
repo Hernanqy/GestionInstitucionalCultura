@@ -282,7 +282,7 @@ export default function ActividadPage() {
                 Movimiento general
               </h2>
 
-              <p className="text-sm text-slate-950">
+              <p className="text-sm text-black">
                 Últimos cambios y nuevas incorporaciones
               </p>
 
@@ -299,7 +299,7 @@ export default function ActividadPage() {
                 className={`whitespace-nowrap rounded-full border px-4 py-2 text-sm ${
                   filtro === valor
                     ? "border-[#0f2b46] bg-slate-900 text-white"
-                    : "border-slate-400 bg-white text-slate-950"
+                    : "border-slate-400 bg-white text-black"
                 }`}
               >
                 {texto}
@@ -355,7 +355,7 @@ export default function ActividadPage() {
 
                         </div>
 
-                        <div className="flex items-center gap-1 text-xs text-slate-950">
+                        <div className="flex items-center gap-1 text-xs text-black">
 
                           <Clock3 size={13} />
 
@@ -366,7 +366,7 @@ export default function ActividadPage() {
                       </div>
 
                       {item.detalle && (
-                        <p className="mt-3 text-sm leading-6 text-slate-950">
+                        <p className="mt-3 text-sm leading-6 text-black">
                           {item.detalle}
                         </p>
                       )}
@@ -380,7 +380,7 @@ export default function ActividadPage() {
             })}
 
             {visibles.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center text-sm text-slate-950">
+              <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center text-sm text-black">
                 No hay actividad para mostrar.
               </div>
             )}
@@ -393,5 +393,6 @@ export default function ActividadPage() {
     </AppShell>
   );
 }
+
 
 

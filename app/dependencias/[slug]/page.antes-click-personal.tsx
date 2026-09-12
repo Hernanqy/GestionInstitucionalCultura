@@ -135,26 +135,26 @@ export default function DependenciaDetallePage() {
   if (cargando) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-slate-300">
-        <Loader2 size={25} className="animate-spin text-slate-950" />
+        <Loader2 size={25} className="animate-spin text-black" />
       </main>
     );
   }
 
   if (!dependencia) {
     return (
-      <main className="min-h-screen bg-slate-300 p-8 text-slate-950">
+      <main className="min-h-screen bg-slate-300 p-8 text-black">
         <p>Dependencia no encontrada.</p>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-300 text-slate-950">
+    <main className="min-h-screen bg-slate-300 text-black">
       <div className="mx-auto max-w-[1500px] px-5 py-6">
 
         <a
           href="/dependencias"
-          className="mb-5 inline-flex items-center gap-2 font-medium text-slate-950"
+          className="mb-5 inline-flex items-center gap-2 font-medium text-black"
         >
           <ArrowLeft size={18} />
           Dependencias
@@ -171,16 +171,16 @@ export default function DependenciaDetallePage() {
               </div>
 
               <div>
-                <h1 className="text-2xl font-bold text-slate-950">
+                <h1 className="text-2xl font-bold text-black">
                   {dependencia.nombre}
                 </h1>
 
-                <p className="mt-2 font-medium text-slate-950">
+                <p className="mt-2 font-medium text-black">
                   {dependencia.area || "Sin área asignada"}
                 </p>
 
                 {dependencia.responsable && (
-                  <p className="mt-1 text-sm text-slate-950">
+                  <p className="mt-1 text-sm text-black">
                     Responsable:{" "}
                     <strong>{dependencia.responsable}</strong>
                   </p>
@@ -192,25 +192,25 @@ export default function DependenciaDetallePage() {
             <div className="flex gap-3">
 
               <div className="rounded-xl border border-slate-900 bg-slate-100 px-5 py-3">
-                <p className="text-xs text-slate-950">Personal</p>
-                <p className="text-xl font-bold text-slate-950">
+                <p className="text-xs text-black">Personal</p>
+                <p className="text-xl font-bold text-black">
                   {personal.length}
                 </p>
               </div>
 
               <div className="rounded-xl border border-slate-900 bg-slate-100 px-5 py-3">
-                <p className="text-xs text-slate-950">Eventos</p>
-                <p className="text-xl font-bold text-slate-950">0</p>
+                <p className="text-xs text-black">Eventos</p>
+                <p className="text-xl font-bold text-black">0</p>
               </div>
 
               <div className="rounded-xl border border-slate-900 bg-slate-100 px-5 py-3">
-                <p className="text-xs text-slate-950">Pendientes</p>
-                <p className="text-xl font-bold text-slate-950">0</p>
+                <p className="text-xs text-black">Pendientes</p>
+                <p className="text-xl font-bold text-black">0</p>
               </div>
 
               <div className="rounded-xl border border-slate-900 bg-slate-100 px-5 py-3">
-                <p className="text-xs text-slate-950">Registros</p>
-                <p className="text-xl font-bold text-slate-950">0</p>
+                <p className="text-xs text-black">Registros</p>
+                <p className="text-xl font-bold text-black">0</p>
               </div>
 
             </div>
@@ -228,7 +228,7 @@ export default function DependenciaDetallePage() {
               className={`rounded-xl border border-slate-900 px-4 py-2.5 font-medium ${
                 tab === item
                   ? "bg-slate-900 text-white"
-                  : "bg-white text-slate-950"
+                  : "bg-white text-black"
               }`}
             >
               {item}
@@ -246,11 +246,11 @@ export default function DependenciaDetallePage() {
             >
               <Users size={21} className="text-cyan-700" />
 
-              <h2 className="mt-3 font-bold text-slate-950">
+              <h2 className="mt-3 font-bold text-black">
                 Personal
               </h2>
 
-              <p className="mt-2 text-3xl font-bold text-slate-950">
+              <p className="mt-2 text-3xl font-bold text-black">
                 {personal.length}
               </p>
             </button>
@@ -261,7 +261,7 @@ export default function DependenciaDetallePage() {
             >
               <CalendarDays size={21} className="text-cyan-700" />
 
-              <h2 className="mt-3 font-bold text-slate-950">
+              <h2 className="mt-3 font-bold text-black">
                 Agenda
               </h2>
             </button>
@@ -272,7 +272,7 @@ export default function DependenciaDetallePage() {
             >
               <ClipboardList size={21} className="text-cyan-700" />
 
-              <h2 className="mt-3 font-bold text-slate-950">
+              <h2 className="mt-3 font-bold text-black">
                 Pendientes
               </h2>
             </button>
@@ -286,11 +286,11 @@ export default function DependenciaDetallePage() {
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
               <div>
-                <h2 className="text-lg font-bold text-slate-950">
+                <h2 className="text-lg font-bold text-black">
                   Personal
                 </h2>
 
-                <p className="text-sm text-slate-950">
+                <p className="text-sm text-black">
                   {personal.length} personas
                 </p>
               </div>
@@ -303,7 +303,7 @@ export default function DependenciaDetallePage() {
                   value={buscar}
                   onChange={(e) => setBuscar(e.target.value)}
                   placeholder="Buscar..."
-                  className="w-full bg-transparent text-slate-950 outline-none placeholder:text-slate-950 md:w-56"
+                  className="w-full bg-transparent text-black outline-none placeholder:text-black md:w-56"
                 />
 
               </div>
@@ -322,7 +322,7 @@ export default function DependenciaDetallePage() {
 
                     <UserRound
                       size={22}
-                      className="mt-1 shrink-0 text-slate-950"
+                      className="mt-1 shrink-0 text-black"
                     />
 
                     <div>
@@ -335,21 +335,21 @@ export default function DependenciaDetallePage() {
                       </h3>
 
                       {persona.cargo && (
-                        <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
+                        <div className="mt-2 flex items-center gap-2 text-sm text-black">
                           <BriefcaseBusiness size={15} />
                           {persona.cargo}
                         </div>
                       )}
 
                       {persona.horas && (
-                        <div className="mt-1 flex items-center gap-2 text-sm text-slate-950">
+                        <div className="mt-1 flex items-center gap-2 text-sm text-black">
                           <Clock3 size={15} />
                           {persona.horas}
                         </div>
                       )}
 
                       {persona.legajo && (
-                        <p className="mt-2 text-xs font-medium text-slate-950">
+                        <p className="mt-2 text-xs font-medium text-black">
                           Legajo {persona.legajo}
                         </p>
                       )}
@@ -411,13 +411,13 @@ function Seccion({
       <div className="flex items-center gap-3">
         <Icon size={21} className="text-cyan-700" />
 
-        <h2 className="font-bold text-slate-950">
+        <h2 className="font-bold text-black">
           {titulo}
         </h2>
       </div>
 
       <div className="mt-5 rounded-xl border border-dashed border-slate-900 p-10 text-center">
-        <p className="text-slate-950">
+        <p className="text-black">
           Sin información cargada.
         </p>
       </div>
@@ -425,4 +425,5 @@ function Seccion({
     </section>
   );
 }
+
 

@@ -318,7 +318,7 @@ export default function PersonaDetallePage() {
 
           <a
             href="/personal"
-            className="inline-flex items-center gap-2 text-sm text-slate-950"
+            className="inline-flex items-center gap-2 text-sm text-black"
           >
             <ArrowLeft size={17} />
             Personal
@@ -391,12 +391,12 @@ export default function PersonaDetallePage() {
                   {nombreCompleto}
                 </h1>
 
-                <p className="mt-1 text-sm text-slate-950">
+                <p className="mt-1 text-sm text-black">
                   {persona.cargo || "Sin cargo"}
                 </p>
 
                 {persona.dependencia && (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
+                  <div className="mt-2 flex items-center gap-2 text-sm text-black">
                     <Building2 size={15} />
                     {persona.dependencia.nombre}
                   </div>
@@ -408,7 +408,7 @@ export default function PersonaDetallePage() {
 
             <div className="rounded-xl border border-slate-400 bg-slate-100 px-5 py-3">
 
-              <p className="text-xs text-slate-950">
+              <p className="text-xs text-black">
                 Legajo
               </p>
 
@@ -722,7 +722,7 @@ export default function PersonaDetallePage() {
                   Observaciones
                 </h2>
 
-                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-950">
+                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-black">
                   {persona.observaciones}
                 </p>
 
@@ -749,7 +749,7 @@ export default function PersonaDetallePage() {
                 Registros relacionados
               </h2>
 
-              <p className="text-sm text-slate-950">
+              <p className="text-sm text-black">
                 {registros.length} registros
               </p>
             </div>
@@ -775,12 +775,12 @@ export default function PersonaDetallePage() {
                   </h3>
 
                   {registro.contenido && (
-                    <p className="mt-2 text-sm text-slate-950">
+                    <p className="mt-2 text-sm text-black">
                       {registro.contenido}
                     </p>
                   )}
 
-                  <p className="mt-2 text-xs text-slate-950">
+                  <p className="mt-2 text-xs text-black">
                     {fechaHora(registro.created_at)}
                   </p>
 
@@ -789,7 +789,7 @@ export default function PersonaDetallePage() {
 
             </div>
           ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-slate-950">
+            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-black">
               No hay registros relacionados.
             </div>
           )}
@@ -829,7 +829,7 @@ function CampoEdicion({
   return (
     <div>
 
-      <label className="mb-1 block text-sm font-medium text-slate-950">
+      <label className="mb-1 block text-sm font-medium text-black">
         {titulo}
       </label>
 
@@ -933,11 +933,11 @@ function Dato({
   return (
     <div>
 
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
+      <p className="text-xs font-medium uppercase tracking-wide text-black">
         {titulo}
       </p>
 
-      <p className="mt-1 text-sm text-slate-950">
+      <p className="mt-1 text-sm text-black">
         {valor}
       </p>
 
@@ -961,16 +961,16 @@ function DatoIcono({
 
       <Icon
         size={16}
-        className="mt-0.5 text-slate-950"
+        className="mt-0.5 text-black"
       />
 
       <div>
 
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-950">
+        <p className="text-xs font-medium uppercase tracking-wide text-black">
           {titulo}
         </p>
 
-        <p className="mt-1 text-sm text-slate-950">
+        <p className="mt-1 text-sm text-black">
           {valor}
         </p>
 
@@ -979,6 +979,7 @@ function DatoIcono({
     </div>
   );
 }
+
 
 
 

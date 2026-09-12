@@ -93,7 +93,7 @@ export default function HomePage() {
       <header className="border-b border-slate-300 bg-white">
         <div className="flex items-center justify-between px-6 py-4 md:px-8">
 
-          <h1 className="text-xl font-bold text-slate-950">
+          <h1 className="text-xl font-bold text-black">
             Inicio
           </h1>
 
@@ -108,22 +108,22 @@ export default function HomePage() {
         </div>
       </header>
 
-      <main className="min-h-[calc(100vh-65px)] bg-slate-300 px-5 py-6 text-slate-950 md:px-8">
+      <main className="min-h-[calc(100vh-65px)] bg-slate-300 px-5 py-6 text-black md:px-8">
 
         <div className="mx-auto max-w-[1500px]">
 
           <section className="rounded-2xl border border-slate-400 bg-white p-3 shadow-sm">
             <div className="flex items-center gap-3 rounded-xl border border-slate-400 bg-slate-100 px-4 py-3">
 
-              <Search size={19} className="text-slate-950" />
+              <Search size={19} className="text-black" />
 
               <input
                 type="text"
                 placeholder="Buscar personas, dependencias, eventos o registros..."
-                className="w-full bg-transparent text-sm font-medium text-slate-950 outline-none placeholder:text-slate-950"
+                className="w-full bg-transparent text-sm font-medium text-black outline-none placeholder:text-black"
               />
 
-              <ChevronRight size={19} className="text-slate-950" />
+              <ChevronRight size={19} className="text-black" />
 
             </div>
           </section>
@@ -170,7 +170,7 @@ export default function HomePage() {
 
                   <CalendarDays size={19} className="text-sky-700" />
 
-                  <h2 className="font-bold text-slate-950">
+                  <h2 className="font-bold text-black">
                     Próximo evento
                   </h2>
 
@@ -187,12 +187,12 @@ export default function HomePage() {
               {proximoEvento ? (
                 <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
-                  <h3 className="font-bold text-slate-950">
+                  <h3 className="font-bold text-black">
                     {proximoEvento.nombre}
                   </h3>
 
                   {proximoEvento.fecha && (
-                    <div className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-950">
+                    <div className="mt-3 flex items-center gap-2 text-sm font-medium text-black">
                       <CalendarDays size={15} />
                       {new Date(
                         `${proximoEvento.fecha}T12:00:00`
@@ -201,7 +201,7 @@ export default function HomePage() {
                   )}
 
                   {proximoEvento.lugar && (
-                    <div className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-950">
+                    <div className="mt-2 flex items-center gap-2 text-sm font-medium text-black">
                       <MapPin size={15} />
                       {proximoEvento.lugar}
                     </div>
@@ -211,7 +211,7 @@ export default function HomePage() {
               ) : (
                 <div className="mt-4 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
 
-                  <p className="text-sm font-medium text-slate-950">
+                  <p className="text-sm font-medium text-black">
                     No hay eventos futuros cargados.
                   </p>
 
@@ -228,7 +228,7 @@ export default function HomePage() {
 
                   <FileText size={19} className="text-sky-700" />
 
-                  <h2 className="font-bold text-slate-950">
+                  <h2 className="font-bold text-black">
                     Registros recientes
                   </h2>
 
@@ -245,7 +245,7 @@ export default function HomePage() {
 
               <div className="mt-4 flex min-h-28 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
 
-                <p className="text-sm font-medium text-slate-950">
+                <p className="text-sm font-medium text-black">
                   No hay registros cargados.
                 </p>
 
@@ -261,7 +261,7 @@ export default function HomePage() {
 
                   <Inbox size={19} className="text-sky-700" />
 
-                  <h2 className="font-bold text-slate-950">
+                  <h2 className="font-bold text-black">
                     Bandeja
                   </h2>
 
@@ -278,7 +278,7 @@ export default function HomePage() {
 
               <div className="flex min-h-32 items-center justify-center">
 
-                <p className="text-sm font-medium text-slate-950">
+                <p className="text-sm font-medium text-black">
                   Todavía no hay ingresos.
                 </p>
 
@@ -353,16 +353,16 @@ function TarjetaResumen({
 
         <ChevronRight
           size={19}
-          className="text-slate-950 transition group-hover:text-slate-950"
+          className="text-black transition group-hover:text-black"
         />
 
       </div>
 
-      <p className="mt-4 text-sm font-semibold text-slate-950">
+      <p className="mt-4 text-sm font-semibold text-black">
         {titulo}
       </p>
 
-      <p className="mt-1 text-3xl font-bold text-slate-950">
+      <p className="mt-1 text-3xl font-bold text-black">
         {valor}
       </p>
 
@@ -391,11 +391,11 @@ function Acceso({
 
         <div>
 
-          <h3 className="font-bold text-slate-950">
+          <h3 className="font-bold text-black">
             {titulo}
           </h3>
 
-          <p className="mt-1 text-sm font-medium text-slate-950">
+          <p className="mt-1 text-sm font-medium text-black">
             {texto}
           </p>
 
@@ -408,4 +408,5 @@ function Acceso({
     </a>
   );
 }
+
 

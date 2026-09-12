@@ -228,7 +228,7 @@ export default function DocumentosPanel({
           Documentos
         </h2>
 
-        <p className="text-sm text-slate-950">
+        <p className="text-sm text-black">
           {documentos.length} archivos asociados
         </p>
       </div>
@@ -284,7 +284,7 @@ export default function DocumentosPanel({
         <div className="flex min-h-40 items-center justify-center">
           <Loader2
             size={22}
-            className="animate-spin text-slate-950"
+            className="animate-spin text-black"
           />
         </div>
       ) : documentos.length > 0 ? (
@@ -311,12 +311,12 @@ export default function DocumentosPanel({
                     </p>
 
                     {documento.descripcion && (
-                      <p className="mt-1 text-sm text-slate-950">
+                      <p className="mt-1 text-sm text-black">
                         {documento.descripcion}
                       </p>
                     )}
 
-                    <p className="mt-1 text-xs text-slate-950">
+                    <p className="mt-1 text-xs text-black">
                       {formatearTamano(
                         documento.tamano_bytes
                       )}
@@ -331,7 +331,7 @@ export default function DocumentosPanel({
                     onClick={() =>
                       abrirDocumento(documento)
                     }
-                    className="flex items-center gap-2 rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm text-slate-950 hover:bg-slate-100"
+                    className="flex items-center gap-2 rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm text-black hover:bg-slate-100"
                   >
                     <Download size={16} />
                     Abrir
@@ -355,7 +355,7 @@ export default function DocumentosPanel({
         </div>
       ) : (
         <div className="mt-5 flex min-h-40 items-center justify-center rounded-xl border border-dashed border-slate-400 bg-slate-100">
-          <p className="text-sm text-slate-950">
+          <p className="text-sm text-black">
             Todavía no hay documentos asociados.
           </p>
         </div>
@@ -364,5 +364,6 @@ export default function DocumentosPanel({
     </section>
   );
 }
+
 
 

@@ -201,7 +201,7 @@ export default function DocumentosPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-950">
+            <p className="text-sm text-black">
               Archivos
             </p>
 
@@ -211,7 +211,7 @@ export default function DocumentosPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-950">
+            <p className="text-sm text-black">
               Resultados
             </p>
 
@@ -228,7 +228,7 @@ export default function DocumentosPage() {
 
             <Search
               size={18}
-              className="text-slate-950"
+              className="text-black"
             />
 
             <input
@@ -277,14 +277,14 @@ export default function DocumentosPage() {
                       </h2>
 
                       {documento.descripcion && (
-                        <p className="mt-1 text-sm text-slate-950">
+                        <p className="mt-1 text-sm text-black">
                           {
                             documento.descripcion
                           }
                         </p>
                       )}
 
-                      <div className="mt-2 flex flex-wrap gap-3 text-xs text-slate-950">
+                      <div className="mt-2 flex flex-wrap gap-3 text-xs text-black">
 
                         {documento.tamano_bytes && (
                           <span>
@@ -330,10 +330,10 @@ export default function DocumentosPage() {
             {visibles.length === 0 && (
               <div className="rounded-2xl border border-dashed border-slate-400 bg-white p-10 text-center">
                 <File
-                  className="mx-auto text-slate-950"
+                  className="mx-auto text-black"
                 />
 
-                <p className="mt-3 text-sm text-slate-950">
+                <p className="mt-3 text-sm text-black">
                   No hay documentos para mostrar.
                 </p>
               </div>
@@ -347,6 +347,7 @@ export default function DocumentosPage() {
     </AppShell>
   );
 }
+
 
 
 

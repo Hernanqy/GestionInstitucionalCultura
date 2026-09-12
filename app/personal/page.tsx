@@ -114,7 +114,7 @@ export default function PersonalPage() {
     <AppShell activo="Personal">
       <header className="border-b border-slate-300 bg-white">
         <div className="px-5 py-4 md:px-8">
-          <h1 className="text-xl font-semibold text-slate-950">
+          <h1 className="text-xl font-semibold text-black">
             Personal
           </h1>
         </div>
@@ -123,22 +123,22 @@ export default function PersonalPage() {
       <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-8 md:py-6">
         <section className="grid grid-cols-2 gap-3 md:grid-cols-3">
           <div className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm">
-            <p className="text-sm text-slate-950">Personal activo</p>
-            <p className="mt-1 text-2xl font-semibold text-slate-950 sm:text-3xl">
+            <p className="text-sm text-black">Personal activo</p>
+            <p className="mt-1 text-2xl font-semibold text-black sm:text-3xl">
               {personas.length}
             </p>
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-4 shadow-sm">
-            <p className="text-sm text-slate-950">Resultados</p>
-            <p className="mt-1 text-2xl font-semibold text-slate-950 sm:text-3xl">
+            <p className="text-sm text-black">Resultados</p>
+            <p className="mt-1 text-2xl font-semibold text-black sm:text-3xl">
               {resultado.length}
             </p>
           </div>
 
           <div className="col-span-2 rounded-2xl border border-slate-400 bg-white p-4 shadow-sm md:col-span-1">
-            <p className="text-sm text-slate-950">Áreas</p>
-            <p className="mt-1 text-2xl font-semibold text-slate-950 sm:text-3xl">
+            <p className="text-sm text-black">Áreas</p>
+            <p className="mt-1 text-2xl font-semibold text-black sm:text-3xl">
               {Math.max(0, areas.length - 1)}
             </p>
           </div>
@@ -147,20 +147,20 @@ export default function PersonalPage() {
         <section className="mt-4 rounded-2xl border border-slate-400 bg-white p-4 shadow-sm">
           <div className="grid gap-3 md:grid-cols-[1fr_auto]">
             <div className="flex items-center gap-3 rounded-xl border border-slate-300 bg-slate-100 px-4 py-3">
-              <Search size={18} className="text-slate-950" />
+              <Search size={18} className="text-black" />
 
               <input
                 value={buscar}
                 onChange={(e) => setBuscar(e.target.value)}
                 placeholder="Buscar nombre, legajo, función o dependencia..."
-                className="w-full bg-transparent text-sm text-slate-950 outline-none placeholder:text-slate-950"
+                className="w-full bg-transparent text-sm text-black outline-none placeholder:text-black"
               />
             </div>
 
             <select
               value={area}
               onChange={(e) => setArea(e.target.value)}
-              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-950"
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-black"
             >
               {areas.map((item) => (
                 <option key={item} value={item}>
@@ -173,7 +173,7 @@ export default function PersonalPage() {
 
         {cargando ? (
           <div className="flex min-h-60 items-center justify-center">
-            <Loader2 className="animate-spin text-slate-950" size={24} />
+            <Loader2 className="animate-spin text-black" size={24} />
           </div>
         ) : (
           <section className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -197,33 +197,33 @@ export default function PersonalPage() {
 
                       <ChevronRight
                         size={18}
-                        className="shrink-0 text-slate-950 transition group-hover:translate-x-1 group-hover:text-sky-700"
+                        className="shrink-0 text-black transition group-hover:translate-x-1 group-hover:text-sky-700"
                       />
                     </div>
 
                     {persona.cargo && (
-                      <div className="mt-2 flex items-center gap-2 text-sm text-slate-950">
-                        <BriefcaseBusiness size={15} className="text-slate-950" />
+                      <div className="mt-2 flex items-center gap-2 text-sm text-black">
+                        <BriefcaseBusiness size={15} className="text-black" />
                         {persona.cargo}
                       </div>
                     )}
 
                     {persona.dependencia?.nombre && (
-                      <div className="mt-1 flex items-center gap-2 text-sm text-slate-950">
-                        <Building2 size={15} className="text-slate-950" />
+                      <div className="mt-1 flex items-center gap-2 text-sm text-black">
+                        <Building2 size={15} className="text-black" />
                         {persona.dependencia.nombre}
                       </div>
                     )}
 
                     {persona.horas && (
-                      <div className="mt-1 flex items-center gap-2 text-sm text-slate-950">
-                        <Clock3 size={15} className="text-slate-950" />
+                      <div className="mt-1 flex items-center gap-2 text-sm text-black">
+                        <Clock3 size={15} className="text-black" />
                         {persona.horas}
                       </div>
                     )}
 
                     {persona.legajo && (
-                      <p className="mt-3 text-xs text-slate-950">
+                      <p className="mt-3 text-xs text-black">
                         Legajo {persona.legajo}
                       </p>
                     )}
@@ -237,5 +237,6 @@ export default function PersonalPage() {
     </AppShell>
   );
 }
+
 
 

@@ -114,7 +114,7 @@ export default function PendientesPage() {
         <section className="grid gap-4 sm:grid-cols-2">
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-950">
+            <p className="text-sm text-black">
               Pendientes activos
             </p>
 
@@ -124,7 +124,7 @@ export default function PendientesPage() {
           </div>
 
           <div className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-            <p className="text-sm text-slate-950">
+            <p className="text-sm text-black">
               Total histórico
             </p>
 
@@ -186,7 +186,7 @@ export default function PendientesPage() {
                       <h3
                         className={`font-semibold ${
                           item.completado
-                            ? "text-slate-950 line-through"
+                            ? "text-black line-through"
                             : ""
                         }`}
                       >
@@ -194,12 +194,12 @@ export default function PendientesPage() {
                       </h3>
 
                       {item.descripcion && (
-                        <p className="mt-2 text-sm text-slate-950">
+                        <p className="mt-2 text-sm text-black">
                           {item.descripcion}
                         </p>
                       )}
 
-                      <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-950">
+                      <div className="mt-3 flex flex-wrap gap-3 text-xs text-black">
 
                         {item.dependencia?.nombre && (
                           <span className="flex items-center gap-1">
@@ -237,6 +237,7 @@ export default function PendientesPage() {
     </AppShell>
   );
 }
+
 
 
 

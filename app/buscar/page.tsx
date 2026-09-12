@@ -202,7 +202,7 @@ export default function BuscarPage() {
                     </h2>
 
                     {item.subtitulo && (
-                      <p className="mt-1 text-sm text-slate-950">
+                      <p className="mt-1 text-sm text-black">
                         {item.subtitulo}
                       </p>
                     )}
@@ -237,5 +237,6 @@ export default function BuscarPage() {
     </AppShell>
   );
 }
+
 
 

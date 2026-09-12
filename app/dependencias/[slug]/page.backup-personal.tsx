@@ -124,7 +124,7 @@ function clasePrioridad(prioridad: string | null) {
   }
 
   if (prioridad === "baja") {
-    return "border-slate-400 bg-slate-100 text-slate-950";
+    return "border-slate-400 bg-slate-100 text-black";
   }
 
   return "border-amber-200 bg-amber-50 text-amber-700";
@@ -381,12 +381,12 @@ export default function DependenciaDetallePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-200/80 text-slate-950">
+    <main className="min-h-screen bg-slate-200/80 text-black">
       <div className="mx-auto max-w-[1500px] px-5 py-6 md:px-8">
 
         <a
           href="/dependencias"
-          className="mb-5 inline-flex items-center gap-2 text-sm text-slate-950"
+          className="mb-5 inline-flex items-center gap-2 text-sm text-black"
         >
           <ArrowLeft size={18} />
           Dependencias
@@ -409,12 +409,12 @@ export default function DependenciaDetallePage() {
 
 <a
   href={`/dependencias/${slug}/editar`}
-  className="mt-3 inline-flex items-center rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm font-medium text-slate-950 hover:bg-slate-100"
+  className="mt-3 inline-flex items-center rounded-lg border border-slate-400 bg-white px-3 py-2 text-sm font-medium text-black hover:bg-slate-100"
 >
   Editar dependencia
 </a>
 
-                <p className="text-sm text-slate-950">
+                <p className="text-sm text-black">
                   {dependencia.area}
                 </p>
               </div>
@@ -480,14 +480,14 @@ export default function DependenciaDetallePage() {
                   </p>
 
                   {proximoEvento.lugar && (
-                    <p className="mt-1 text-sm text-slate-950">
+                    <p className="mt-1 text-sm text-black">
                       {proximoEvento.lugar}
                     </p>
                   )}
 
                 </div>
               ) : (
-                <p className="mt-5 text-sm text-slate-950">
+                <p className="mt-5 text-sm text-black">
                   Sin actividades.
                 </p>
               )}
@@ -521,7 +521,7 @@ export default function DependenciaDetallePage() {
                   Personal
                 </h2>
 
-                <p className="text-sm text-slate-950">
+                <p className="text-sm text-black">
                   {personal.length} personas
                 </p>
               </div>
@@ -567,7 +567,7 @@ export default function DependenciaDetallePage() {
                       )}
 
                       {persona.horas && (
-                        <p className="text-sm text-slate-950">
+                        <p className="text-sm text-black">
                           {persona.horas}
                         </p>
                       )}
@@ -606,7 +606,7 @@ export default function DependenciaDetallePage() {
                   </p>
 
                   {evento.lugar && (
-                    <p className="mt-1 text-sm text-slate-950">
+                    <p className="mt-1 text-sm text-black">
                       {evento.lugar}
                     </p>
                   )}
@@ -629,7 +629,7 @@ export default function DependenciaDetallePage() {
                   Pendientes
                 </h2>
 
-                <p className="text-sm text-slate-950">
+                <p className="text-sm text-black">
                   {pendientesActivos.length} activos
                 </p>
               </div>
@@ -770,7 +770,7 @@ export default function DependenciaDetallePage() {
                   Registros
                 </h2>
 
-                <p className="text-sm text-slate-950">
+                <p className="text-sm text-black">
                   {registros.length} registros
                 </p>
               </div>
@@ -882,14 +882,14 @@ export default function DependenciaDetallePage() {
 
                         </div>
 
-                        <span className="text-xs text-slate-950">
+                        <span className="text-xs text-black">
                           {formatearFechaHora(registro.created_at)}
                         </span>
 
                       </div>
 
                       {registro.contenido && (
-                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-slate-950">
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-black">
                           {registro.contenido}
                         </p>
                       )}
@@ -902,7 +902,7 @@ export default function DependenciaDetallePage() {
               ))}
 
               {registros.length === 0 && (
-                <div className="rounded-xl border border-dashed p-10 text-center text-sm text-slate-950">
+                <div className="rounded-xl border border-dashed p-10 text-center text-sm text-black">
                   Todavía no hay registros.
                 </div>
               )}
@@ -932,7 +932,7 @@ function Dato({
 }) {
   return (
     <div className="rounded-xl border bg-slate-100 px-5 py-3">
-      <p className="text-xs text-slate-950">
+      <p className="text-xs text-black">
         {titulo}
       </p>
 
@@ -965,7 +965,7 @@ function Tarjeta({
         {valor}
       </p>
 
-      <p className="text-sm text-slate-950">
+      <p className="text-sm text-black">
         {texto}
       </p>
 
@@ -979,6 +979,7 @@ function Tarjeta({
     </div>
   );
 }
+
 
 
 

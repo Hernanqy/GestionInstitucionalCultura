@@ -234,7 +234,7 @@ export default function RegistrarPage() {
 
               <div className="rounded-xl border border-dashed border-slate-400 bg-slate-100 p-5">
 
-                <div className="mb-3 flex gap-3 text-slate-950">
+                <div className="mb-3 flex gap-3 text-black">
                   <ImageIcon size={20} />
                   <Mic size={20} />
                   <FileText size={20} />
@@ -252,7 +252,7 @@ export default function RegistrarPage() {
                 />
 
                 {archivo && (
-                  <p className="mt-3 text-sm text-slate-950">
+                  <p className="mt-3 text-sm text-black">
                     Seleccionado: <strong>{archivo.name}</strong>
                   </p>
                 )}
@@ -295,5 +295,6 @@ export default function RegistrarPage() {
     </AppShell>
   );
 }
+
 
 

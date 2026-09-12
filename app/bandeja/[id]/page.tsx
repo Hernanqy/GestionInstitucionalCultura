@@ -188,7 +188,7 @@ export default function IngresoDetallePage() {
 
           <a
             href="/bandeja"
-            className="inline-flex items-center gap-2 text-sm text-slate-950"
+            className="inline-flex items-center gap-2 text-sm text-black"
           >
             <ArrowLeft size={17} />
             Bandeja
@@ -221,7 +221,7 @@ export default function IngresoDetallePage() {
                   "Ingreso sin título"}
               </h1>
 
-              <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-950">
+              <div className="mt-3 flex flex-wrap gap-4 text-xs text-black">
 
                 <span className="flex items-center gap-1">
                   <Clock3 size={13} />
@@ -248,7 +248,7 @@ export default function IngresoDetallePage() {
                 Resumen
               </p>
 
-              <p className="mt-2 text-sm leading-6 text-slate-950">
+              <p className="mt-2 text-sm leading-6 text-black">
                 {ingreso.resumen}
               </p>
 
@@ -258,11 +258,11 @@ export default function IngresoDetallePage() {
           {ingreso.contenido_original && (
             <div className="mt-4 rounded-xl border border-slate-400 bg-slate-100 p-4">
 
-              <p className="text-xs font-semibold uppercase text-slate-950">
+              <p className="text-xs font-semibold uppercase text-black">
                 Contenido original
               </p>
 
-              <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-950">
+              <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-black">
                 {ingreso.contenido_original}
               </p>
 
@@ -286,7 +286,7 @@ export default function IngresoDetallePage() {
                 Acciones generadas
               </h2>
 
-              <p className="text-sm text-slate-950">
+              <p className="text-sm text-black">
                 {acciones.length} acciones derivadas
               </p>
 
@@ -341,12 +341,12 @@ export default function IngresoDetallePage() {
                   </div>
 
                   {accion.resumen && (
-                    <p className="mt-3 text-sm leading-6 text-slate-950">
+                    <p className="mt-3 text-sm leading-6 text-black">
                       {accion.resumen}
                     </p>
                   )}
 
-                  <div className="mt-3 flex flex-wrap gap-4 text-xs text-slate-950">
+                  <div className="mt-3 flex flex-wrap gap-4 text-xs text-black">
 
                     <span>
                       Destino: {accion.entidad}
@@ -378,10 +378,10 @@ export default function IngresoDetallePage() {
             <div className="mt-5 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center">
 
               <Inbox
-                className="mx-auto text-slate-950"
+                className="mx-auto text-black"
               />
 
-              <p className="mt-3 text-sm text-slate-950">
+              <p className="mt-3 text-sm text-black">
                 Este ingreso todavía no generó acciones.
               </p>
 
@@ -395,5 +395,6 @@ export default function IngresoDetallePage() {
     </AppShell>
   );
 }
+
 
 
