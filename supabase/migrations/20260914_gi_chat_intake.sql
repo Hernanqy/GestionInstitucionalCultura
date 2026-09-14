@@ -1,4 +1,4 @@
-﻿create sequence if not exists public.gi_codigo_seq start 1;
+create sequence if not exists public.gi_codigo_seq start 1;
 
 create or replace function public.gi_guardar_entrada(
   p_texto text,
@@ -94,7 +94,7 @@ begin
     metadata
   )
   values (
-    'chat_gi',
+    'chat',
     v_titulo,
     p_texto,
     left(p_texto, 800),
