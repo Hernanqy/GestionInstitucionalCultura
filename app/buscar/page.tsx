@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 
 import {
   Search,
@@ -51,11 +50,8 @@ type Registro = {
 
 export default function BuscarPage() {
   const supabase = useMemo(() => createClient(), []);
-  const searchParams = useSearchParams();
 
-  const consultaInicial = searchParams.get("q") || "";
-
-  const [consulta, setConsulta] = useState(consultaInicial);
+  const [consulta, setConsulta] = useState("");
   const [buscando, setBuscando] = useState(false);
   const [yaBusco, setYaBusco] = useState(false);
 
@@ -75,8 +71,15 @@ export default function BuscarPage() {
         return;
       }
 
-      if (consultaInicial.trim()) {
-        buscarTodo(consultaInicial);
+      const parametros = new URLSearchParams(
+        window.location.search
+      );
+
+      const q = parametros.get("q") || "";
+
+      if (q.trim()) {
+        setConsulta(q);
+        await buscarTodo(q);
       }
     }
 
@@ -99,118 +102,158 @@ export default function BuscarPage() {
     setBuscando(true);
     setYaBusco(true);
 
-    const [
-      personasResult,
-      dependenciasResult,
-      eventosResult,
-      registrosResult,
-    ] = await Promise.all([
-      supabase
-        .from("personas")
-        .select(`
-          id,
-          nombre,
-          apellido,
-          legajo,
-          cargo,
-          area,
-          dependencias (
-            nombre
-          )
-        `)
-        .eq("activo", true)
-        .range(0, 999),
+    try {
+      const [
+        personasResult,
+        dependenciasResult,
+        eventosResult,
+        registrosResult,
+      ] = await Promise.all([
+        supabase
+          .from("personas")
+          .select(`
+            id,
+            nombre,
+            apellido,
+            legajo,
+            cargo,
+            area,
+            dependencias (
+              nombre
+            )
+          `)
+          .eq("activo", true)
+          .range(0, 999),
 
-      supabase
-        .from("dependencias")
-        .select(`
-          id,
-          nombre,
-          area
-        `)
-        .eq("activa", true)
-        .range(0, 999),
+        supabase
+          .from("dependencias")
+          .select(`
+            id,
+            nombre,
+            area
+          `)
+          .eq("activa", true)
+          .range(0, 999),
 
-      supabase
-        .from("eventos")
-        .select(`
-          id,
-          nombre,
-          fecha,
-          lugar
-        `)
-        .range(0, 999),
+        supabase
+          .from("eventos")
+          .select(`
+            id,
+            nombre,
+            fecha,
+            lugar
+          `)
+          .range(0, 999),
 
-      supabase
-        .from("registros")
-        .select(`
-          id,
-          titulo,
-          contenido,
-          tipo
-        `)
-        .range(0, 999),
-    ]);
+        supabase
+          .from("registros")
+          .select(`
+            id,
+            titulo,
+            contenido,
+            tipo
+          `)
+          .range(0, 999),
+      ]);
 
-    const termino = texto.toLowerCase();
+      const termino = texto.toLowerCase();
 
-    const personasFiltradas = ((personasResult.data || []) as unknown as Persona[])
-      .filter((persona) => {
-        const contenido = [
-          persona.nombre,
-          persona.apellido,
-          persona.legajo,
-          persona.cargo,
-          persona.area,
-          persona.dependencias?.nombre,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-        return contenido.includes(termino);
-      })
-      .slice(0, 20);
-
-    const dependenciasFiltradas = (
-      (dependenciasResult.data || []) as Dependencia[]
-    )
-      .filter((item) =>
-        `${item.nombre} ${item.area || ""}`
-          .toLowerCase()
-          .includes(termino)
+      const personasFiltradas = (
+        (personasResult.data || []) as unknown as Persona[]
       )
-      .slice(0, 20);
+        .filter((persona) => {
+          const contenido = [
+            persona.nombre,
+            persona.apellido,
+            persona.legajo,
+            persona.cargo,
+            persona.area,
+            persona.dependencias?.nombre,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
-    const eventosFiltrados = ((eventosResult.data || []) as Evento[])
-      .filter((evento) =>
-        `${evento.nombre} ${evento.lugar || ""}`
-          .toLowerCase()
-          .includes(termino)
+          return contenido.includes(termino);
+        })
+        .slice(0, 30);
+
+      const dependenciasFiltradas = (
+        (dependenciasResult.data || []) as Dependencia[]
       )
-      .slice(0, 20);
+        .filter((item) => {
+          const contenido = [
+            item.nombre,
+            item.area,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
-    const registrosFiltrados = ((registrosResult.data || []) as Registro[])
-      .filter((registro) =>
-        `${registro.titulo || ""} ${registro.contenido || ""} ${
-          registro.tipo || ""
-        }`
-          .toLowerCase()
-          .includes(termino)
+          return contenido.includes(termino);
+        })
+        .slice(0, 30);
+
+      const eventosFiltrados = (
+        (eventosResult.data || []) as Evento[]
       )
-      .slice(0, 20);
+        .filter((evento) => {
+          const contenido = [
+            evento.nombre,
+            evento.lugar,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
 
-    setPersonas(personasFiltradas);
-    setDependencias(dependenciasFiltradas);
-    setEventos(eventosFiltrados);
-    setRegistros(registrosFiltrados);
+          return contenido.includes(termino);
+        })
+        .slice(0, 30);
 
-    setBuscando(false);
+      const registrosFiltrados = (
+        (registrosResult.data || []) as Registro[]
+      )
+        .filter((registro) => {
+          const contenido = [
+            registro.titulo,
+            registro.contenido,
+            registro.tipo,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+          return contenido.includes(termino);
+        })
+        .slice(0, 30);
+
+      setPersonas(personasFiltradas);
+      setDependencias(dependenciasFiltradas);
+      setEventos(eventosFiltrados);
+      setRegistros(registrosFiltrados);
+
+      const nuevaUrl =
+        `/buscar?q=${encodeURIComponent(texto)}`;
+
+      window.history.replaceState(
+        {},
+        "",
+        nuevaUrl
+      );
+    } catch (error) {
+      console.error(
+        "Error realizando búsqueda:",
+        error
+      );
+    } finally {
+      setBuscando(false);
+    }
   }
 
-  function ejecutarBusqueda(e: React.FormEvent) {
+  function ejecutarBusqueda(
+    e: React.FormEvent
+  ) {
     e.preventDefault();
-
     buscarTodo();
   }
 
@@ -225,7 +268,7 @@ export default function BuscarPage() {
 
       <div className="mx-auto max-w-[1480px] px-5 py-7 md:px-8">
 
-        {/* TITULO */}
+        {/* CABECERA */}
 
         <section className="flex items-center gap-4">
 
@@ -236,7 +279,8 @@ export default function BuscarPage() {
               rounded-[20px]
               border border-blue-200
               bg-gradient-to-br
-              from-blue-50 to-sky-100
+              from-blue-50
+              to-sky-100
               text-[38px]
               shadow-sm
             "
@@ -298,7 +342,6 @@ export default function BuscarPage() {
                   setConsulta(e.target.value)
                 }
                 placeholder="Buscar persona, espacio, evento o registro..."
-                autoFocus
                 className="
                   w-full
                   bg-transparent
@@ -376,21 +419,19 @@ export default function BuscarPage() {
           </section>
         )}
 
-        {/* RESULTADO */}
+        {/* RESULTADOS */}
 
         {yaBusco && !buscando && (
           <>
 
-            <div className="mt-7 flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-bold">
-                  Resultados
-                </h2>
+            <div className="mt-7">
+              <h2 className="text-xl font-bold">
+                Resultados
+              </h2>
 
-                <p className="mt-1 text-sm text-slate-500">
-                  {total} coincidencias para “{consulta}”
-                </p>
-              </div>
+              <p className="mt-1 text-sm text-slate-500">
+                {total} coincidencias para “{consulta}”
+              </p>
             </div>
 
             {total === 0 ? (
@@ -416,6 +457,8 @@ export default function BuscarPage() {
               </div>
             ) : (
               <div className="mt-5 space-y-6">
+
+                {/* PERSONAL */}
 
                 {personas.length > 0 && (
                   <Grupo
@@ -459,15 +502,15 @@ export default function BuscarPage() {
                               )}
 
                               {persona.dependencias?.nombre && (
-                                <div className="mt-1 text-xs text-slate-500">
+                                <p className="mt-1 text-xs text-slate-500">
                                   {persona.dependencias.nombre}
-                                </div>
+                                </p>
                               )}
 
                               {persona.legajo && (
-                                <div className="mt-2 text-xs text-slate-400">
+                                <p className="mt-2 text-xs text-slate-400">
                                   Legajo {persona.legajo}
-                                </div>
+                                </p>
                               )}
                             </div>
 
@@ -490,6 +533,8 @@ export default function BuscarPage() {
                   </Grupo>
                 )}
 
+                {/* DEPENDENCIAS */}
+
                 {dependencias.length > 0 && (
                   <Grupo
                     titulo="Dependencias"
@@ -506,7 +551,8 @@ export default function BuscarPage() {
                           )}`}
                           className="
                             group
-                            flex items-center justify-between
+                            flex items-center
+                            justify-between
                             rounded-2xl
                             border border-slate-300
                             bg-slate-50
@@ -538,6 +584,8 @@ export default function BuscarPage() {
                   </Grupo>
                 )}
 
+                {/* EVENTOS */}
+
                 {eventos.length > 0 && (
                   <Grupo
                     titulo="Eventos"
@@ -566,7 +614,9 @@ export default function BuscarPage() {
 
                           {evento.fecha && (
                             <p className="mt-2 text-sm text-slate-600">
-                              {formatearFecha(evento.fecha)}
+                              {formatearFecha(
+                                evento.fecha
+                              )}
                             </p>
                           )}
 
@@ -582,6 +632,8 @@ export default function BuscarPage() {
                     </div>
                   </Grupo>
                 )}
+
+                {/* REGISTROS */}
 
                 {registros.length > 0 && (
                   <Grupo
