@@ -1,14 +1,17 @@
 ﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
+
 import {
   Bell,
   CalendarDays,
+  Check,
   ChevronRight,
+  Circle,
   Clock3,
+  Loader2,
   MapPin,
   Search,
-  Loader2,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
@@ -27,6 +30,7 @@ type Pendiente = {
   descripcion: string | null;
   prioridad: string | null;
   fecha_limite: string | null;
+  completado: boolean;
 };
 
 type Modulo = {
@@ -38,14 +42,16 @@ type Modulo = {
 
 function codigoEmoji(emoji: string) {
   return Array.from(emoji)
-    .map((caracter) => caracter.codePointAt(0)?.toString(16))
+    .map((caracter) =>
+      caracter.codePointAt(0)?.toString(16)
+    )
     .filter(Boolean)
     .join("-");
 }
 
 function Icono3D({
   emoji,
-  size = 86,
+  size = 82,
 }: {
   emoji: string;
   size?: number;
@@ -83,6 +89,17 @@ function Icono3D({
 }
 
 function formatearFecha(fecha: string | null) {
+  if (!fecha) return null;
+
+  const date = new Date(`${fecha}T12:00:00`);
+
+  return date.toLocaleDateString("es-AR", {
+    day: "2-digit",
+    month: "2-digit",
+  });
+}
+
+function formatearFechaEvento(fecha: string | null) {
   if (!fecha) return "Sin fecha";
 
   const date = new Date(`${fecha}T12:00:00`);
@@ -100,96 +117,197 @@ function formatearHora(hora: string | null) {
 }
 
 export default function HomePage() {
-  const supabase = useMemo(() => createClient(), []);
+  const supabase = useMemo(
+    () => createClient(),
+    []
+  );
 
-  const [cargando, setCargando] = useState(true);
+  const [cargando, setCargando] =
+    useState(true);
 
-  const [cantidadPersonal, setCantidadPersonal] = useState(0);
-  const [cantidadDependencias, setCantidadDependencias] = useState(0);
-  const [cantidadRegistros, setCantidadRegistros] = useState(0);
+  const [cantidadPersonal, setCantidadPersonal] =
+    useState(0);
 
-  const [eventos, setEventos] = useState<Evento[]>([]);
-  const [pendientes, setPendientes] = useState<Pendiente[]>([]);
+  const [
+    cantidadDependencias,
+    setCantidadDependencias,
+  ] = useState(0);
 
-  const [busqueda, setBusqueda] = useState("");
+  const [
+    cantidadRegistros,
+    setCantidadRegistros,
+  ] = useState(0);
+
+  const [eventos, setEventos] =
+    useState<Evento[]>([]);
+
+  const [pendientes, setPendientes] =
+    useState<Pendiente[]>([]);
+
+  const [busqueda, setBusqueda] =
+    useState("");
 
   useEffect(() => {
-    async function cargar() {
-      setCargando(true);
+    cargarDatos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+  async function cargarDatos() {
+    setCargando(true);
 
-      if (!user) {
-        window.location.href = "/login";
-        return;
-      }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-      const hoy = new Date();
-
-      const fechaHoy = [
-        hoy.getFullYear(),
-        String(hoy.getMonth() + 1).padStart(2, "0"),
-        String(hoy.getDate()).padStart(2, "0"),
-      ].join("-");
-
-      const [
-        personalResult,
-        dependenciasResult,
-        registrosResult,
-        eventosResult,
-        pendientesResult,
-      ] = await Promise.all([
-        supabase
-          .from("personas")
-          .select("*", { count: "exact", head: true })
-          .eq("activo", true),
-
-        supabase
-          .from("dependencias")
-          .select("*", { count: "exact", head: true })
-          .eq("activa", true),
-
-        supabase
-          .from("registros")
-          .select("*", { count: "exact", head: true }),
-
-        supabase
-          .from("eventos")
-          .select("id,nombre,fecha,hora,lugar")
-          .gte("fecha", fechaHoy)
-          .order("fecha", { ascending: true })
-          .order("hora", { ascending: true })
-          .limit(5),
-
-        supabase
-          .from("pendientes")
-          .select(
-            "id,titulo,descripcion,prioridad,fecha_limite"
-          )
-          .eq("completado", false)
-          .order("fecha_limite", {
-            ascending: true,
-            nullsFirst: false,
-          })
-          .limit(4),
-      ]);
-
-      setCantidadPersonal(personalResult.count || 0);
-      setCantidadDependencias(dependenciasResult.count || 0);
-      setCantidadRegistros(registrosResult.count || 0);
-
-      setEventos(eventosResult.data || []);
-      setPendientes(pendientesResult.data || []);
-
-      setCargando(false);
+    if (!user) {
+      window.location.href = "/login";
+      return;
     }
 
-    cargar();
-  }, [supabase]);
+    const hoy = new Date();
 
-  const proximoEvento = eventos[0] || null;
+    const fechaHoy = [
+      hoy.getFullYear(),
+      String(
+        hoy.getMonth() + 1
+      ).padStart(2, "0"),
+      String(hoy.getDate()).padStart(
+        2,
+        "0"
+      ),
+    ].join("-");
+
+    const [
+      personalResult,
+      dependenciasResult,
+      registrosResult,
+      eventosResult,
+      pendientesResult,
+    ] = await Promise.all([
+      supabase
+        .from("personas")
+        .select("*", {
+          count: "exact",
+          head: true,
+        })
+        .eq("activo", true),
+
+      supabase
+        .from("dependencias")
+        .select("*", {
+          count: "exact",
+          head: true,
+        })
+        .eq("activa", true),
+
+      supabase
+        .from("registros")
+        .select("*", {
+          count: "exact",
+          head: true,
+        }),
+
+      supabase
+        .from("eventos")
+        .select(
+          "id,nombre,fecha,hora,lugar"
+        )
+        .gte("fecha", fechaHoy)
+        .order("fecha", {
+          ascending: true,
+        })
+        .order("hora", {
+          ascending: true,
+        })
+        .limit(5),
+
+      supabase
+        .from("pendientes")
+        .select(`
+          id,
+          titulo,
+          descripcion,
+          prioridad,
+          fecha_limite,
+          completado
+        `)
+        .eq("completado", false)
+        .order("created_at", {
+          ascending: false,
+        })
+        .limit(8),
+    ]);
+
+    setCantidadPersonal(
+      personalResult.count || 0
+    );
+
+    setCantidadDependencias(
+      dependenciasResult.count || 0
+    );
+
+    setCantidadRegistros(
+      registrosResult.count || 0
+    );
+
+    setEventos(
+      (eventosResult.data || []) as Evento[]
+    );
+
+    setPendientes(
+      (pendientesResult.data ||
+        []) as Pendiente[]
+    );
+
+    setCargando(false);
+  }
+
+  async function completarPendiente(
+    id: string
+  ) {
+    const anterior = pendientes;
+
+    setPendientes((actuales) =>
+      actuales.filter(
+        (item) => item.id !== id
+      )
+    );
+
+    const { error } = await supabase
+      .from("pendientes")
+      .update({
+        completado: true,
+        updated_at:
+          new Date().toISOString(),
+      })
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+
+      setPendientes(anterior);
+
+      alert(
+        "No se pudo completar el pendiente."
+      );
+    }
+  }
+
+  const prioritarios =
+    pendientes.filter((item) => {
+      const prioridad =
+        item.prioridad
+          ?.toLowerCase()
+          .trim() || "";
+
+      return (
+        prioridad === "alta" ||
+        prioridad === "urgente"
+      );
+    });
+
+  const proximoEvento =
+    eventos[0] || null;
 
   const modulos: Modulo[] = [
     {
@@ -200,43 +318,50 @@ export default function HomePage() {
     },
     {
       titulo: "Buscar",
-      subtitulo: "Encontrá lo que necesitás",
+      subtitulo:
+        "Encontrá lo que necesitás",
       emoji: "🔎",
       href: "/buscar",
     },
     {
       titulo: "Registrar",
-      subtitulo: "Cargar nueva información",
+      subtitulo:
+        "Cargar nueva información",
       emoji: "📝",
       href: "/registrar",
     },
     {
       titulo: "Agenda",
-      subtitulo: "Actividades y eventos",
+      subtitulo:
+        "Actividades y eventos",
       emoji: "📅",
       href: "/agenda",
     },
     {
       titulo: "Pendientes",
-      subtitulo: "Tareas y seguimientos",
+      subtitulo:
+        `${pendientes.length} por resolver`,
       emoji: "📋",
       href: "/pendientes",
     },
     {
       titulo: "Dependencias",
-      subtitulo: `${cantidadDependencias} espacios`,
+      subtitulo:
+        `${cantidadDependencias} espacios`,
       emoji: "🗂️",
       href: "/dependencias",
     },
     {
       titulo: "Personal",
-      subtitulo: `${cantidadPersonal} registros`,
+      subtitulo:
+        `${cantidadPersonal} registros`,
       emoji: "👥",
       href: "/personal",
     },
     {
       titulo: "Documentos",
-      subtitulo: "Archivos y material",
+      subtitulo:
+        "Archivos y material",
       emoji: "📁",
       href: "/documentos",
     },
@@ -245,25 +370,29 @@ export default function HomePage() {
       subtitulo:
         cantidadRegistros > 0
           ? `${cantidadRegistros} registros`
-          : "Notas, actas y bitácoras",
+          : "Historial institucional",
       emoji: "🗃️",
       href: "/registros",
     },
     {
       titulo: "Informes",
-      subtitulo: "Estadísticas y reportes",
+      subtitulo:
+        "Estadísticas y reportes",
       emoji: "📊",
       href: "/informes",
     },
     {
       titulo: "Configuración",
-      subtitulo: "Ajustes del sistema",
+      subtitulo:
+        "Ajustes del sistema",
       emoji: "⚙️",
       href: "/configuracion",
     },
   ];
 
-  function buscar(e: React.FormEvent) {
+  function buscar(
+    e: React.FormEvent
+  ) {
     e.preventDefault();
 
     const texto = busqueda.trim();
@@ -271,7 +400,9 @@ export default function HomePage() {
     if (!texto) return;
 
     window.location.href =
-      `/buscar?q=${encodeURIComponent(texto)}`;
+      `/buscar?q=${encodeURIComponent(
+        texto
+      )}`;
   }
 
   if (cargando) {
@@ -294,19 +425,21 @@ export default function HomePage() {
       {/* CABECERA */}
 
       <header className="border-b border-slate-200 bg-white">
+
         <div
           className="
-            mx-auto
-            flex max-w-[1580px]
+            mx-auto flex
+            max-w-[1580px]
             items-center gap-5
             px-6 py-4
           "
         >
+
           <form
             onSubmit={buscar}
             className="
-              mx-auto
-              flex w-full max-w-2xl
+              mx-auto flex
+              w-full max-w-2xl
               items-center gap-3
               rounded-xl
               border border-slate-300
@@ -322,13 +455,16 @@ export default function HomePage() {
             <input
               value={busqueda}
               onChange={(e) =>
-                setBusqueda(e.target.value)
+                setBusqueda(
+                  e.target.value
+                )
               }
               placeholder="Buscar en todo el sistema..."
               className="
                 w-full
                 bg-transparent
-                text-sm text-slate-800
+                text-sm
+                text-slate-800
                 outline-none
                 placeholder:text-slate-500
               "
@@ -337,7 +473,8 @@ export default function HomePage() {
 
           <button
             className="
-              rounded-xl p-2.5
+              rounded-xl
+              p-2.5
               text-slate-500
               hover:bg-slate-100
             "
@@ -348,20 +485,29 @@ export default function HomePage() {
           <div
             className="
               flex h-10 w-10
-              items-center justify-center
+              items-center
+              justify-center
               rounded-full
               bg-[#0f2f4d]
-              text-sm font-bold text-white
+              text-sm
+              font-bold
+              text-white
             "
           >
             H
           </div>
+
         </div>
+
       </header>
 
-      <div className="mx-auto max-w-[1580px] px-6 py-8">
-
-        {/* MI JORNADA */}
+      <div
+        className="
+          mx-auto
+          max-w-[1580px]
+          px-6 py-8
+        "
+      >
 
         <section>
           <h1 className="text-[31px] font-bold tracking-tight">
@@ -380,9 +526,10 @@ export default function HomePage() {
             xl:grid-cols-[1.7fr_1fr]
           "
         >
+
           <div className="space-y-5">
 
-            {/* COMPROMISOS */}
+            {/* PRIORITARIOS */}
 
             <div
               className="
@@ -393,7 +540,9 @@ export default function HomePage() {
                 shadow-[0_5px_14px_rgba(15,23,42,0.04)]
               "
             >
+
               <div className="flex items-center justify-between">
+
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">
                     ⭐
@@ -410,63 +559,93 @@ export default function HomePage() {
                 >
                   Ver todos
                 </a>
+
               </div>
 
-              {pendientes.length === 0 ? (
+              {prioritarios.length ===
+              0 ? (
                 <div
                   className="
                     mt-5
                     rounded-xl
-                    border border-dashed border-slate-300
+                    border
+                    border-dashed
+                    border-slate-300
                     bg-slate-50
                     px-5 py-7
-                    text-sm text-slate-500
+                    text-sm
+                    text-slate-500
                   "
                 >
-                  No hay compromisos pendientes.
+                  No hay compromisos prioritarios.
                 </div>
               ) : (
                 <div className="mt-5 space-y-2">
 
-                  {pendientes
+                  {prioritarios
                     .slice(0, 3)
                     .map((item) => (
-                      <a
+                      <div
                         key={item.id}
-                        href="/pendientes"
                         className="
-                          flex items-center justify-between
+                          flex items-center
+                          gap-3
                           rounded-xl
-                          border border-slate-200
+                          border
+                          border-slate-200
                           bg-slate-50
                           px-4 py-3
-                          hover:bg-slate-100
                         "
                       >
-                        <div>
+
+                        <button
+                          onClick={() =>
+                            completarPendiente(
+                              item.id
+                            )
+                          }
+                          className="
+                            flex h-8 w-8
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            border-2
+                            border-slate-300
+                            bg-white
+                            text-transparent
+                            transition
+                            hover:border-emerald-500
+                            hover:bg-emerald-50
+                            hover:text-emerald-600
+                          "
+                          title="Marcar como completado"
+                        >
+                          <Check size={17} />
+                        </button>
+
+                        <div className="min-w-0 flex-1">
+
                           <p className="font-semibold">
                             {item.titulo}
                           </p>
 
-                          {item.fecha_limite && (
-                            <p className="mt-1 text-xs text-slate-500">
-                              Hasta{" "}
-                              {formatearFecha(
-                                item.fecha_limite
-                              )}
+                          {item.descripcion && (
+                            <p className="mt-1 line-clamp-1 text-sm text-slate-500">
+                              {
+                                item.descripcion
+                              }
                             </p>
                           )}
+
                         </div>
 
-                        <ChevronRight
-                          size={18}
-                          className="text-slate-400"
-                        />
-                      </a>
+                      </div>
                     ))}
 
                 </div>
               )}
+
             </div>
 
             {/* MI LISTA */}
@@ -480,6 +659,7 @@ export default function HomePage() {
                 shadow-[0_5px_14px_rgba(15,23,42,0.04)]
               "
             >
+
               <div className="flex items-center justify-between">
 
                 <div className="flex items-center gap-3">
@@ -487,83 +667,145 @@ export default function HomePage() {
                     📋
                   </span>
 
-                  <h2 className="text-[17px] font-bold">
-                    Mi lista
-                  </h2>
+                  <div>
+                    <h2 className="text-[17px] font-bold">
+                      Mi lista
+                    </h2>
+
+                    <p className="text-xs text-slate-500">
+                      Información pendiente de resolver
+                    </p>
+                  </div>
+
                 </div>
 
                 <a
-                  href="/agenda"
+                  href="/pendientes"
                   className="text-sm font-semibold text-cyan-700"
                 >
                   Ver todo
                 </a>
+
               </div>
 
-              <div className="mt-5">
+              {pendientes.length === 0 ? (
+                <div
+                  className="
+                    mt-5
+                    rounded-xl
+                    border border-dashed
+                    border-slate-300
+                    bg-slate-50
+                    px-5 py-7
+                    text-center
+                    text-sm
+                    text-slate-500
+                  "
+                >
+                  No tenés pendientes.
+                </div>
+              ) : (
+                <div className="mt-4 divide-y divide-slate-100">
 
-                {eventos.length === 0 ? (
-                  <div className="rounded-xl bg-slate-50 px-5 py-6 text-sm text-slate-500">
-                    No hay próximos eventos.
-                  </div>
-                ) : (
-                  eventos.slice(0, 4).map((evento) => (
-                    <a
-                      key={evento.id}
-                      href="/agenda"
-                      className="
-                        flex items-center gap-4
-                        border-b border-slate-100
-                        py-3.5
-                        last:border-0
-                      "
-                    >
+                  {pendientes
+                    .slice(0, 6)
+                    .map((item) => (
+
                       <div
+                        key={item.id}
                         className="
-                          flex h-12 w-12
-                          items-center justify-center
-                          rounded-xl
-                          bg-blue-50
-                          text-2xl
+                          flex gap-4
+                          py-4
                         "
                       >
-                        📅
-                      </div>
 
-                      <div className="min-w-0 flex-1">
-                        <p className="font-medium">
-                          {evento.nombre}
-                        </p>
+                        <button
+                          onClick={() =>
+                            completarPendiente(
+                              item.id
+                            )
+                          }
+                          className="
+                            mt-0.5
+                            flex h-9 w-9
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            border-2
+                            border-slate-300
+                            bg-white
+                            text-transparent
+                            transition-all
+                            hover:scale-105
+                            hover:border-emerald-500
+                            hover:bg-emerald-50
+                            hover:text-emerald-600
+                          "
+                          title="Completar"
+                        >
+                          <Check size={18} />
+                        </button>
 
-                        <p className="mt-1 text-xs text-slate-500">
-                          {formatearFecha(
-                            evento.fecha
+                        <div className="min-w-0 flex-1">
+
+                          <div className="flex items-start justify-between gap-4">
+
+                            <div>
+                              <p className="font-semibold text-slate-900">
+                                {
+                                  item.titulo
+                                }
+                              </p>
+
+                              {item.descripcion && (
+                                <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-500">
+                                  {
+                                    item.descripcion
+                                  }
+                                </p>
+                              )}
+                            </div>
+
+                            <span
+                              className="
+                                shrink-0
+                                rounded-full
+                                bg-amber-50
+                                px-2.5 py-1
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                text-amber-700
+                              "
+                            >
+                              pendiente
+                            </span>
+
+                          </div>
+
+                          {item.fecha_limite && (
+                            <div className="mt-2 flex items-center gap-1.5 text-xs text-slate-400">
+                              <CalendarDays
+                                size={13}
+                              />
+
+                              Hasta{" "}
+                              {formatearFecha(
+                                item.fecha_limite
+                              )}
+                            </div>
                           )}
 
-                          {evento.hora
-                            ? ` · ${formatearHora(
-                                evento.hora
-                              )}`
-                            : ""}
-                        </p>
+                        </div>
+
                       </div>
 
-                      <span
-                        className="
-                          rounded-full
-                          bg-blue-50
-                          px-3 py-1
-                          text-xs font-medium
-                          text-blue-700
-                        "
-                      >
-                        evento
-                      </span>
-                    </a>
-                  ))
-                )}
+                    ))}
 
-              </div>
+                </div>
+              )}
+
             </div>
 
           </div>
@@ -571,6 +813,8 @@ export default function HomePage() {
           {/* DERECHA */}
 
           <div className="space-y-5">
+
+            {/* PRÓXIMO EVENTO */}
 
             <div
               className="
@@ -581,9 +825,11 @@ export default function HomePage() {
                 shadow-[0_5px_14px_rgba(15,23,42,0.04)]
               "
             >
+
               <div className="flex items-center justify-between">
 
                 <div className="flex items-center gap-3">
+
                   <span className="text-2xl">
                     📅
                   </span>
@@ -591,6 +837,7 @@ export default function HomePage() {
                   <h2 className="text-[17px] font-bold">
                     Próximo evento
                   </h2>
+
                 </div>
 
                 <a
@@ -599,6 +846,7 @@ export default function HomePage() {
                 >
                   Agenda
                 </a>
+
               </div>
 
               {proximoEvento ? (
@@ -611,27 +859,36 @@ export default function HomePage() {
                   <div className="mt-4 space-y-3 text-sm text-slate-500">
 
                     <div className="flex items-center gap-3">
-                      <CalendarDays size={16} />
-                      {formatearFecha(
+                      <CalendarDays
+                        size={16}
+                      />
+
+                      {formatearFechaEvento(
                         proximoEvento.fecha
                       )}
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <Clock3 size={16} />
+                      <Clock3
+                        size={16}
+                      />
+
                       {formatearHora(
                         proximoEvento.hora
                       )}
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <MapPin size={16} />
+                      <MapPin
+                        size={16}
+                      />
 
                       {proximoEvento.lugar ||
                         "Sin lugar cargado"}
                     </div>
 
                   </div>
+
                 </div>
               ) : (
                 <div className="mt-5 rounded-xl bg-slate-50 px-5 py-8 text-center text-sm text-slate-500">
@@ -640,6 +897,8 @@ export default function HomePage() {
               )}
 
             </div>
+
+            {/* ESPERANDO RESPUESTA */}
 
             <div
               className="
@@ -650,7 +909,9 @@ export default function HomePage() {
                 shadow-[0_5px_14px_rgba(15,23,42,0.04)]
               "
             >
+
               <div className="flex items-center gap-3">
+
                 <Clock3
                   size={21}
                   className="text-cyan-600"
@@ -659,34 +920,41 @@ export default function HomePage() {
                 <h2 className="text-[17px] font-bold">
                   Esperando respuesta
                 </h2>
+
               </div>
 
               <div
                 className="
                   mt-5
                   rounded-xl
-                  border border-dashed border-slate-300
+                  border border-dashed
+                  border-slate-300
                   bg-slate-50
                   px-5 py-8
                   text-center
-                  text-sm text-slate-400
+                  text-sm
+                  text-slate-400
                 "
               >
                 Sin elementos por ahora.
               </div>
+
             </div>
 
           </div>
+
         </section>
 
-        {/* MODULOS GRANDES */}
+        {/* ACCESOS */}
 
         <section className="mt-11">
 
           <p
             className="
-              text-xs font-bold
-              uppercase tracking-[0.18em]
+              text-xs
+              font-bold
+              uppercase
+              tracking-[0.18em]
               text-slate-500
             "
           >
@@ -706,70 +974,66 @@ export default function HomePage() {
               xl:grid-cols-6
             "
           >
-            {modulos.map((modulo) => (
 
-              <a
-                key={modulo.titulo}
-                href={modulo.href}
-                className="
-                  group
-                  flex min-h-[285px]
-                  flex-col
-                  items-center
-                  rounded-[26px]
-                  border border-slate-300
-                  bg-white
-                  px-5 py-7
-                  text-center
-                  shadow-[0_8px_22px_rgba(15,23,42,0.06)]
-                  transition-all duration-200
+            {modulos.map(
+              (modulo) => (
+                <a
+                  key={modulo.titulo}
+                  href={modulo.href}
+                  className="
+                    group
+                    flex
+                    min-h-[285px]
+                    flex-col
+                    items-center
+                    rounded-[26px]
+                    border
+                    border-slate-300
+                    bg-white
+                    px-5 py-7
+                    text-center
+                    shadow-[0_8px_22px_rgba(15,23,42,0.06)]
+                    transition-all
+                    duration-200
+                    hover:-translate-y-1.5
+                    hover:border-slate-400
+                    hover:shadow-[0_18px_36px_rgba(15,23,42,0.12)]
+                  "
+                >
 
-                  hover:-translate-y-1.5
-                  hover:border-slate-400
-                  hover:shadow-[0_18px_36px_rgba(15,23,42,0.12)]
-                "
-              >
+                  <Icono3D
+                    emoji={
+                      modulo.emoji
+                    }
+                    size={82}
+                  />
 
-                <Icono3D
-                  emoji={modulo.emoji}
-                  size={82}
-                />
+                  <div className="mt-auto pt-7">
 
-                <div className="mt-auto pt-7">
+                    <h3 className="text-[19px] font-bold tracking-tight text-slate-900">
+                      {
+                        modulo.titulo
+                      }
+                    </h3>
 
-                  <h3
-                    className="
-                      text-[19px]
-                      font-bold
-                      tracking-tight
-                      text-slate-900
-                    "
-                  >
-                    {modulo.titulo}
-                  </h3>
+                    <p className="mx-auto mt-2 max-w-[150px] text-[14px] leading-5 text-slate-500">
+                      {
+                        modulo.subtitulo
+                      }
+                    </p>
 
-                  <p
-                    className="
-                      mx-auto mt-2
-                      max-w-[150px]
-                      text-[14px]
-                      leading-5
-                      text-slate-500
-                    "
-                  >
-                    {modulo.subtitulo}
-                  </p>
+                  </div>
 
-                </div>
+                </a>
+              )
+            )}
 
-              </a>
-
-            ))}
           </div>
 
         </section>
 
       </div>
+
     </main>
   );
 }
