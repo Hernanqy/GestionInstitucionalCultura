@@ -1,420 +1,184 @@
-﻿"use client";
+"use client";
 
-import RegistroInteligente from "@/components/RegistroInteligente";
-
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-
 import {
-  Bell,
+  ArrowRight,
+  BookOpen,
+  Building2,
   CalendarDays,
-  Check,
   ChevronRight,
-  Circle,
+  CircleAlert,
   Clock3,
+  Clapperboard,
+  FlaskConical,
+  GraduationCap,
+  Landmark,
+  Leaf,
+  Library,
+  ListTodo,
   Loader2,
-  MapPin,
-  Search,
+  Music2,
+  Palette,
+  PawPrint,
+  Plus,
+  Settings,
+  Theater,
+  Trees,
+  UsersRound,
+  Wheat,
+  Wrench,
 } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
 
-type Evento = {
+type Dependencia = {
   id: string;
   nombre: string;
-  fecha: string | null;
-  hora: string | null;
-  lugar: string | null;
+  area: string | null;
+  slug: string | null;
 };
 
-type Pendiente = {
+type PendienteResumen = {
   id: string;
-  titulo: string;
-  descripcion: string | null;
-  prioridad: string | null;
   fecha_limite: string | null;
-  completado: boolean;
 };
 
-type Modulo = {
-  titulo: string;
-  subtitulo: string;
-  emoji: string;
-  href: string;
-};
+const estilosDependencia = [
+  { fondo: "bg-violet-100", borde: "border-violet-200", icono: "text-violet-800" },
+  { fondo: "bg-emerald-100", borde: "border-emerald-200", icono: "text-emerald-800" },
+  { fondo: "bg-sky-100", borde: "border-sky-200", icono: "text-sky-800" },
+  { fondo: "bg-orange-100", borde: "border-orange-200", icono: "text-orange-800" },
+  { fondo: "bg-green-100", borde: "border-green-200", icono: "text-green-800" },
+  { fondo: "bg-pink-100", borde: "border-pink-200", icono: "text-pink-800" },
+  { fondo: "bg-red-100", borde: "border-red-200", icono: "text-red-800" },
+  { fondo: "bg-cyan-100", borde: "border-cyan-200", icono: "text-cyan-800" },
+  { fondo: "bg-amber-100", borde: "border-amber-200", icono: "text-amber-800" },
+  { fondo: "bg-lime-100", borde: "border-lime-200", icono: "text-lime-800" },
+  { fondo: "bg-blue-100", borde: "border-blue-200", icono: "text-blue-800" },
+  { fondo: "bg-fuchsia-100", borde: "border-fuchsia-200", icono: "text-fuchsia-800" },
+];
 
-function codigoEmoji(emoji: string) {
-  return Array.from(emoji)
-    .map((caracter) =>
-      caracter.codePointAt(0)?.toString(16)
-    )
-    .filter(Boolean)
-    .join("-");
+function crearSlug(nombre: string) {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
-function Icono3D({
-  emoji,
-  size = 82,
-}: {
-  emoji: string;
-  size?: number;
-}) {
-  const codigo = codigoEmoji(emoji);
-
-  return (
-    <div
-      className="
-        flex items-center justify-center
-        rounded-[26px]
-        border border-slate-200
-        bg-gradient-to-br from-white to-slate-100
-        shadow-[0_10px_24px_rgba(15,23,42,0.09)]
-      "
-      style={{
-        width: size + 32,
-        height: size + 32,
-      }}
-    >
-      <img
-        src={`https://cdn.jsdelivr.net/npm/@lobehub/fluent-emoji-3d@1.1.0/assets/${codigo}.webp`}
-        alt=""
-        width={size}
-        height={size}
-        draggable={false}
-        className="
-          select-none
-          object-contain
-          drop-shadow-[0_8px_8px_rgba(15,23,42,0.16)]
-        "
-      />
-    </div>
-  );
+function fechaLocal() {
+  const ahora = new Date();
+  const anio = ahora.getFullYear();
+  const mes = String(ahora.getMonth() + 1).padStart(2, "0");
+  const dia = String(ahora.getDate()).padStart(2, "0");
+  return `${anio}-${mes}-${dia}`;
 }
 
-function formatearFecha(fecha: string | null) {
-  if (!fecha) return null;
+function obtenerIcono(nombre: string, area: string | null) {
+  const texto = `${nombre} ${area || ""}`.toLocaleLowerCase("es");
 
-  const date = new Date(`${fecha}T12:00:00`);
-
-  return date.toLocaleDateString("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-  });
+  if (texto.includes("bioparque") || texto.includes("fauna")) return PawPrint;
+  if (texto.includes("reserva") || texto.includes("natural")) return Leaf;
+  if (texto.includes("ciit") || texto.includes("ciencia") || texto.includes("investig")) return FlaskConical;
+  if (texto.includes("museo") || texto.includes("patrimonio") || texto.includes("históric") || texto.includes("historic")) return Landmark;
+  if (texto.includes("archivo")) return Library;
+  if (texto.includes("biblioteca") || texto.includes("libro")) return BookOpen;
+  if (texto.includes("teatro") || texto.includes("danza") || texto.includes("ballet")) return Theater;
+  if (texto.includes("cine") || texto.includes("audiovisual")) return Clapperboard;
+  if (texto.includes("música") || texto.includes("musica") || texto.includes("orquesta") || texto.includes("banda")) return Music2;
+  if (texto.includes("arte") || texto.includes("plástica") || texto.includes("plastica")) return Palette;
+  if (texto.includes("educación") || texto.includes("educacion") || texto.includes("formación") || texto.includes("formacion")) return GraduationCap;
+  if (texto.includes("taller")) return Wrench;
+  if (texto.includes("espiga") || texto.includes("rural")) return Wheat;
+  if (texto.includes("parque") || texto.includes("máxima") || texto.includes("maxima")) return Trees;
+  if (texto.includes("goco") || texto.includes("coordinación") || texto.includes("coordinacion")) return UsersRound;
+  return Building2;
 }
 
-function formatearFechaEvento(fecha: string | null) {
-  if (!fecha) return "Sin fecha";
+export default function InicioPage() {
+  const supabase = useMemo(() => createClient(), []);
 
-  const date = new Date(`${fecha}T12:00:00`);
-
-  return date.toLocaleDateString("es-AR", {
-    weekday: "long",
-    day: "2-digit",
-    month: "2-digit",
-  });
-}
-
-function formatearHora(hora: string | null) {
-  if (!hora) return "Sin horario";
-  return hora.slice(0, 5);
-}
-
-export default function HomePage() {
-  const supabase = useMemo(
-    () => createClient(),
-    []
-  );
-
-  const [cargando, setCargando] =
-    useState(true);
-
-  const [cantidadPersonal, setCantidadPersonal] =
-    useState(0);
-
-  const [
-    cantidadDependencias,
-    setCantidadDependencias,
-  ] = useState(0);
-
-  const [
-    cantidadRegistros,
-    setCantidadRegistros,
-  ] = useState(0);
-
-  const [eventos, setEventos] =
-    useState<Evento[]>([]);
-
-  const [pendientes, setPendientes] =
-    useState<Pendiente[]>([]);
-
-  const [busqueda, setBusqueda] =
-    useState("");
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState("");
+  const [dependencias, setDependencias] = useState<Dependencia[]>([]);
+  const [pendientes, setPendientes] = useState<PendienteResumen[]>([]);
 
   useEffect(() => {
-    cargarDatos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    async function cargarInicio() {
+      setCargando(true);
+      setError("");
 
-  async function cargarDatos() {
-    setCargando(true);
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = "/login";
+        return;
+      }
 
-    if (!user) {
-      window.location.href = "/login";
-      return;
+      const [dependenciasResult, pendientesResult] = await Promise.all([
+        supabase
+          .from("dependencias")
+          .select("id,nombre,area,slug")
+          .eq("activa", true)
+          .order("nombre", { ascending: true })
+          .range(0, 999),
+        supabase
+          .from("pendientes")
+          .select("id,fecha_limite")
+          .eq("completado", false)
+          .range(0, 9999),
+      ]);
+
+      if (dependenciasResult.error) {
+        console.error(dependenciasResult.error);
+        setError("No se pudieron cargar las dependencias.");
+      } else {
+        setDependencias((dependenciasResult.data || []) as Dependencia[]);
+      }
+
+      if (pendientesResult.error) {
+        console.error(pendientesResult.error);
+        setError((actual) => actual || "No se pudieron cargar los pendientes.");
+      } else {
+        setPendientes((pendientesResult.data || []) as PendienteResumen[]);
+      }
+
+      setCargando(false);
     }
 
-    const hoy = new Date();
+    cargarInicio();
+  }, [supabase]);
 
-    const fechaHoy = [
-      hoy.getFullYear(),
-      String(
-        hoy.getMonth() + 1
-      ).padStart(2, "0"),
-      String(hoy.getDate()).padStart(
-        2,
-        "0"
-      ),
-    ].join("-");
+  const resumenPendientes = useMemo(() => {
+    const hoy = fechaLocal();
+    let vencidas = 0;
+    let proximas = 0;
+    let sinFecha = 0;
 
-    const [
-      personalResult,
-      dependenciasResult,
-      registrosResult,
-      eventosResult,
-      pendientesResult,
-    ] = await Promise.all([
-      supabase
-        .from("personas")
-        .select("*", {
-          count: "exact",
-          head: true,
-        })
-        .eq("activo", true),
-
-      supabase
-        .from("dependencias")
-        .select("*", {
-          count: "exact",
-          head: true,
-        })
-        .eq("activa", true),
-
-      supabase
-        .from("registros")
-        .select("*", {
-          count: "exact",
-          head: true,
-        }),
-
-      supabase
-        .from("eventos")
-        .select(
-          "id,nombre,fecha,hora,lugar"
-        )
-        .gte("fecha", fechaHoy)
-        .order("fecha", {
-          ascending: true,
-        })
-        .order("hora", {
-          ascending: true,
-        })
-        .limit(5),
-
-      supabase
-        .from("pendientes")
-        .select(`
-          id,
-          titulo,
-          descripcion,
-          prioridad,
-          fecha_limite,
-          completado
-        `)
-        .eq("completado", false)
-        .order("created_at", {
-          ascending: false,
-        })
-        .limit(8),
-    ]);
-
-    setCantidadPersonal(
-      personalResult.count || 0
-    );
-
-    setCantidadDependencias(
-      dependenciasResult.count || 0
-    );
-
-    setCantidadRegistros(
-      registrosResult.count || 0
-    );
-
-    setEventos(
-      (eventosResult.data || []) as Evento[]
-    );
-
-    setPendientes(
-      (pendientesResult.data ||
-        []) as Pendiente[]
-    );
-
-    setCargando(false);
-  }
-
-  async function completarPendiente(
-    id: string
-  ) {
-    const anterior = pendientes;
-
-    setPendientes((actuales) =>
-      actuales.filter(
-        (item) => item.id !== id
-      )
-    );
-
-    const { error } = await supabase
-      .from("pendientes")
-      .update({
-        completado: true,
-        updated_at:
-          new Date().toISOString(),
-      })
-      .eq("id", id);
-
-    if (error) {
-      console.error(error);
-
-      setPendientes(anterior);
-
-      alert(
-        "No se pudo completar el pendiente."
-      );
-    }
-  }
-
-  const prioritarios =
-    pendientes.filter((item) => {
-      const prioridad =
-        item.prioridad
-          ?.toLowerCase()
-          .trim() || "";
-
-      return (
-        prioridad === "alta" ||
-        prioridad === "urgente"
-      );
+    pendientes.forEach((item) => {
+      if (!item.fecha_limite) {
+        sinFecha += 1;
+      } else if (item.fecha_limite < hoy) {
+        vencidas += 1;
+      } else {
+        proximas += 1;
+      }
     });
 
-  const proximoEvento =
-    eventos[0] || null;
+    return { vencidas, proximas, sinFecha };
+  }, [pendientes]);
 
-  const modulos: Modulo[] = [
-    {
-      titulo: "Inicio",
-      subtitulo: "Vista principal",
-      emoji: "🏠",
-      href: "/",
-    },
-    {
-      titulo: "Buscar",
-      subtitulo:
-        "Encontrá lo que necesitás",
-      emoji: "🔎",
-      href: "/buscar",
-    },
-    {
-      titulo: "Registrar",
-      subtitulo:
-        "Cargar nueva información",
-      emoji: "📝",
-      href: "/registrar",
-    },
-    {
-      titulo: "Agenda",
-      subtitulo:
-        "Actividades y eventos",
-      emoji: "📅",
-      href: "/agenda",
-    },
-    {
-      titulo: "Pendientes",
-      subtitulo:
-        `${pendientes.length} por resolver`,
-      emoji: "📋",
-      href: "/pendientes",
-    },
-    {
-      titulo: "Dependencias",
-      subtitulo:
-        `${cantidadDependencias} espacios`,
-      emoji: "🗂️",
-      href: "/dependencias",
-    },
-    {
-      titulo: "Personal",
-      subtitulo:
-        `${cantidadPersonal} registros`,
-      emoji: "👥",
-      href: "/personal",
-    },
-    {
-      titulo: "Documentos",
-      subtitulo:
-        "Archivos y material",
-      emoji: "📁",
-      href: "/documentos",
-    },
-    {
-      titulo: "Registros",
-      subtitulo:
-        cantidadRegistros > 0
-          ? `${cantidadRegistros} registros`
-          : "Historial institucional",
-      emoji: "🗃️",
-      href: "/registros",
-    },
-    {
-      titulo: "Informes",
-      subtitulo:
-        "Estadísticas y reportes",
-      emoji: "📊",
-      href: "/informes",
-    },
-    {
-      titulo: "Configuración",
-      subtitulo:
-        "Ajustes del sistema",
-      emoji: "⚙️",
-      href: "/configuracion",
-    },
-  ];
 
-  function buscar(
-    e: React.FormEvent
-  ) {
-    e.preventDefault();
-
-    const texto = busqueda.trim();
-
-    if (!texto) return;
-
-    window.location.href =
-      `/buscar?q=${encodeURIComponent(
-        texto
-      )}`;
-  }
 
   if (cargando) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#edf4f8]">
+      <main className="flex min-h-screen items-center justify-center bg-[#f4f7fb]">
         <div className="flex items-center gap-3 text-slate-600">
-          <Loader2
-            size={22}
-            className="animate-spin"
-          />
+          <Loader2 className="animate-spin" size={23} />
           Cargando gestión...
         </div>
       </main>
@@ -422,622 +186,144 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#edf4f8] text-slate-900">
-
-      {/* CABECERA */}
-
-      <header className="border-b border-slate-200 bg-white">
-
-        <div
-          className="
-            mx-auto flex
-            max-w-[1580px]
-            items-center gap-5
-            px-6 py-4
-          "
-        >
-
-          <form
-            onSubmit={buscar}
-            className="
-              mx-auto flex
-              w-full max-w-2xl
-              items-center gap-3
-              rounded-xl
-              border border-slate-300
-              bg-slate-50
-              px-4 py-2.5
-            "
-          >
-            <Search
-              size={19}
-              className="text-slate-500"
-            />
-
-            <input
-              value={busqueda}
-              onChange={(e) =>
-                setBusqueda(
-                  e.target.value
-                )
-              }
-              placeholder="Buscar en todo el sistema..."
-              className="
-                w-full
-                bg-transparent
-                text-sm
-                text-slate-800
-                outline-none
-                placeholder:text-slate-500
-              "
-            />
-          </form>
-
-          <button
-            className="
-              rounded-xl
-              p-2.5
-              text-slate-500
-              hover:bg-slate-100
-            "
-          >
-            <Bell size={20} />
-          </button>
-
-          <div
-            className="
-              flex h-10 w-10
-              items-center
-              justify-center
-              rounded-full
-              bg-[#0f2f4d]
-              text-sm
-              font-bold
-              text-white
-            "
-          >
-            H
+    <main className="min-h-screen bg-[#f4f7fb] pb-28 text-[#102b43] lg:pb-12">
+      <div className="mx-auto w-full max-w-[1180px] px-4 pb-8 pt-5 sm:px-6 md:px-8 md:pt-7">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="text-[38px] font-black leading-none tracking-[-0.08em] text-[#123f6d] md:text-[44px]">
+              GI
+            </div>
+            <div className="h-10 w-px shrink-0 bg-slate-300" />
+            <div className="min-w-0">
+              <p className="truncate text-[15px] font-extrabold leading-tight text-[#143a63] md:text-base">
+                Gestión Integral
+              </p>
+              <p className="truncate text-xs font-medium text-slate-500 md:text-sm">
+                Cultura · Olavarría
+              </p>
+            </div>
           </div>
 
+          <Link
+            href="/configuracion"
+            aria-label="Configuración"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-[#143a63] shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+          >
+            <Settings size={20} />
+          </Link>
         </div>
 
-      </header>
+        <p className="mt-5 text-center text-sm font-medium text-slate-500 md:text-left">
+          Planificar hoy, una cultura más viva mañana.
+        </p>
 
-      <div
-        className="
-          mx-auto
-          max-w-[1580px]
-          px-6 py-8
-        "
-      >
-
-        <section>
-          <h1 className="text-[31px] font-bold tracking-tight">
-            Mi jornada
-          </h1>
-
-          <p className="mt-1 text-sm text-slate-500">
-            Información que requiere atención
-          </p>
-        </section>
-
-        <section
-          className="
-            mt-6
-            grid gap-5
-            xl:grid-cols-[1.7fr_1fr]
-          "
+        <Link
+          href="/todo"
+          className="group mt-4 flex items-center gap-4 rounded-[18px] bg-gradient-to-r from-[#0f4777] to-[#123967] px-5 py-4 text-white shadow-[0_10px_28px_rgba(15,71,119,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(15,71,119,0.28)] md:px-6 md:py-5"
         >
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/12 ring-1 ring-white/15">
+            <ListTodo size={27} strokeWidth={2.2} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-lg font-extrabold leading-tight md:text-xl">TODO</p>
+            <p className="mt-0.5 text-sm font-medium text-blue-100">
+              {pendientes.length} {pendientes.length === 1 ? "pendiente" : "pendientes"}
+            </p>
+          </div>
+          <ArrowRight className="shrink-0 transition group-hover:translate-x-1" size={23} />
+        </Link>
 
-          <div className="flex flex-col-reverse gap-5">
+        <div className="mt-3 grid grid-cols-3 gap-2 md:max-w-xl md:gap-3">
+          <Link
+            href="/todo"
+            className="flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-red-100 bg-white px-2 py-2.5 text-center text-xs font-semibold text-slate-600 shadow-sm"
+          >
+            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-red-500 text-[10px] font-bold text-white">!</span>
+            <span className="truncate">{resumenPendientes.vencidas} Vencidas</span>
+          </Link>
+          <Link
+            href="/todo"
+            className="flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-amber-100 bg-white px-2 py-2.5 text-center text-xs font-semibold text-slate-600 shadow-sm"
+          >
+            <CalendarDays size={16} className="shrink-0 text-amber-500" />
+            <span className="truncate">{resumenPendientes.proximas} Próximas</span>
+          </Link>
+          <Link
+            href="/todo"
+            className="flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2 py-2.5 text-center text-xs font-semibold text-slate-600 shadow-sm"
+          >
+            <Clock3 size={16} className="shrink-0 text-slate-500" />
+            <span className="truncate">{resumenPendientes.sinFecha} Sin fecha</span>
+          </Link>
+        </div>
 
-            {/* PRIORITARIOS */}
-
-            <div
-              className="
-                rounded-[20px]
-                border border-slate-300
-                bg-white
-                p-6
-                shadow-[0_5px_14px_rgba(15,23,42,0.04)]
-              "
+        <section className="mt-7">
+          <div className="flex items-center justify-between gap-4">
+            <h1 className="text-xl font-extrabold tracking-tight text-[#102b43] md:text-2xl">Dependencias</h1>
+            <Link
+              href="/dependencias"
+              className="shrink-0 text-sm font-bold text-sky-600 transition hover:text-sky-700"
             >
-
-              <div className="flex items-center justify-between">
-
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">
-                    ⭐
-                  </span>
-
-                  <h2 className="text-[17px] font-bold">
-                    Compromisos prioritarios
-                  </h2>
-                </div>
-
-                <a
-                  href="/pendientes"
-                  className="text-sm font-semibold text-cyan-700"
-                >
-                  Ver todos
-                </a>
-
-              </div>
-
-              {prioritarios.length ===
-              0 ? (
-                <div
-                  className="
-                    mt-5
-                    rounded-xl
-                    border
-                    border-dashed
-                    border-slate-300
-                    bg-slate-50
-                    px-5 py-7
-                    text-sm
-                    text-slate-500
-                  "
-                >
-                  No hay compromisos prioritarios.
-                </div>
-              ) : (
-                <div className="mt-5 space-y-2">
-
-                  {prioritarios
-                    .slice(0, 3)
-                    .map((item) => (
-                      <div
-                        key={item.id}
-                        className="
-                          flex items-center
-                          gap-3
-                          rounded-xl
-                          border
-                          border-slate-200
-                          bg-slate-50
-                          px-4 py-3
-                        "
-                      >
-
-                        <button
-                          onClick={() =>
-                            completarPendiente(
-                              item.id
-                            )
-                          }
-                          className="
-                            flex h-8 w-8
-                            shrink-0
-                            items-center
-                            justify-center
-                            rounded-full
-                            border-2
-                            border-slate-300
-                            bg-white
-                            text-transparent
-                            transition
-                            hover:border-emerald-500
-                            hover:bg-emerald-50
-                            hover:text-emerald-600
-                          "
-                          title="Marcar como completado"
-                        >
-                          <Check size={17} />
-                        </button>
-
-                        <div className="min-w-0 flex-1">
-
-                          <p className="font-semibold">
-                            {item.titulo}
-                          </p>
-
-                          {item.descripcion && (
-                            <p className="mt-1 line-clamp-1 text-sm text-slate-500">
-                              {
-                                item.descripcion
-                              }
-                            </p>
-                          )}
-
-                        </div>
-
-                      </div>
-                    ))}
-
-                </div>
-              )}
-
-            </div>
-
-            {/* MI LISTA */}
-
-            <div
-              className="
-                rounded-[20px]
-                border border-slate-300
-                bg-white
-                p-6
-                shadow-[0_5px_14px_rgba(15,23,42,0.04)]
-              "
-            >
-
-              <div className="flex items-center justify-between">
-
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">
-                    📋
-                  </span>
-
-                  <div>
-                    <h2 className="text-[17px] font-bold">
-                      Mi lista
-                    </h2>
-
-                    <p className="text-xs text-slate-500">
-                      Información pendiente de resolver
-                    </p>
-                  </div>
-
-                </div>
-
-                <a
-                  href="/pendientes"
-                  className="text-sm font-semibold text-cyan-700"
-                >
-                  Ver todo
-                </a>
-
-              </div>
-
-              {pendientes.length === 0 ? (
-                <div
-                  className="
-                    mt-5
-                    rounded-xl
-                    border border-dashed
-                    border-slate-300
-                    bg-slate-50
-                    px-5 py-7
-                    text-center
-                    text-sm
-                    text-slate-500
-                  "
-                >
-                  No tenés pendientes.
-                </div>
-              ) : (
-                <div className="mt-4 divide-y divide-slate-100">
-
-                  {pendientes
-                    .slice(0, 6)
-                    .map((item) => (
-
-                      <div
-                        key={item.id}
-                        className="
-                          flex gap-4
-                          py-4
-                        "
-                      >
-
-                        <button
-                          onClick={() =>
-                            completarPendiente(
-                              item.id
-                            )
-                          }
-                          className="
-                            mt-0.5
-                            flex h-9 w-9
-                            shrink-0
-                            items-center
-                            justify-center
-                            rounded-full
-                            border-2
-                            border-slate-300
-                            bg-white
-                            text-transparent
-                            transition-all
-                            hover:scale-105
-                            hover:border-emerald-500
-                            hover:bg-emerald-50
-                            hover:text-emerald-600
-                          "
-                          title="Completar"
-                        >
-                          <Check size={18} />
-                        </button>
-
-                        <div className="min-w-0 flex-1">
-
-                          <div className="flex items-start justify-between gap-4">
-
-                            <div>
-                              <p className="font-semibold text-slate-900">
-                                {
-                                  item.titulo
-                                }
-                              </p>
-
-                              {item.descripcion && (
-                                <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-500">
-                                  {
-                                    item.descripcion
-                                  }
-                                </p>
-                              )}
-                            </div>
-
-                            <span
-                              className="
-                                shrink-0
-                                rounded-full
-                                bg-amber-50
-                                px-2.5 py-1
-                                text-[10px]
-                                font-semibold
-                                uppercase
-                                text-amber-700
-                              "
-                            >
-                              pendiente
-                            </span>
-
-                          </div>
-
-                          {item.fecha_limite && (
-                            <div className="mt-2 flex items-center gap-1.5 text-xs text-slate-400">
-                              <CalendarDays
-                                size={13}
-                              />
-
-                              Hasta{" "}
-                              {formatearFecha(
-                                item.fecha_limite
-                              )}
-                            </div>
-                          )}
-
-                        </div>
-
-                      </div>
-
-                    ))}
-
-                </div>
-              )}
-
-            </div>
-
+              Ver todas
+            </Link>
           </div>
 
-          {/* DERECHA */}
 
-          <div className="space-y-5">
+          {error && (
+            <div className="mt-4 flex items-center gap-2 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+              <CircleAlert size={18} />
+              {error}
+            </div>
+          )}
 
-            {/* PRÓXIMO EVENTO */}
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+            {dependencias.map((dependencia, indice) => {
+              const slug = dependencia.slug || crearSlug(dependencia.nombre);
+              const estilo = estilosDependencia[indice % estilosDependencia.length];
+              const Icono = obtenerIcono(dependencia.nombre, dependencia.area);
 
-            <div
-              className="
-                rounded-[20px]
-                border border-slate-300
-                bg-white
-                p-6
-                shadow-[0_5px_14px_rgba(15,23,42,0.04)]
-              "
-            >
-
-              <div className="flex items-center justify-between">
-
-                <div className="flex items-center gap-3">
-
-                  <span className="text-2xl">
-                    📅
-                  </span>
-
-                  <h2 className="text-[17px] font-bold">
-                    Próximo evento
-                  </h2>
-
-                </div>
-
-                <a
-                  href="/agenda"
-                  className="text-sm font-semibold text-cyan-700"
+              return (
+                <Link
+                  key={dependencia.id}
+                  href={`/dependencias/${slug}`}
+                  className={`group relative min-h-[86px] overflow-hidden rounded-[16px] border ${estilo.borde} ${estilo.fondo} p-3.5 shadow-[0_4px_12px_rgba(15,43,70,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_9px_20px_rgba(15,43,70,0.10)] md:p-4`}
                 >
-                  Agenda
-                </a>
-
-              </div>
-
-              {proximoEvento ? (
-                <div className="mt-5 border-l-4 border-cyan-500 pl-5">
-
-                  <h3 className="text-lg font-bold">
-                    {proximoEvento.nombre}
-                  </h3>
-
-                  <div className="mt-4 space-y-3 text-sm text-slate-500">
-
-                    <div className="flex items-center gap-3">
-                      <CalendarDays
-                        size={16}
-                      />
-
-                      {formatearFechaEvento(
-                        proximoEvento.fecha
+                  <div className="flex h-full items-center gap-3">
+                    <div className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/70 ${estilo.icono} shadow-sm`}>
+                      <Icono size={22} strokeWidth={2.1} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h2 className="line-clamp-2 text-[13px] font-extrabold leading-[1.18] text-[#102b43] md:text-sm">
+                        {dependencia.nombre}
+                      </h2>
+                      {dependencia.area && dependencia.area !== dependencia.nombre && (
+                        <p className="mt-1 line-clamp-1 text-[10px] font-medium leading-tight text-slate-600 md:text-[11px]">
+                          {dependencia.area}
+                        </p>
                       )}
                     </div>
-
-                    <div className="flex items-center gap-3">
-                      <Clock3
-                        size={16}
-                      />
-
-                      {formatearHora(
-                        proximoEvento.hora
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <MapPin
-                        size={16}
-                      />
-
-                      {proximoEvento.lugar ||
-                        "Sin lugar cargado"}
-                    </div>
-
+                    <ChevronRight className="shrink-0 text-slate-500/70 transition group-hover:translate-x-0.5" size={16} />
                   </div>
-
-                </div>
-              ) : (
-                <div className="mt-5 rounded-xl bg-slate-50 px-5 py-8 text-center text-sm text-slate-500">
-                  No hay próximos eventos.
-                </div>
-              )}
-
-            </div>
-
-            {/* ESPERANDO RESPUESTA */}
-
-            <div
-              className="
-               hidden
-                rounded-[20px]
-                border border-slate-300
-                bg-white
-                p-6
-                shadow-[0_5px_14px_rgba(15,23,42,0.04)]
-              "
-            >
-
-              <div className="flex items-center gap-3">
-
-                <Clock3
-                  size={21}
-                  className="text-cyan-600"
-                />
-
-                <h2 className="text-[17px] font-bold">
-                  Esperando respuesta
-                </h2>
-
-              </div>
-
-              <div
-                className="
-                  mt-5
-                  rounded-xl
-                  border border-dashed
-                  border-slate-300
-                  bg-slate-50
-                  px-5 py-8
-                  text-center
-                  text-sm
-                  text-slate-400
-                "
-              >
-                Sin elementos por ahora.
-              </div>
-
-            </div>
-
+                </Link>
+              );
+            })}
           </div>
 
+          {!error && dependencias.length === 0 && (
+            <div className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-sm text-slate-500">
+              No hay dependencias activas cargadas.
+            </div>
+          )}
         </section>
-
-        {/* ACCESOS */}
-
-        <section className="mt-11">
-
-          <p
-            className="
-              text-xs
-              font-bold
-              uppercase
-              tracking-[0.18em]
-              text-slate-500
-            "
-          >
-            Consulta y gestión
-          </p>
-
-          <h2 className="mt-1 text-2xl font-bold">
-            Accesos principales
-          </h2>
-
-          <div
-            className="
-              mt-6
-              grid gap-5
-              sm:grid-cols-2
-              lg:grid-cols-3
-              xl:grid-cols-6
-            "
-          >
-
-            {modulos.map(
-              (modulo) => (
-                <a
-                  key={modulo.titulo}
-                  href={modulo.href}
-                  className="
-                    group
-                    flex
-                    min-h-[285px]
-                    flex-col
-                    items-center
-                    rounded-[26px]
-                    border
-                    border-slate-300
-                    bg-white
-                    px-5 py-7
-                    text-center
-                    shadow-[0_8px_22px_rgba(15,23,42,0.06)]
-                    transition-all
-                    duration-200
-                    hover:-translate-y-1.5
-                    hover:border-slate-400
-                    hover:shadow-[0_18px_36px_rgba(15,23,42,0.12)]
-                  "
-                >
-
-                  <Icono3D
-                    emoji={
-                      modulo.emoji
-                    }
-                    size={82}
-                  />
-
-                  <div className="mt-auto pt-7">
-
-                    <h3 className="text-[19px] font-bold tracking-tight text-slate-900">
-                      {
-                        modulo.titulo
-                      }
-                    </h3>
-
-                    <p className="mx-auto mt-2 max-w-[150px] text-[14px] leading-5 text-slate-500">
-                      {
-                        modulo.subtitulo
-                      }
-                    </p>
-
-                  </div>
-
-                </a>
-              )
-            )}
-
-          </div>
-
-        </section>
-
       </div>
 
+      <Link
+        href="/registrar"
+        aria-label="Registrar nueva información"
+        className="fixed bottom-[78px] right-5 z-40 flex h-[58px] w-[58px] items-center justify-center rounded-full bg-[#124775] text-white shadow-[0_10px_26px_rgba(18,71,117,0.34)] transition hover:scale-105 lg:bottom-8 lg:right-8"
+      >
+        <Plus size={28} />
+      </Link>
     </main>
   );
 }
-

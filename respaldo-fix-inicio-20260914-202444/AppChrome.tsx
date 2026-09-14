@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { usePathname } from "next/navigation";
 import {
@@ -143,7 +143,32 @@ export default function AppChrome({
             Configuración
           </a>
 
+          <div className="mt-5 flex items-center gap-3 px-3">
 
+            <div
+              className="
+                flex h-10 w-10
+                items-center justify-center
+                rounded-full
+                bg-slate-100
+                font-bold
+                text-[#102b43]
+              "
+            >
+              P
+            </div>
+
+            <div>
+              <p className="text-sm font-semibold">
+                Peron
+              </p>
+
+              <p className="text-xs text-slate-400">
+                Administrador
+              </p>
+            </div>
+
+          </div>
         </div>
       </aside>
 
@@ -153,12 +178,20 @@ export default function AppChrome({
         {children}
       </div>
 
-      {/* MENÚ MÓVIL: una sola navegación global, sin duplicarla en cada pantalla */}
+      {/* MENU MOVIL */}
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 shadow-[0_-6px_20px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden"
+        className="
+          fixed inset-x-0 bottom-0 z-50
+          border-t border-slate-200
+          bg-white/95
+          shadow-[0_-6px_20px_rgba(15,23,42,0.08)]
+          backdrop-blur
+          lg:hidden
+        "
       >
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-5">
+
           <MobileItem
             href="/"
             nombre="Inicio"
@@ -167,9 +200,16 @@ export default function AppChrome({
           />
 
           <MobileItem
-            href="/todo"
-            nombre="TODO"
-            icono={CheckSquare}
+            href="/buscar"
+            nombre="Buscar"
+            icono={Search}
+            pathname={pathname}
+          />
+
+          <MobileItem
+            href="/registrar"
+            nombre="Registrar"
+            icono={PlusCircle}
             pathname={pathname}
           />
 
@@ -181,11 +221,12 @@ export default function AppChrome({
           />
 
           <MobileItem
-            href="/personal"
-            nombre="Personal"
-            icono={Users}
+            href="/dependencias"
+            nombre="Espacios"
+            icono={Layers3}
             pathname={pathname}
           />
+
         </div>
       </nav>
 
