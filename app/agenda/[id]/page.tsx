@@ -1,5 +1,7 @@
 ﻿"use client";
 
+import AccionesEvento from "@/components/AccionesEvento";
+
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 
@@ -143,6 +145,16 @@ export default function EventoDetallePage() {
   if (cargando) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#edf4f8]">
+      <div className="mb-5 flex justify-end">
+        <AccionesEvento />
+      </div>
+
+<div className="mb-5 flex justify-end">
+
+</div>
+
+
+
         <div className="flex items-center gap-3 text-slate-600">
           <Loader2
             size={22}
@@ -284,6 +296,7 @@ export default function EventoDetallePage() {
                 {evento.estado ||
                   "Sin estado"}
               </p>
+              <AccionesEvento />
             </div>
 
           </div>
@@ -445,3 +458,9 @@ function Fila({
     </div>
   );
 }
+
+
+
+
+
+

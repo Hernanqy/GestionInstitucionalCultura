@@ -82,8 +82,22 @@ export default function ProximosEventos() {
       cargar();
     }, 30000);
 
+    const actualizar = () => {
+      cargar();
+    };
+
+    window.addEventListener(
+      "gestion:actualizada",
+      actualizar
+    );
+
     return () => {
       clearInterval(intervalo);
+
+      window.removeEventListener(
+        "gestion:actualizada",
+        actualizar
+      );
     };
   }, []);
 
@@ -220,3 +234,4 @@ export default function ProximosEventos() {
     </section>
   );
 }
+

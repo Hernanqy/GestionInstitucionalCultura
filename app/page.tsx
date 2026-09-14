@@ -1,5 +1,7 @@
 ﻿"use client";
 
+import RegistroInteligente from "@/components/RegistroInteligente";
+
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -527,7 +529,7 @@ export default function HomePage() {
           "
         >
 
-          <div className="space-y-5">
+          <div className="flex flex-col-reverse gap-5">
 
             {/* PRIORITARIOS */}
 
@@ -902,6 +904,7 @@ export default function HomePage() {
 
             <div
               className="
+               hidden
                 rounded-[20px]
                 border border-slate-300
                 bg-white
@@ -1037,3 +1040,4 @@ export default function HomePage() {
     </main>
   );
 }
+
