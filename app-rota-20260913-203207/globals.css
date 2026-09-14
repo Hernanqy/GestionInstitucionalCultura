@@ -1,0 +1,167 @@
+﻿@import "tailwindcss";
+
+:root {
+  --background: #e9eef4;
+  --foreground: #0f172a;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+input,
+textarea,
+select {
+  color: #0f172a;
+}
+
+::placeholder {
+  color: #94a3b8;
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-page {
+  padding: 28px;
+  padding-bottom: 95px;
+}
+
+.app-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1480px;
+}
+
+.app-card {
+  border: 1px solid #b8c3d1;
+  border-radius: 18px;
+  background: white;
+  box-shadow:
+    0 3px 8px rgba(15, 23, 42, 0.04),
+    0 12px 30px rgba(15, 23, 42, 0.05);
+}
+
+.app-card-hover {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.app-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: #94a3b8;
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08),
+    0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.page-title {
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 11px;
+  background: #0c2943;
+  padding: 11px 16px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background: #123957;
+}
+
+.btn-cyan {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 11px;
+  background: #06a8c9;
+  padding: 11px 16px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-cyan:hover {
+  background: #078ca9;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 11px;
+  background: white;
+  padding: 10px 15px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-secondary:hover {
+  background: #f8fafc;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 11px;
+  background: white;
+  padding: 11px 13px;
+  color: #0f172a;
+  outline: none;
+}
+
+.field:focus {
+  border-color: #06a8c9;
+  box-shadow: 0 0 0 3px rgba(6,168,201,.1);
+}
+
+@media (max-width: 1023px) {
+  .app-page {
+    padding: 18px;
+    padding-bottom: 90px;
+  }
+}

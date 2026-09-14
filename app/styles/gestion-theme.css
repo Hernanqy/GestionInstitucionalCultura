@@ -1,0 +1,438 @@
+﻿/* =========================================================
+   GESTIÓN INSTITUCIONAL
+   TEMA CLARO + ICONOS DESTACADOS + CONTROLES COMPACTOS
+   SOLO APARIENCIA
+   ========================================================= */
+
+:root {
+  --gi-bg: #edf3f8;
+  --gi-sidebar: #0b304d;
+  --gi-sidebar-deep: #08263e;
+
+  --gi-card: #ffffff;
+  --gi-card-soft: #f7fafc;
+
+  --gi-border: #cbd8e5;
+  --gi-border-soft: #dce5ee;
+
+  --gi-primary: #079fc4;
+  --gi-primary-dark: #087da0;
+
+  --gi-text: #102a43;
+  --gi-text-soft: #536b82;
+  --gi-muted: #8397aa;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+html,
+body {
+  min-height: 100%;
+  background: var(--gi-bg) !important;
+}
+
+body {
+  color: var(--gi-text) !important;
+}
+
+/* eliminar cualquier resto oscuro */
+
+body::before {
+  display: none !important;
+}
+
+/* =========================================================
+   FONDOS GENERALES
+   ========================================================= */
+
+.bg-slate-50,
+.bg-slate-100,
+.bg-slate-200,
+.bg-slate-200\/70,
+.bg-slate-200\/80 {
+  background: var(--gi-bg) !important;
+}
+
+main {
+  background: transparent !important;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+aside {
+  background:
+    linear-gradient(
+      180deg,
+      var(--gi-sidebar) 0%,
+      var(--gi-sidebar-deep) 100%
+    ) !important;
+
+  border-color: rgba(255,255,255,.08) !important;
+
+  box-shadow:
+    8px 0 28px rgba(21, 52, 76, .08) !important;
+}
+
+aside h1,
+aside h2,
+aside h3 {
+  color: white !important;
+}
+
+aside p {
+  color: #b8cbda !important;
+}
+
+aside a {
+  color: #d3e0ea !important;
+  border-radius: 9px !important;
+  transition: all .18s ease !important;
+}
+
+aside a:hover {
+  background: rgba(255,255,255,.08) !important;
+  color: white !important;
+}
+
+/* opción activa */
+
+aside .bg-cyan-500,
+aside .bg-cyan-600,
+aside .bg-cyan-700 {
+  background:
+    linear-gradient(
+      135deg,
+      #10add0,
+      #0793b8
+    ) !important;
+
+  color: white !important;
+
+  box-shadow:
+    0 5px 14px rgba(6, 151, 187, .20) !important;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+  background: rgba(255,255,255,.96) !important;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border-color: #dbe4ec !important;
+
+  box-shadow:
+    0 2px 8px rgba(42, 65, 84, .035) !important;
+}
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.bg-white {
+  background: #ffffff !important;
+}
+
+div[class*="rounded-2xl"],
+section[class*="rounded-2xl"],
+a[class*="rounded-2xl"] {
+  border-color: var(--gi-border) !important;
+
+  box-shadow:
+    0 4px 12px rgba(34, 61, 83, .045) !important;
+}
+
+a[class*="rounded-2xl"]:hover,
+div[class*="rounded-2xl"]:hover {
+  border-color: #aac1d5 !important;
+
+  box-shadow:
+    0 8px 22px rgba(34, 61, 83, .08) !important;
+}
+
+/* =========================================================
+   TARJETAS / CAJAS INTERNAS
+   ========================================================= */
+
+.bg-slate-50 {
+  background: #f7fafc !important;
+}
+
+/* =========================================================
+   TEXTOS
+   ========================================================= */
+
+.text-slate-950,
+.text-slate-900,
+.text-slate-800 {
+  color: #102a43 !important;
+}
+
+.text-slate-700 {
+  color: #334e68 !important;
+}
+
+.text-slate-600 {
+  color: #536b82 !important;
+}
+
+.text-slate-500 {
+  color: #70879a !important;
+}
+
+.text-slate-400 {
+  color: #98a9b8 !important;
+}
+
+main h1,
+main h2,
+main h3,
+main h4 {
+  color: #102a43 !important;
+}
+
+/* =========================================================
+   ICONOS - ESTILO MÁS VISUAL
+   ========================================================= */
+
+/* cajas habituales de iconos */
+
+.bg-cyan-50,
+.bg-cyan-100 {
+  background:
+    linear-gradient(
+      145deg,
+      #e0f8fc,
+      #c8eff7
+    ) !important;
+
+  color: #078daf !important;
+
+  border: 1px solid #b3e5ef !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.95),
+    0 4px 10px rgba(20, 148, 177, .12) !important;
+}
+
+/* íconos cyan */
+
+.text-cyan-600,
+.text-cyan-700 {
+  color: #078faf !important;
+}
+
+/* pequeño efecto de profundidad en SVG */
+
+.bg-cyan-50 svg,
+.bg-cyan-100 svg {
+  filter:
+    drop-shadow(0 2px 2px rgba(6, 118, 145, .14));
+}
+
+/* variantes visuales automáticas */
+
+main a:nth-of-type(4n+1) .bg-cyan-50,
+main a:nth-of-type(4n+1) .bg-cyan-100 {
+  background:
+    linear-gradient(145deg, #e4f5ff, #cdeaff) !important;
+  color: #2689d6 !important;
+}
+
+main a:nth-of-type(4n+2) .bg-cyan-50,
+main a:nth-of-type(4n+2) .bg-cyan-100 {
+  background:
+    linear-gradient(145deg, #e8fbf3, #c9f2df) !important;
+  color: #159a6b !important;
+}
+
+main a:nth-of-type(4n+3) .bg-cyan-50,
+main a:nth-of-type(4n+3) .bg-cyan-100 {
+  background:
+    linear-gradient(145deg, #f2ebff, #dfd2ff) !important;
+  color: #7958d9 !important;
+}
+
+main a:nth-of-type(4n+4) .bg-cyan-50,
+main a:nth-of-type(4n+4) .bg-cyan-100 {
+  background:
+    linear-gradient(145deg, #fff3df, #ffe0ad) !important;
+  color: #d78216 !important;
+}
+
+/* =========================================================
+   BOTONES MÁS COMPACTOS
+   ========================================================= */
+
+button {
+  min-height: auto !important;
+}
+
+button.rounded-xl,
+a.rounded-xl {
+  border-radius: 9px !important;
+}
+
+/* botones oscuros */
+
+.bg-slate-900 {
+  background: #0b304d !important;
+}
+
+/* botones cyan */
+
+button.bg-cyan-600,
+button.bg-cyan-500,
+a.bg-cyan-600,
+a.bg-cyan-500 {
+  background:
+    linear-gradient(
+      135deg,
+      #10add0,
+      #0794b9
+    ) !important;
+
+  box-shadow:
+    0 4px 10px rgba(7, 150, 184, .15) !important;
+}
+
+/* reducir un poco padding de botones generales */
+
+button[class*="px-4"][class*="py-3"],
+a[class*="px-4"][class*="py-3"] {
+  padding-top: .58rem !important;
+  padding-bottom: .58rem !important;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+input,
+textarea,
+select {
+  color: #17324a !important;
+
+  background: #ffffff !important;
+
+  border-color: #cbd8e5 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94a5b5 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #0da7ca !important;
+
+  box-shadow:
+    0 0 0 3px rgba(13,167,202,.10) !important;
+}
+
+/* =========================================================
+   BORDES
+   ========================================================= */
+
+.border-slate-100 {
+  border-color: #e4eaf0 !important;
+}
+
+.border-slate-200 {
+  border-color: #d8e1ea !important;
+}
+
+.border-slate-300 {
+  border-color: #cad6e1 !important;
+}
+
+.border-slate-400 {
+  border-color: #b9c8d5 !important;
+}
+
+.border-dashed {
+  border-color: #c4d2de !important;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+main a {
+  color: inherit;
+}
+
+main a.text-cyan-700,
+main a.text-cyan-600 {
+  color: #078baa !important;
+}
+
+main a.text-cyan-700:hover,
+main a.text-cyan-600:hover {
+  color: #046f89 !important;
+}
+
+/* =========================================================
+   BADGES
+   ========================================================= */
+
+[class*="bg-blue-"] {
+  background: #e6efff !important;
+  color: #346cc0 !important;
+}
+
+/* =========================================================
+   SOMBRAS
+   ========================================================= */
+
+.shadow-sm {
+  box-shadow:
+    0 3px 9px rgba(30, 58, 80, .045) !important;
+}
+
+.shadow-md,
+.shadow-lg {
+  box-shadow:
+    0 7px 20px rgba(30, 58, 80, .08) !important;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eaf0f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b8c6d2;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9eafbd;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  header {
+    background: rgba(255,255,255,.97) !important;
+  }
+}

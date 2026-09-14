@@ -1,26 +1,24 @@
 ﻿"use client";
 
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "next/navigation";
+
 import {
   ArrowLeft,
   UserRound,
   Building2,
   BriefcaseBusiness,
+  BadgeCheck,
+  Clock3,
   Phone,
   Mail,
   MapPin,
-  ShieldAlert,
-  NotebookPen,
+  CalendarDays,
+  FileText,
+  ShieldCheck,
   Loader2,
-  Pencil,
-  Save,
-  X,
 } from "lucide-react";
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-import AppShell from "@/components/layout/AppShell";
-import HistorialCambios from "@/components/historial/HistorialCambios";
 import { createClient } from "@/lib/supabase/client";
 
 type Persona = {
@@ -29,123 +27,54 @@ type Persona = {
   apellido: string | null;
   legajo: string | null;
   fecha_nacimiento: string | null;
-  dependencia_id: string | null;
+
   area: string | null;
   cargo: string | null;
   funcion: string | null;
   tipo_contratacion: string | null;
   categoria: string | null;
   horas: string | null;
+
   fecha_ingreso: string | null;
   anio_ingreso: number | null;
+
   telefono: string | null;
   email: string | null;
   direccion: string | null;
+
   contacto_emergencia: string | null;
   telefono_emergencia: string | null;
-  observaciones: string | null;
+
   tareas_especificas: string | null;
   descripcion_tareas: string | null;
-  vencimiento: string | null;
-  fuente: string | null;
+  observaciones: string | null;
 
-  dependencia: {
+  dependencias: {
     id: string;
     nombre: string;
   } | null;
 };
 
-type Dependencia = {
-  id: string;
-  nombre: string;
-};
-
-type Registro = {
-  id: string;
-  titulo: string | null;
-  contenido: string | null;
-  tipo: string | null;
-  created_at: string;
-};
-
-function fecha(valor: string | null) {
-  if (!valor) return null;
-
-  const [a, m, d] = valor.split("-");
-
-  return `${d}/${m}/${a}`;
-}
-
-function fechaHora(valor: string) {
-  return new Date(valor).toLocaleString("es-AR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 export default function PersonaDetallePage() {
   const params = useParams();
   const id = String(params.id || "");
-  const supabase = createClient();
 
-  const [persona, setPersona] = useState<Persona | null>(null);
-  const [form, setForm] = useState<Persona | null>(null);
+  const supabase = useMemo(
+    () => createClient(),
+    []
+  );
 
-  const [dependencias, setDependencias] = useState<Dependencia[]>([]);
-  const [registros, setRegistros] = useState<Registro[]>([]);
+  const [persona, setPersona] =
+    useState<Persona | null>(null);
 
-  const [editando, setEditando] = useState(false);
-  const [guardando, setGuardando] = useState(false);
-  const [cargando, setCargando] = useState(true);
-  const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] =
+    useState(true);
 
-  async function cargarPersona() {
-    const { data, error } = await supabase
-      .from("personas")
-      .select(`
-        id,
-        nombre,
-        apellido,
-        legajo,
-        fecha_nacimiento,
-        dependencia_id,
-        area,
-        cargo,
-        funcion,
-        tipo_contratacion,
-        categoria,
-        horas,
-        fecha_ingreso,
-        anio_ingreso,
-        telefono,
-        email,
-        direccion,
-        contacto_emergencia,
-        telefono_emergencia,
-        observaciones,
-        tareas_especificas,
-        descripcion_tareas,
-        vencimiento,
-        fuente,
-        dependencia:dependencias(
-          id,
-          nombre
-        )
-      `)
-      .eq("id", id)
-      .single();
-
-    if (!error && data) {
-      setPersona(data as unknown as Persona);
-      setForm(data as unknown as Persona);
-    }
-  }
+  const [error, setError] =
+    useState("");
 
   useEffect(() => {
-    async function iniciar() {
+    async function cargar() {
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -155,150 +84,78 @@ export default function PersonaDetallePage() {
         return;
       }
 
-      const { data: deps } = await supabase
-        .from("dependencias")
-        .select("id,nombre")
-        .eq("activa", true)
-        .order("nombre");
-
-      setDependencias(deps || []);
-
-      await cargarPersona();
-
-      const { data: regs } = await supabase
-        .from("registros")
+      const { data, error } = await supabase
+        .from("personas")
         .select(`
           id,
-          titulo,
-          contenido,
-          tipo,
-          created_at
+          nombre,
+          apellido,
+          legajo,
+          fecha_nacimiento,
+          area,
+          cargo,
+          funcion,
+          tipo_contratacion,
+          categoria,
+          horas,
+          fecha_ingreso,
+          anio_ingreso,
+          telefono,
+          email,
+          direccion,
+          contacto_emergencia,
+          telefono_emergencia,
+          tareas_especificas,
+          descripcion_tareas,
+          observaciones,
+          dependencias (
+            id,
+            nombre
+          )
         `)
-        .eq("persona_id", id)
-        .order("created_at", {
-          ascending: false,
-        });
+        .eq("id", id)
+        .single();
 
-      setRegistros(regs || []);
+      if (error) {
+        console.error(error);
+        setError(
+          "No se pudo cargar la persona."
+        );
+        setCargando(false);
+        return;
+      }
+
+      setPersona(
+        data as unknown as Persona
+      );
+
       setCargando(false);
     }
 
-    iniciar();
-  }, [id]);
-
-  function cambiar(
-    campo: keyof Persona,
-    valor: string | null
-  ) {
-    if (!form) return;
-
-    setForm({
-      ...form,
-      [campo]: valor,
-    });
-  }
-
-  async function guardarCambios() {
-    if (!form) return;
-
-    setGuardando(true);
-    setMensaje("");
-
-    const { error } = await supabase
-      .from("personas")
-      .update({
-        dependencia_id:
-          form.dependencia_id || null,
-
-        area:
-          form.area?.trim() || null,
-
-        cargo:
-          form.cargo?.trim() || null,
-
-        funcion:
-          form.funcion?.trim() || null,
-
-        tipo_contratacion:
-          form.tipo_contratacion?.trim() || null,
-
-        categoria:
-          form.categoria?.trim() || null,
-
-        horas:
-          form.horas?.trim() || null,
-
-        telefono:
-          form.telefono?.trim() || null,
-
-        email:
-          form.email?.trim() || null,
-
-        direccion:
-          form.direccion?.trim() || null,
-
-        tareas_especificas:
-          form.tareas_especificas?.trim() || null,
-
-        descripcion_tareas:
-          form.descripcion_tareas?.trim() || null,
-
-        observaciones:
-          form.observaciones?.trim() || null,
-
-        contacto_emergencia:
-          form.contacto_emergencia?.trim() || null,
-
-        telefono_emergencia:
-          form.telefono_emergencia?.trim() || null,
-
-        vencimiento:
-          form.vencimiento || null,
-
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", id);
-
-    if (error) {
-      console.error(error);
-      setMensaje("No se pudieron guardar los cambios.");
-      setGuardando(false);
-      return;
-    }
-
-    await cargarPersona();
-
-    setEditando(false);
-    setGuardando(false);
-    setMensaje("Cambios guardados correctamente.");
-  }
-
-  function cancelarEdicion() {
-    setForm(persona);
-    setEditando(false);
-    setMensaje("");
-  }
+    cargar();
+  }, [id, supabase]);
 
   if (cargando) {
     return (
-      <AppShell activo="Personal">
-        <div className="flex min-h-screen items-center justify-center">
+      <main className="flex min-h-screen items-center justify-center bg-[#edf4f8]">
+        <div className="flex items-center gap-3 text-slate-600">
           <Loader2
-            size={24}
+            size={22}
             className="animate-spin"
           />
+          Cargando ficha...
         </div>
-      </AppShell>
+      </main>
     );
   }
 
-  if (!persona || !form) {
+  if (!persona) {
     return (
-      <AppShell activo="Personal">
-        <div className="p-8">
-          No se encontró la persona.
+      <main className="min-h-screen bg-[#edf4f8] p-8">
+        <div className="rounded-2xl border border-red-300 bg-white p-6">
+          {error || "Persona no encontrada."}
         </div>
-      </AppShell>
+      </main>
     );
   }
 
@@ -310,516 +167,225 @@ export default function PersonaDetallePage() {
     }`;
 
   return (
-    <AppShell activo="Personal">
+    <main className="min-h-screen bg-[#edf4f8] pb-24 text-slate-900 lg:pb-10">
 
-      <header className="border-b border-slate-400 bg-white">
+      <div className="mx-auto max-w-[1400px] px-5 py-7 md:px-8">
 
-        <div className="flex items-center justify-between px-5 py-4 md:px-8">
+        <a
+          href="/personal"
+          className="
+            inline-flex items-center gap-2
+            text-sm font-semibold
+            text-slate-600
+            hover:text-slate-900
+          "
+        >
+          <ArrowLeft size={18} />
+          Personal
+        </a>
 
-          <a
-            href="/personal"
-            className="inline-flex items-center gap-2 text-sm text-black"
+        {/* CABECERA */}
+
+        <section
+          className="
+            mt-5
+            rounded-[24px]
+            border border-slate-300
+            bg-white
+            p-6
+            shadow-[0_8px_22px_rgba(15,23,42,0.06)]
+          "
+        >
+          <div
+            className="
+              flex flex-col gap-5
+              md:flex-row
+              md:items-start
+              md:justify-between
+            "
           >
-            <ArrowLeft size={17} />
-            Personal
-          </a>
+            <div className="flex items-start gap-5">
 
-          {!editando ? (
-            <button
-              onClick={() => setEditando(true)}
-              className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-black"
-            >
-              <Pencil size={17} />
-              Editar
-            </button>
-          ) : (
-            <div className="flex gap-2">
-
-              <button
-                onClick={cancelarEdicion}
-                className="flex items-center gap-2 rounded-xl border border-slate-400 bg-white px-4 py-2.5 text-sm"
+              <div
+                className="
+                  flex h-20 w-20
+                  shrink-0
+                  items-center justify-center
+                  rounded-[22px]
+                  bg-gradient-to-br
+                  from-cyan-100
+                  to-blue-200
+                  text-[38px]
+                  shadow-sm
+                "
               >
-                <X size={17} />
-                Cancelar
-              </button>
-
-              <button
-                onClick={guardarCambios}
-                disabled={guardando}
-                className="flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-black disabled:opacity-50"
-              >
-                {guardando ? (
-                  <Loader2
-                    size={17}
-                    className="animate-spin"
-                  />
-                ) : (
-                  <Save size={17} />
-                )}
-
-                Guardar
-              </button>
-
-            </div>
-          )}
-
-        </div>
-
-      </header>
-
-      <div className="mx-auto max-w-6xl px-5 py-6 md:px-8">
-
-        {mensaje && (
-          <div className="mb-5 rounded-xl border border-slate-400 bg-white px-4 py-3 text-sm">
-            {mensaje}
-          </div>
-        )}
-
-        <section className="rounded-2xl border border-slate-400 bg-white p-6 shadow-sm">
-
-          <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
-
-            <div className="flex gap-4">
-
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
-                <UserRound size={30} />
+                👤
               </div>
 
               <div>
-
-                <h1 className="text-2xl font-semibold">
+                <h1 className="text-3xl font-bold">
                   {nombreCompleto}
                 </h1>
 
-                <p className="mt-1 text-sm text-black">
-                  {persona.cargo || "Sin cargo"}
-                </p>
-
-                {persona.dependencia && (
-                  <div className="mt-2 flex items-center gap-2 text-sm text-black">
-                    <Building2 size={15} />
-                    {persona.dependencia.nombre}
-                  </div>
+                {persona.cargo && (
+                  <p className="mt-2 text-lg font-medium text-slate-700">
+                    {persona.cargo}
+                  </p>
                 )}
 
+                {persona.dependencias?.nombre && (
+                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
+                    <Building2 size={17} />
+
+                    {persona.dependencias.nombre}
+                  </div>
+                )}
               </div>
 
             </div>
 
-            <div className="rounded-xl border border-slate-400 bg-slate-100 px-5 py-3">
+            <div className="flex gap-3">
 
-              <p className="text-xs text-black">
-                Legajo
-              </p>
+              <DatoCorto
+                titulo="Legajo"
+                valor={persona.legajo || "—"}
+              />
 
-              <p className="text-4xl font-extrabold text-black">
-                {persona.legajo || "Sin dato"}
-              </p>
+              <DatoCorto
+                titulo="Área"
+                valor={persona.area || "—"}
+              />
 
             </div>
 
           </div>
-
         </section>
 
-        {editando ? (
-          <section className="mt-5 rounded-2xl border border-sky-300 bg-white p-6 shadow-sm">
+        {/* INFORMACION */}
 
-            <h2 className="text-lg font-semibold">
-              Editar información
-            </h2>
+        <section className="mt-5 grid gap-5 xl:grid-cols-2">
 
-            <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <Tarjeta titulo="Información laboral">
 
-              <CampoEdicion
-                titulo="Dependencia"
-              >
-                <select
-                  value={form.dependencia_id || ""}
-                  onChange={(e) =>
-                    cambiar(
-                      "dependencia_id",
-                      e.target.value
-                    )
-                  }
-                  className="campo"
-                >
-                  <option value="">
-                    Sin dependencia
-                  </option>
-
-                  {dependencias.map((item) => (
-                    <option
-                      key={item.id}
-                      value={item.id}
-                    >
-                      {item.nombre}
-                    </option>
-                  ))}
-                </select>
-              </CampoEdicion>
-
-              <Entrada
-                titulo="Área"
-                valor={form.area}
-                cambio={(v) => cambiar("area", v)}
-              />
-
-              <Entrada
-                titulo="Cargo"
-                valor={form.cargo}
-                cambio={(v) => cambiar("cargo", v)}
-              />
-
-              <Entrada
-                titulo="Función"
-                valor={form.funcion}
-                cambio={(v) => cambiar("funcion", v)}
-              />
-
-              <Entrada
-                titulo="Contratación"
-                valor={form.tipo_contratacion}
-                cambio={(v) =>
-                  cambiar("tipo_contratacion", v)
-                }
-              />
-
-              <Entrada
-                titulo="Categoría"
-                valor={form.categoria}
-                cambio={(v) =>
-                  cambiar("categoria", v)
-                }
-              />
-
-              <Entrada
-                titulo="Horas"
-                valor={form.horas}
-                cambio={(v) => cambiar("horas", v)}
-              />
-
-              <Entrada
-                titulo="Teléfono"
-                valor={form.telefono}
-                cambio={(v) => cambiar("telefono", v)}
-              />
-
-              <Entrada
-                titulo="Email"
-                valor={form.email}
-                cambio={(v) => cambiar("email", v)}
-              />
-
-              <Entrada
-                titulo="Dirección"
-                valor={form.direccion}
-                cambio={(v) => cambiar("direccion", v)}
-              />
-
-              <CampoEdicion titulo="Vencimiento">
-                <input
-                  type="date"
-                  value={form.vencimiento || ""}
-                  onChange={(e) =>
-                    cambiar(
-                      "vencimiento",
-                      e.target.value
-                    )
-                  }
-                  className="campo"
-                />
-              </CampoEdicion>
-
-              <Entrada
-                titulo="Contacto de emergencia"
-                valor={form.contacto_emergencia}
-                cambio={(v) =>
-                  cambiar(
-                    "contacto_emergencia",
-                    v
-                  )
-                }
-              />
-
-              <Entrada
-                titulo="Teléfono emergencia"
-                valor={form.telefono_emergencia}
-                cambio={(v) =>
-                  cambiar(
-                    "telefono_emergencia",
-                    v
-                  )
-                }
-              />
-
-            </div>
-
-            <div className="mt-4 grid gap-4">
-
-              <AreaTexto
-                titulo="Tareas específicas"
-                valor={form.tareas_especificas}
-                cambio={(v) =>
-                  cambiar(
-                    "tareas_especificas",
-                    v
-                  )
-                }
-              />
-
-              <AreaTexto
-                titulo="Descripción de tareas"
-                valor={form.descripcion_tareas}
-                cambio={(v) =>
-                  cambiar(
-                    "descripcion_tareas",
-                    v
-                  )
-                }
-              />
-
-              <AreaTexto
-                titulo="Observaciones"
-                valor={form.observaciones}
-                cambio={(v) =>
-                  cambiar("observaciones", v)
-                }
-              />
-
-            </div>
-
-          </section>
-        ) : (
-          <>
-            <section className="mt-5 grid gap-4 lg:grid-cols-2">
-
-              <Bloque
-                titulo="Información laboral"
-                icono={BriefcaseBusiness}
-              >
-                <Dato
-                  titulo="Área"
-                  valor={persona.area}
-                />
-
-                <Dato
-                  titulo="Cargo"
-                  valor={persona.cargo}
-                />
-
-                <Dato
-                  titulo="Función"
-                  valor={persona.funcion}
-                />
-
-                <Dato
-                  titulo="Contratación"
-                  valor={persona.tipo_contratacion}
-                />
-
-                <Dato
-                  titulo="Categoría"
-                  valor={persona.categoria}
-                />
-
-                <Dato
-                  titulo="Horas"
-                  valor={persona.horas}
-                />
-
-                <Dato
-                  titulo="Ingreso"
-                  valor={
-                    persona.anio_ingreso
-                      ? String(persona.anio_ingreso)
-                      : fecha(persona.fecha_ingreso)
-                  }
-                />
-
-                <Dato
-                  titulo="Vencimiento"
-                  valor={fecha(persona.vencimiento)}
-                />
-              </Bloque>
-
-              <Bloque
-                titulo="Contacto"
-                icono={Phone}
-              >
-
-                <DatoIcono
-                  icono={Phone}
-                  titulo="Teléfono"
-                  valor={persona.telefono}
-                />
-
-                <DatoIcono
-                  icono={Mail}
-                  titulo="Email"
-                  valor={persona.email}
-                />
-
-                <DatoIcono
-                  icono={MapPin}
-                  titulo="Dirección"
-                  valor={persona.direccion}
-                />
-
-                <Dato
-                  titulo="Nacimiento"
-                  valor={fecha(
-                    persona.fecha_nacimiento
-                  )}
-                />
-
-              </Bloque>
-
-              <Bloque
-                titulo="Tareas"
-                icono={BriefcaseBusiness}
-              >
-
-                <Dato
-                  titulo="Tareas específicas"
-                  valor={persona.tareas_especificas}
-                />
-
-                <Dato
-                  titulo="Descripción"
-                  valor={persona.descripcion_tareas}
-                />
-
-              </Bloque>
-
-              <Bloque
-                titulo="Emergencia"
-                icono={ShieldAlert}
-              >
-
-                <Dato
-                  titulo="Contacto"
-                  valor={
-                    persona.contacto_emergencia
-                  }
-                />
-
-                <Dato
-                  titulo="Teléfono"
-                  valor={
-                    persona.telefono_emergencia
-                  }
-                />
-
-              </Bloque>
-
-            </section>
-
-            {persona.observaciones && (
-              <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-
-                <h2 className="font-semibold">
-                  Observaciones
-                </h2>
-
-                <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-black">
-                  {persona.observaciones}
-                </p>
-
-              </section>
-            )}
-          </>
-        )}
-
-        <HistorialCambios
-          entidad="personas"
-          entidadId={persona.id}
-        />
-        <section className="mt-5 rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-
-          <div className="flex items-center gap-3">
-
-            <NotebookPen
-              size={20}
-              className="text-sky-700"
+            <Fila
+              icono={BriefcaseBusiness}
+              etiqueta="Cargo"
+              valor={persona.cargo}
             />
 
-            <div>
-              <h2 className="font-semibold">
-                Registros relacionados
-              </h2>
+            <Fila
+              icono={BadgeCheck}
+              etiqueta="Función"
+              valor={persona.funcion}
+            />
 
-              <p className="text-sm text-black">
-                {registros.length} registros
-              </p>
-            </div>
+            <Fila
+              icono={ShieldCheck}
+              etiqueta="Contratación"
+              valor={persona.tipo_contratacion}
+            />
 
-          </div>
+            <Fila
+              icono={FileText}
+              etiqueta="Categoría"
+              valor={persona.categoria}
+            />
 
-          {registros.length > 0 ? (
-            <div className="mt-4 space-y-3">
+            <Fila
+              icono={Clock3}
+              etiqueta="Carga horaria"
+              valor={persona.horas}
+            />
 
-              {registros.map((registro) => (
-                <div
-                  key={registro.id}
-                  className="rounded-xl border border-slate-400 bg-slate-100 p-4"
-                >
+            <Fila
+              icono={CalendarDays}
+              etiqueta="Ingreso"
+              valor={
+                persona.anio_ingreso
+                  ? String(persona.anio_ingreso)
+                  : persona.fecha_ingreso
+              }
+            />
 
-                  <p className="text-xs font-semibold uppercase text-sky-700">
-                    {registro.tipo || "Registro"}
-                  </p>
+          </Tarjeta>
 
-                  <h3 className="mt-1 font-semibold">
-                    {registro.titulo ||
-                      "Sin título"}
-                  </h3>
+          <Tarjeta titulo="Contacto">
 
-                  {registro.contenido && (
-                    <p className="mt-2 text-sm text-black">
-                      {registro.contenido}
-                    </p>
-                  )}
+            <Fila
+              icono={Phone}
+              etiqueta="Teléfono"
+              valor={persona.telefono}
+            />
 
-                  <p className="mt-2 text-xs text-black">
-                    {fechaHora(registro.created_at)}
-                  </p>
+            <Fila
+              icono={Mail}
+              etiqueta="Correo"
+              valor={persona.email}
+            />
 
-                </div>
-              ))}
+            <Fila
+              icono={MapPin}
+              etiqueta="Dirección"
+              valor={persona.direccion}
+            />
 
-            </div>
-          ) : (
-            <div className="mt-4 rounded-xl border border-dashed border-slate-400 bg-slate-100 p-8 text-center text-sm text-black">
-              No hay registros relacionados.
-            </div>
-          )}
+            <Fila
+              icono={UserRound}
+              etiqueta="Contacto de emergencia"
+              valor={persona.contacto_emergencia}
+            />
+
+            <Fila
+              icono={Phone}
+              etiqueta="Teléfono emergencia"
+              valor={persona.telefono_emergencia}
+            />
+
+          </Tarjeta>
 
         </section>
 
+        {(persona.tareas_especificas ||
+          persona.descripcion_tareas) && (
+          <section className="mt-5">
+            <Tarjeta titulo="Funciones y tareas">
+
+              {persona.tareas_especificas && (
+                <BloqueTexto
+                  titulo="Tareas específicas"
+                  texto={persona.tareas_especificas}
+                />
+              )}
+
+              {persona.descripcion_tareas && (
+                <BloqueTexto
+                  titulo="Descripción"
+                  texto={persona.descripcion_tareas}
+                />
+              )}
+
+            </Tarjeta>
+          </section>
+        )}
+
+        {persona.observaciones && (
+          <section className="mt-5">
+            <Tarjeta titulo="Observaciones">
+
+              <p className="leading-7 text-slate-700">
+                {persona.observaciones}
+              </p>
+
+            </Tarjeta>
+          </section>
+        )}
+
       </div>
-
-      <style jsx global>{`
-        .campo {
-          width: 100%;
-          border: 1px solid rgb(203 213 225);
-          border-radius: 0.75rem;
-          background: white;
-          padding: 0.75rem 1rem;
-          font-size: 0.875rem;
-          color: rgb(15 23 42);
-          outline: none;
-        }
-
-        .campo:focus {
-          border-color: rgb(8 145 178);
-        }
-      `}</style>
-
-    </AppShell>
+    </main>
   );
 }
 
-function CampoEdicion({
+function Tarjeta({
   titulo,
   children,
 }: {
@@ -827,165 +393,115 @@ function CampoEdicion({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-
-      <label className="mb-1 block text-sm font-medium text-black">
+    <div
+      className="
+        rounded-[22px]
+        border border-slate-300
+        bg-white
+        p-6
+        shadow-[0_6px_18px_rgba(15,23,42,0.05)]
+      "
+    >
+      <h2 className="text-lg font-bold">
         {titulo}
-      </label>
+      </h2>
 
-      {children}
-
-    </div>
-  );
-}
-
-function Entrada({
-  titulo,
-  valor,
-  cambio,
-}: {
-  titulo: string;
-  valor: string | null;
-  cambio: (valor: string) => void;
-}) {
-  return (
-    <CampoEdicion titulo={titulo}>
-
-      <input
-        value={valor || ""}
-        onChange={(e) =>
-          cambio(e.target.value)
-        }
-        className="campo"
-      />
-
-    </CampoEdicion>
-  );
-}
-
-function AreaTexto({
-  titulo,
-  valor,
-  cambio,
-}: {
-  titulo: string;
-  valor: string | null;
-  cambio: (valor: string) => void;
-}) {
-  return (
-    <CampoEdicion titulo={titulo}>
-
-      <textarea
-        value={valor || ""}
-        onChange={(e) =>
-          cambio(e.target.value)
-        }
-        rows={4}
-        className="campo"
-      />
-
-    </CampoEdicion>
-  );
-}
-
-function Bloque({
-  titulo,
-  icono: Icon,
-  children,
-}: {
-  titulo: string;
-  icono: React.ElementType;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-2xl border border-slate-400 bg-white p-5 shadow-sm">
-
-      <div className="flex items-center gap-3">
-
-        <Icon
-          size={20}
-          className="text-sky-700"
-        />
-
-        <h2 className="font-semibold">
-          {titulo}
-        </h2>
-
-      </div>
-
-      <div className="mt-5 space-y-4">
+      <div className="mt-5 space-y-1">
         {children}
       </div>
-
-    </section>
-  );
-}
-
-function Dato({
-  titulo,
-  valor,
-}: {
-  titulo: string;
-  valor: string | null | undefined;
-}) {
-  if (!valor) return null;
-
-  return (
-    <div>
-
-      <p className="text-xs font-medium uppercase tracking-wide text-black">
-        {titulo}
-      </p>
-
-      <p className="mt-1 text-sm text-black">
-        {valor}
-      </p>
-
     </div>
   );
 }
 
-function DatoIcono({
+function Fila({
   icono: Icon,
-  titulo,
+  etiqueta,
   valor,
 }: {
   icono: React.ElementType;
-  titulo: string;
-  valor: string | null | undefined;
+  etiqueta: string;
+  valor: string | null;
 }) {
-  if (!valor) return null;
-
   return (
-    <div className="flex items-start gap-3">
-
-      <Icon
-        size={16}
-        className="mt-0.5 text-black"
-      />
+    <div
+      className="
+        flex items-start gap-4
+        border-b border-slate-100
+        py-3
+        last:border-0
+      "
+    >
+      <div
+        className="
+          flex h-9 w-9
+          shrink-0
+          items-center justify-center
+          rounded-xl
+          bg-slate-100
+          text-cyan-700
+        "
+      >
+        <Icon size={17} />
+      </div>
 
       <div>
-
-        <p className="text-xs font-medium uppercase tracking-wide text-black">
-          {titulo}
+        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+          {etiqueta}
         </p>
 
-        <p className="mt-1 text-sm text-black">
-          {valor}
+        <p className="mt-1 text-sm font-medium text-slate-700">
+          {valor || "Sin dato"}
         </p>
-
       </div>
 
     </div>
   );
 }
 
+function DatoCorto({
+  titulo,
+  valor,
+}: {
+  titulo: string;
+  valor: string;
+}) {
+  return (
+    <div
+      className="
+        min-w-[105px]
+        rounded-xl
+        border border-slate-300
+        bg-slate-50
+        px-4 py-3
+      "
+    >
+      <p className="text-xs text-slate-500">
+        {titulo}
+      </p>
 
+      <p className="mt-1 font-bold">
+        {valor}
+      </p>
+    </div>
+  );
+}
 
+function BloqueTexto({
+  titulo,
+  texto,
+}: {
+  titulo: string;
+  texto: string;
+}) {
+  return (
+    <div className="rounded-xl bg-slate-50 p-4">
+      <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        {titulo}
+      </p>
 
-
-
-
-
-
-
+      <p className="mt-2 leading-7 text-slate-700">
+        {texto}
+      </p>
+    </div>
+  );
+}
