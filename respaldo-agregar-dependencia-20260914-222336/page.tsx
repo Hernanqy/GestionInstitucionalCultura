@@ -260,22 +260,12 @@ export default function InicioPage() {
         <section className="mt-7">
           <div className="flex items-center justify-between gap-4">
             <h1 className="text-xl font-extrabold tracking-tight text-[#102b43] md:text-2xl">Dependencias</h1>
-            <div className="flex items-center gap-3">
-              <Link
-                href="/dependencias/gestionar"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-[#0b4f82] px-3 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-[#083e68]"
-              >
-                <Plus size={16} />
-                Agregar
-              </Link>
-
-              <Link
-                href="/dependencias"
-                className="shrink-0 text-sm font-bold text-sky-600 transition hover:text-sky-700"
-              >
-                Ver todas
-              </Link>
-            </div>
+            <Link
+              href="/dependencias"
+              className="shrink-0 text-sm font-bold text-sky-600 transition hover:text-sky-700"
+            >
+              Ver todas
+            </Link>
           </div>
 
 
