@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   Home,
@@ -14,8 +13,6 @@ import {
   Database,
   BarChart3,
   Settings,
-  Menu,
-  X,
 } from "lucide-react";
 
 const menu = [
@@ -31,36 +28,22 @@ const menu = [
   { nombre: "Informes", href: "/informes", icono: BarChart3 },
 ];
 
-const menuMovilExtra = [
-  { nombre: "Buscar", href: "/buscar", icono: Search },
-  { nombre: "Registrar", href: "/registrar", icono: PlusCircle },
-  { nombre: "Pendientes", href: "/pendientes", icono: CheckSquare },
-  { nombre: "Dependencias", href: "/dependencias", icono: Layers3 },
-  { nombre: "Documentos", href: "/documentos", icono: FolderOpen },
-  { nombre: "Registros", href: "/registros", icono: Database },
-  { nombre: "Informes", href: "/informes", icono: BarChart3 },
-  { nombre: "Configuración", href: "/configuracion", icono: Settings },
-];
-
 export default function AppChrome({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [menuMovilAbierto, setMenuMovilAbierto] = useState(false);
 
   if (pathname === "/login") {
     return <>{children}</>;
   }
 
-  const rutaEnMenuExtra = menuMovilExtra.some(
-    (item) => pathname.startsWith(item.href)
-  );
-
   return (
     <div className="min-h-screen bg-[#edf4f8]">
+
       {/* SIDEBAR PC */}
+
       <aside
         className="
           fixed inset-y-0 left-0 z-50
@@ -128,7 +111,11 @@ export default function AppChrome({
                   }
                 `}
               >
-                <Icon size={20} strokeWidth={2} />
+                <Icon
+                  size={20}
+                  strokeWidth={2}
+                />
+
                 <span>{item.nombre}</span>
               </a>
             );
@@ -136,6 +123,7 @@ export default function AppChrome({
         </nav>
 
         <div className="border-t border-white/10 px-4 py-5">
+
           <a
             href="/configuracion"
             className={`
@@ -154,95 +142,23 @@ export default function AppChrome({
             <Settings size={20} />
             Configuración
           </a>
+
+
         </div>
       </aside>
 
       {/* CONTENIDO */}
+
       <div className="min-h-screen lg:pl-[245px]">
         {children}
       </div>
 
-      {/* PANEL DEL BOTÓN MENÚ - SOLO CELULAR */}
-      {menuMovilAbierto && (
-        <>
-          <button
-            type="button"
-            aria-label="Cerrar menú"
-            onClick={() => setMenuMovilAbierto(false)}
-            className="fixed inset-0 z-[55] bg-slate-950/25 lg:hidden"
-          />
+      {/* MENÚ MÓVIL: una sola navegación global, sin duplicarla en cada pantalla */}
 
-          <section
-            className="
-              fixed inset-x-3 bottom-[76px] z-[60]
-              rounded-[22px]
-              border border-slate-200
-              bg-white
-              p-4
-              shadow-[0_18px_50px_rgba(15,23,42,0.22)]
-              lg:hidden
-            "
-          >
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-base font-extrabold text-[#102b43]">
-                  Menú
-                </p>
-                <p className="text-xs text-slate-500">
-                  Accesos de Gestión Institucional
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setMenuMovilAbierto(false)}
-                className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-600"
-                aria-label="Cerrar"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {menuMovilExtra.map((item) => {
-                const Icon = item.icono;
-                const activo = pathname.startsWith(item.href);
-
-                return (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className={`
-                      flex items-center gap-3 rounded-xl border px-3 py-3 text-sm font-semibold
-                      ${
-                        activo
-                          ? "border-cyan-200 bg-cyan-50 text-cyan-800"
-                          : "border-slate-200 bg-white text-slate-700"
-                      }
-                    `}
-                  >
-                    <Icon size={18} />
-                    {item.nombre}
-                  </a>
-                );
-              })}
-            </div>
-          </section>
-        </>
-      )}
-
-      {/* MENÚ MÓVIL */}
       <nav
-        className="
-          fixed inset-x-0 bottom-0 z-50
-          border-t border-slate-200
-          bg-white/95
-          shadow-[0_-6px_20px_rgba(15,23,42,0.08)]
-          backdrop-blur
-          lg:hidden
-        "
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 shadow-[0_-6px_20px_rgba(15,23,42,0.08)] backdrop-blur lg:hidden"
       >
-        <div className="grid grid-cols-5">
+        <div className="grid grid-cols-4">
           <MobileItem
             href="/"
             nombre="Inicio"
@@ -270,25 +186,9 @@ export default function AppChrome({
             icono={Users}
             pathname={pathname}
           />
-
-          <button
-            type="button"
-            onClick={() => setMenuMovilAbierto((valor) => !valor)}
-            className={`
-              flex flex-col items-center justify-center gap-1 py-2.5
-              text-[10px] font-medium
-              ${
-                menuMovilAbierto || rutaEnMenuExtra
-                  ? "text-cyan-700"
-                  : "text-slate-500"
-              }
-            `}
-          >
-            <Menu size={20} strokeWidth={menuMovilAbierto ? 2.4 : 2} />
-            Menú
-          </button>
         </div>
       </nav>
+
     </div>
   );
 }

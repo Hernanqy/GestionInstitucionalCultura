@@ -79,7 +79,6 @@ function fechaLocal() {
 function obtenerIcono(nombre: string, area: string | null) {
   const texto = `${nombre} ${area || ""}`.toLocaleLowerCase("es");
 
-  if (texto.includes("evento")) return CalendarDays;
   if (texto.includes("bioparque") || texto.includes("fauna")) return PawPrint;
   if (texto.includes("reserva") || texto.includes("natural")) return Leaf;
   if (texto.includes("ciit") || texto.includes("ciencia") || texto.includes("investig")) return FlaskConical;
@@ -258,21 +257,6 @@ export default function InicioPage() {
           </Link>
         </div>
 
-        <Link
-          href="/eventos"
-          className="group mt-5 flex items-center gap-4 rounded-[18px] border border-cyan-100 bg-white px-5 py-4 shadow-[0_5px_16px_rgba(15,43,70,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(15,43,70,0.10)]"
-        >
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-cyan-100 text-cyan-800">
-            <CalendarDays size={24} strokeWidth={2.2} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-base font-extrabold text-[#102b43]">Eventos</p>
-            <p className="mt-0.5 text-xs font-medium text-slate-500">
-              Seguimiento, checklist, costos y observaciones
-            </p>
-          </div>
-          <ArrowRight className="shrink-0 text-slate-400 transition group-hover:translate-x-1" size={20} />
-        </Link>
         <section className="mt-7">
           <div className="flex items-center justify-between gap-4">
             <h1 className="text-xl font-extrabold tracking-tight text-[#102b43] md:text-2xl">Dependencias</h1>
