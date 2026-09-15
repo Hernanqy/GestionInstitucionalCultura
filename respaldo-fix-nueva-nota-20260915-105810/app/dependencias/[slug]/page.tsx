@@ -19,7 +19,7 @@ import {
   X,
 } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { ElementType, ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 import DocumentosPanel from "@/components/dependencias/DocumentosPanel";
@@ -199,7 +199,6 @@ export default function DependenciaDetallePage() {
   const [menuCarga, setMenuCarga] = useState(false);
 
   const [agendaForm, setAgendaForm] = useState<AgendaForm>(agendaVacia);
-  const agendaTituloRef = useRef<HTMLInputElement>(null);
   const [personaForm, setPersonaForm] = useState<PersonaForm>(personaVacia);
   const [pendienteForm, setPendienteForm] = useState<PendienteForm>(pendienteVacio);
   const [registroForm, setRegistroForm] = useState<RegistroForm>(registroVacio);
@@ -292,15 +291,6 @@ export default function DependenciaDetallePage() {
   function nuevaAgenda() {
     setAgendaForm(agendaVacia);
     abrirTab("Agenda");
-    setMensaje("Nueva nota de agenda lista para cargar.");
-
-    window.requestAnimationFrame(() => {
-      agendaTituloRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      agendaTituloRef.current?.focus();
-    });
   }
 
   function nuevaPersona() {
@@ -690,7 +680,7 @@ export default function DependenciaDetallePage() {
             </Panel>
 
             <Editor titulo={agendaForm.id ? "Editar nota de agenda" : "Nueva nota de agenda"}>
-              <Campo label="Título *"><input ref={agendaTituloRef} value={agendaForm.nombre} onChange={(e) => setAgendaForm({ ...agendaForm, nombre: e.target.value })} className="inputGI" placeholder="Ej. Reunión con coordinador / Taller / Actividad" /></Campo>
+              <Campo label="Título *"><input value={agendaForm.nombre} onChange={(e) => setAgendaForm({ ...agendaForm, nombre: e.target.value })} className="inputGI" placeholder="Ej. Reunión con coordinador / Taller / Actividad" /></Campo>
               <div className="grid gap-3 sm:grid-cols-2">
                 <Campo label="Fecha"><input type="date" value={agendaForm.fecha} onChange={(e) => setAgendaForm({ ...agendaForm, fecha: e.target.value })} className="inputGI" /></Campo>
                 <Campo label="Hora"><input type="time" value={agendaForm.hora} onChange={(e) => setAgendaForm({ ...agendaForm, hora: e.target.value })} className="inputGI" /></Campo>
