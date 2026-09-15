@@ -672,7 +672,7 @@ export default function DependenciaDetallePage() {
             <Panel titulo="Agenda del espacio" subtitulo="Todo lo cargado aquí queda escrito en esta dependencia y también puede verse en Agenda general." icono={CalendarDays} accion="Nueva nota de agenda" onAccion={nuevaAgenda}>
               <div className="space-y-3">
                 {eventos.length ? eventos.map((evento) => (
-                  <div key={evento.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <div key={evento.id} className="rounded-2xl border border-emerald-300 bg-emerald-100 p-4">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
                         <p className="font-extrabold">{evento.nombre}</p>

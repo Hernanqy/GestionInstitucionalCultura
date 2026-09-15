@@ -12,7 +12,6 @@ import {
   Clock3,
   Clapperboard,
   FlaskConical,
-  FileText,
   GraduationCap,
   Landmark,
   Leaf,
@@ -235,21 +234,6 @@ export default function InicioPage() {
           <ArrowRight className="shrink-0 transition group-hover:translate-x-1" size={23} />
         </Link>
 
-        <Link
-          href="/parte-subsecretaria"
-          className="group mt-3 flex items-center gap-4 rounded-[16px] border border-blue-200 bg-blue-50 px-5 py-3.5 text-[#102b43] shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100"
-        >
-          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-blue-700 shadow-sm">
-            <FileText size={21} strokeWidth={2.2} />
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-extrabold md:text-base">Parte Subsecretaría</p>
-            <p className="mt-0.5 text-xs font-medium text-slate-500">
-              Pasar en limpio la gestión de todas las dependencias
-            </p>
-          </div>
-          <ArrowRight className="shrink-0 text-blue-700 transition group-hover:translate-x-1" size={20} />
-        </Link>
         <div className="mt-3 grid grid-cols-3 gap-2 md:max-w-xl md:gap-3">
           <Link
             href="/todo"
