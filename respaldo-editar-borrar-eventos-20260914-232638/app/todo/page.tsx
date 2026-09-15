@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   CheckSquare,
@@ -11,8 +11,6 @@ import {
   Loader2,
   X,
   Check,
-  Pencil,
-  Trash2,
 } from "lucide-react";
 
 import { useEffect, useMemo, useState } from "react";
@@ -164,31 +162,6 @@ export default function TodoPage() {
     if (!error) {
       await cargar();
     }
-  }
-
-  function editarEvento(id: string) {
-    window.location.href = `/eventos/${id}?editar=1`;
-  }
-
-  async function eliminarEvento(id: string, tituloEvento: string) {
-    const confirmar = window.confirm(
-      `¿Eliminar "${tituloEvento}"? Esta acción no se puede deshacer.`
-    );
-
-    if (!confirmar) return;
-
-    const { error } = await supabase
-      .from("eventos")
-      .delete()
-      .eq("id", id);
-
-    if (error) {
-      console.error(error);
-      window.alert("No se pudo eliminar el evento.");
-      return;
-    }
-
-    await cargar();
   }
 
   const resultado = useMemo(() => {
@@ -387,28 +360,6 @@ export default function TodoPage() {
                     >
                       <X size={18} />
                     </button>
-                  )}
-
-                  {item.tipo === "evento" && (
-                    <div className="flex shrink-0 gap-2">
-                      <button
-                        onClick={() => editarEvento(item.id)}
-                        title="Editar evento"
-                        className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-blue-50 hover:text-blue-700"
-                      >
-                        <Pencil size={17} />
-                        <span className="hidden sm:inline">Editar</span>
-                      </button>
-
-                      <button
-                        onClick={() => eliminarEvento(item.id, item.titulo)}
-                        title="Eliminar evento"
-                        className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-100"
-                      >
-                        <Trash2 size={17} />
-                        <span className="hidden sm:inline">Eliminar</span>
-                      </button>
-                    </div>
                   )}
 
                 </div>

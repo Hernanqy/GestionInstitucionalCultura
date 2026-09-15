@@ -243,14 +243,6 @@ export default function EventoSeguimientoPage() {
 
   useEffect(() => {
     cargar();
-
-    if (
-      typeof window !== "undefined" &&
-      new URLSearchParams(window.location.search).get("editar") === "1"
-    ) {
-      setEditando(true);
-    }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
